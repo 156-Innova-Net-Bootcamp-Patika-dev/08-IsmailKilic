@@ -27,6 +27,7 @@ namespace TodoApp
         {
             services.AddControllers();
 
+            // Injections
             services.AddSingleton<ITodoRepository, InMemTodoRepository>();
         }
 

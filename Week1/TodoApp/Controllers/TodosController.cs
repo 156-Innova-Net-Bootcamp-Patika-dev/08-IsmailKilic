@@ -19,6 +19,7 @@ namespace TodoApp.Controllers
             this.repository = repository;
         }
 
+        // Returns all todo items
         [HttpGet]
         public ActionResult<IEnumerable<Todo>> GetTodos()
         {
@@ -26,6 +27,8 @@ namespace TodoApp.Controllers
             return Ok(todos);
         }
 
+        // Returns todo item by id
+        // If not found, returns 404 error
         [HttpGet("{id}")]
         public ActionResult<Todo> GetTodoById(Guid id)
         {
@@ -39,6 +42,8 @@ namespace TodoApp.Controllers
             return Ok(todo);
         }
 
+        // Creates a todo item
+        // Returns 201 status code
         [HttpPost]
         public ActionResult<Todo> CreateDto(CreateTodoDto todoDto)
         {
@@ -54,6 +59,8 @@ namespace TodoApp.Controllers
             return new ObjectResult(todo) { StatusCode = StatusCodes.Status201Created };
         }
 
+        // Updates todo item by id
+        // If not found, returns 404 Notfound error
         [HttpPut("{id}")]
         public ActionResult UpdateTodo(Guid id, UpdateTodoDto todoDto)
         {
@@ -71,6 +78,8 @@ namespace TodoApp.Controllers
             return NoContent();
         }
 
+        // Deletes todo item by id
+        // If not found, returns 404 Notfound error
         [HttpDelete("{id}")]
         public ActionResult DeleteItemAsync(Guid id)
         {

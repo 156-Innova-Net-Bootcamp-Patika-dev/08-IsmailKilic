@@ -2,6 +2,7 @@
 
 namespace TodoApp.Models
 {
+    // Todo Model
     public class Todo
     {
         public Guid Id { get; set; }

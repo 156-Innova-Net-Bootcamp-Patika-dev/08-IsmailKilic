@@ -4,6 +4,7 @@ using TodoApp.Models;
 
 namespace TodoApp.Data
 {
+    // Interface for todo operations
     public interface ITodoRepository
     {
         Todo GetTodo(Guid id);
