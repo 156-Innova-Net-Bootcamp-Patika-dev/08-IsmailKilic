@@ -36,6 +36,9 @@ export default createStore({
                 state.user = null;
             }
             return isAuth
+        },
+        getUser(state){
+            return state.user;
         }
     },
     plugins: [createPersistedState({

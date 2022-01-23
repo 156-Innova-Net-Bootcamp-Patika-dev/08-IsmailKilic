@@ -29,7 +29,7 @@
               data-toggle="dropdown"
               aria-expanded="false"
             >
-              Profil
+              {{getUser.fullName}}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
               <li>
@@ -82,7 +82,7 @@ import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["_isAuth"]),
+    ...mapGetters(["_isAuth","getUser"]),
   },
   methods: {
     logout() {

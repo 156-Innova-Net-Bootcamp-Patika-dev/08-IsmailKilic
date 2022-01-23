@@ -1,24 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-12 col-md-3 mb-5 mb-md-0">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <router-link :to="{ name: 'Home', query: { category: 'vuejs' } }"
-            >An item</router-link
-          >
-        </li>
-        <li class="list-group-item">
-          <router-link :to="{ name: 'Home', query: { category: 'react' } }"
-            >An item</router-link
-          >
-        </li>
-        <li class="list-group-item">
-          <router-link :to="{ name: 'Home', query: { category: 'nodejs' } }"
-            >An item</router-link
-          >
-        </li>
-      </ul>
-    </div>
+    <Categories />
     <div class="col-12 col-md-9">
       <BlogItem v-for="i in 10" :key="i" :id="i" />
     </div>
@@ -27,6 +9,7 @@
 
 <script>
 import BlogItem from "../components/BlogItem.vue";
+import Categories from "../components/Categories.vue";
 export default {
   mounted() {
     this.getPosts();
@@ -42,7 +25,7 @@ export default {
       console.log(url);
     }
   },
-  components: { BlogItem },
+  components: { BlogItem, Categories },
 };
 </script>
 

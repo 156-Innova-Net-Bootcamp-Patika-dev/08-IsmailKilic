@@ -21,8 +21,9 @@ export default {
     };
   },
   methods: {
-    onSave() {
-      console.log(this.userData);
+    async onSave() {
+      await this.$appAxios.post("/categories", this.userData);
+      this.$router.push({ name: "Home" });
     },
   },
 };
