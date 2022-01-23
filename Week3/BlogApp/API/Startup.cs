@@ -46,9 +46,11 @@ namespace API
 
             services.AddScoped<EfCoreUserRepository>();
             services.AddScoped<IUserService,UserService>();
+            services.AddScoped<EfCoreCategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IJwtUtils, JwtUtils>();
         }
-
+            
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

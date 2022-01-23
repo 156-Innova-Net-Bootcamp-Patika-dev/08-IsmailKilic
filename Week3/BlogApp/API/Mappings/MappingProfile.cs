@@ -13,6 +13,9 @@ namespace API.Helpers
 
             // RegisterDto -> User
             CreateMap<RegisterDto, User>();
+
+            // CategoryDto -> Category
+            CreateMap<CreateCategoryDto, Category>();
         }
     }
 }

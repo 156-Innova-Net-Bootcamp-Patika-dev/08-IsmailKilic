@@ -12,7 +12,7 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
         public AuthController(IUserService userService)
         {
             _userService = userService;
