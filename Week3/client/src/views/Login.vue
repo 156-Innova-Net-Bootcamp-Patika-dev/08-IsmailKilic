@@ -14,13 +14,7 @@
         placeholder="Şifre"
         class="form-control mb-3"
       />
-      <div
-        v-if="errors.length > 0"
-        class="alert alert-danger mb-3"
-        role="alert"
-      >
-        <div v-for="err in errors" :key="err">{{ err }}</div>
-      </div>
+      <Errors :errors="errors" />
       <button class="btn btn-success btn-block">
         <div v-if="loading" class="spinner-border" role="status"></div>
         <span v-else>Giriş Yap</span>
@@ -36,6 +30,7 @@
 </template>
 
 <script>
+import Errors from "../components/Errors.vue";
 export default {
   data() {
     return {
@@ -44,7 +39,7 @@ export default {
         password: null,
       },
       loading: false,
-      errors: [],
+      errors: null,
     };
   },
   methods: {
@@ -55,23 +50,13 @@ export default {
         this.$store.commit("setUser", res.data);
         this.$router.push({ name: "Home" });
       } catch (error) {
-        const errs = error.response.data.errors || error.response.data.error;
-        console.log(errs.length);
-        this.errors = [];
-
-        Object.keys(errs).map((key) => {
-          if (typeof errs[key] === "string") this.errors.push(errs[key]);
-          else {
-            errs[key].forEach((err) => {
-              this.errors.push(err);
-            });
-          }
-        });
+        this.errors = error;
       } finally {
         this.loading = false;
       }
     },
   },
+  components: { Errors },
 };
 </script>
 

@@ -7,25 +7,33 @@
       type="text"
       class="form-control mb-3"
     />
-    <button class="btn btn-success mt-5 btn-block">Kaydet</button>
+    <Errors :errors="errors"/>
+    <button class="btn btn-success mt-3 btn-block">Kaydet</button>
   </form>
 </template>
 
 <script>
+import Errors from "../components/Errors.vue";
 export default {
   data() {
     return {
       userData: {
         name: null,
       },
+      errors: null,
     };
   },
   methods: {
     async onSave() {
-      await this.$appAxios.post("/categories", this.userData);
-      this.$router.push({ name: "Home" });
+      try {
+        await this.$appAxios.post("/categories", this.userData);
+        this.$router.push({ name: "Home" });
+      } catch (error) {
+        this.errors = error;
+      }
     },
   },
+  components: { Errors },
 };
 </script>
 

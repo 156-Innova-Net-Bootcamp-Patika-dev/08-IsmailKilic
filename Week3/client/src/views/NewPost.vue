@@ -21,8 +21,8 @@
       id="post-category"
     >
       <option disabled value="" selected>Category</option>
-      <option v-for="cat in 10" :key="cat" :value="cat">
-        {{ cat }}
+      <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+        {{ cat.name }}
       </option>
     </select>
     <label for="post-body" class="mb-3">Post İçeriği</label>
@@ -42,6 +42,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
+      categories: [],
       editor: ClassicEditor,
       data: {
         title: null,
@@ -56,6 +57,10 @@ export default {
       },
     };
   },
+  async created() {
+    const res = await this.$appAxios.get("/categories");
+    this.categories = res.data;
+  },
   methods: {
     onSave() {
       console.log(this.data);
@@ -65,8 +70,8 @@ export default {
 </script>
 
 <style>
-.post-card{
-  width: min(100%,750px);
+.post-card {
+  width: min(100%, 750px);
 }
 </style>
 
