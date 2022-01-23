@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Entities.Abstract;
+using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
@@ -11,5 +12,7 @@ namespace Entities.Concrete
         public string Name { get; set; }
         [Required]
         public string Slug { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
     }
 }

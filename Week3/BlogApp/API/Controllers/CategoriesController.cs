@@ -22,6 +22,7 @@ namespace API.Controllers
             return Ok(categories);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateCategoryDto model)
         {

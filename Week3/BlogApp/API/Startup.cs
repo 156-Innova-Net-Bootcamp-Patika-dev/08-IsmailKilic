@@ -13,6 +13,7 @@ using Business.Abstract;
 using API.Filters;
 using Business.Helpers.Jwt;
 using Business.Helpers;
+using Business.Helpers.Middleware;
 
 namespace API
 {
@@ -62,6 +63,8 @@ namespace API
             }
 
             app.UseRouting();
+
+            app.UseMiddleware<AuthMiddleware>();
 
             // global cors policy
             app.UseCors(x => x

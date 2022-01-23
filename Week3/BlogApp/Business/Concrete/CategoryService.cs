@@ -6,6 +6,7 @@ using Data.EfCore;
 using Entities.Concrete;
 using Entities.Dtos;
 using Slugify;
+using System;
 
 namespace Business.Concrete
 {
@@ -25,7 +26,7 @@ namespace Business.Concrete
         {
             SlugHelper helper = new SlugHelper();
             var category = _mapper.Map<Category>(model);
-            category.Slug = helper.GenerateSlug(model.Name);
+            category.Slug = helper.GenerateSlug(model.Name + "-" + DateTime.Now.ToLongTimeString());
             await _repository.Add(category);
         }
 
