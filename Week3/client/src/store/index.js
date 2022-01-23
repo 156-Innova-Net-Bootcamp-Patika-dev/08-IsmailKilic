@@ -1,4 +1,7 @@
 import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import SecureLS from "secure-ls";
+var ls = new SecureLS({ isCompression: false })
 
 function parseJwt(token) {
     if (!token) return {
@@ -15,16 +18,31 @@ function parseJwt(token) {
 
 export default createStore({
     state: {
-        token: null
+        user: null
+    },
+    mutations: {
+        setUser(state, user) {
+            state.user = user;
+        },
+        logoutUser(state) {
+            state.user = null;
+        },
     },
     getters: {
         _isAuth(state) {
-            const data = parseJwt(state.token);
+            const data = parseJwt(state.user?.token);
             let isAuth = new Date(data.exp * 1000) > new Date();
             if (!isAuth) {
-                state.token = null;
+                state.user = null;
             }
             return isAuth
         }
-    }
+    },
+    plugins: [createPersistedState({
+        storage: {
+            getItem: key => ls.get(key),
+            setItem: (key, value) => ls.set(key, value),
+            removeItem: key => ls.remove(key)
+        }
+    })],
 })

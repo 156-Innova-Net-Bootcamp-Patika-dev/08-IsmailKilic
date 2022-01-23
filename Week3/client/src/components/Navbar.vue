@@ -45,11 +45,12 @@
             </ul>
           </li>
           <li class="nav-item">
-            <router-link
-              :to="{ name: 'Login' }"
+            <a
+              style="cursor: pointer"
+              @click="logout"
               class="nav-link"
               active-class="active"
-              >Çıkış Yap</router-link
+              >Çıkış Yap</a
             >
           </li>
         </ul>
@@ -82,6 +83,11 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters(["_isAuth"]),
+  },
+  methods: {
+    logout() {
+      this.$store.commit("logoutUser");
+    },
   },
 };
 </script>
