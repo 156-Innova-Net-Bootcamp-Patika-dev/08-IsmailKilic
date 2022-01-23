@@ -16,6 +16,21 @@ const routes = [
         path: "/register",
         component: () => import("@/views/Register")
     },
+    {
+        name: "NewPost",
+        path: "/new-post",
+        component: () => import("@/views/NewPost")
+    },
+    {
+        name: "NewCategory",
+        path: "/new-category",
+        component: () => import("@/views/NewCategory")
+    },
+    {
+        name: "SinglePost",
+        path: "/posts/:id",
+        component: () => import("@/views/SinglePost")
+    },
 ]
 
 const router = createRouter({
