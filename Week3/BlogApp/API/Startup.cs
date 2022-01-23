@@ -1,36 +1,52 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Data;
+using Data.EfCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Business.Concrete;
+using Business.Abstract;
+using API.Filters;
+using Business.Helpers.Jwt;
+using Business.Helpers;
 
 namespace API
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers(options => options.Filters.Add(typeof(ExceptionFilter))).AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
-            services.AddControllers();
+            services.AddDbContext<BlogContext>(options =>
+                    options.UseSqlServer(_configuration.GetConnectionString("Connection"), b => b.MigrationsAssembly("API")));
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog API", Version = "v1" });
             });
+
+            services.Configure<AppSettings>(_configuration.GetSection("AppSettings"));
+
+            services.AddScoped<EfCoreUserRepository>();
+            services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IJwtUtils, JwtUtils>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +61,11 @@ namespace API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {
