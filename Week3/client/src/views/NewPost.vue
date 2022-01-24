@@ -16,7 +16,7 @@
     />
     <label for="post-category" class="mb-3">Kategori</label>
     <select
-      v-model="data.category"
+      v-model="data.categoryId"
       class="form-control mb-3"
       id="post-category"
     >
@@ -38,6 +38,7 @@
 
 <script>
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -46,7 +47,7 @@ export default {
       editor: ClassicEditor,
       data: {
         title: null,
-        category: null,
+        categoryId: null,
         body: null,
         photo: null,
       },
@@ -61,9 +62,16 @@ export default {
     const res = await this.$appAxios.get("/categories");
     this.categories = res.data;
   },
+  computed: {
+    ...mapGetters(["getUser"])
+  },
   methods: {
-    onSave() {
-      console.log(this.data);
+    async onSave() {
+      const res = await this.$appAxios.post("/posts", {
+        ...this.data,
+        userId: this.getUser.id
+      })
+      console.log(res);
     },
   },
 };

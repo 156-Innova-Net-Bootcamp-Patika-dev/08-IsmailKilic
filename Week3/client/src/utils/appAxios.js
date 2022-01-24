@@ -6,7 +6,7 @@ const appAxios = axios.create({
 })
 
 appAxios.interceptors.request.use(request => {
-    const token = store.getters.getUser.token;
+    const token = store.getters.getUser?.token || "";
     if (token) {
         request.headers.common.Authorization = `Bearer ${token}`;
     }

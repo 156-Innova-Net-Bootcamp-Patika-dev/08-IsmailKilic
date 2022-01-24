@@ -2,7 +2,12 @@
   <div class="row">
     <Categories />
     <div class="col-12 col-md-9">
-      <BlogItem v-for="i in 10" :key="i" :id="i" />
+      <div v-if="posts.length > 0">
+        <BlogItem v-for="post in posts" :key="post.id" :post="post" />
+      </div>
+      <div v-else class="alert alert-warning" role="alert">
+        Bu kategoride post bulunmamaktadır.
+      </div>
     </div>
   </div>
 </template>
@@ -11,6 +16,11 @@
 import BlogItem from "../components/BlogItem.vue";
 import Categories from "../components/Categories.vue";
 export default {
+  data() {
+    return {
+      posts: [],
+    };
+  },
   mounted() {
     this.getPosts();
   },
@@ -18,12 +28,13 @@ export default {
     this.getPosts();
   },
   methods: {
-    getPosts(){
-      let url = "http://localhost:3000/api/posts"
-      let category = this.$router.currentRoute._rawValue.query.category
-      if(category) url += `?category=${category}`
-      console.log(url);
-    }
+    getPosts() {
+      let url = "";
+      let slug = this.$router.currentRoute._rawValue.query.category;
+      if (slug) url += `?slug=${slug}`;
+
+      this.$appAxios.get(`/posts${url}`).then((res) => (this.posts = res.data));
+    },
   },
   components: { BlogItem, Categories },
 };
