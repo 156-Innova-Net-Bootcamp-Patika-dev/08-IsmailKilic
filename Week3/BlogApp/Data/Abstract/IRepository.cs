@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Entities.Abstract;
 
@@ -6,10 +8,10 @@ namespace Data.Abstract
 {
     public interface IRepository<T> where T : class, IEntity
     {
-        Task<List<T>> GetAll();
-        Task<T> Get(int id);
+        List<T> GetList(Expression<Func<T, bool>> filter = null, params Expression<Func<T, Object>>[] includes);
+        T Get(Expression<Func<T, bool>> filter, params Expression<Func<T, Object>>[] includes);
         Task<T> Add(T entity);
         Task<T> Update(T entity);
-        Task<T> Delete(int id);
+        void Delete(T entity);
     }
 }

@@ -30,9 +30,9 @@ namespace Business.Concrete
             await _repository.Add(category);
         }
 
-        public async Task<List<Category>> GetAll()
+        public List<Category> GetAll()
         {
-            var categories = await _repository.GetAll();
+            var categories = _repository.GetList(null, (x => x.Posts));
             return categories;
         }
     }

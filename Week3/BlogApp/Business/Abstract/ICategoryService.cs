@@ -8,6 +8,6 @@ namespace Business.Abstract
     public interface ICategoryService
     {
         Task CreateCategory(CreateCategoryDto model);
-        Task<List<Category>> GetAll();
+        List<Category> GetAll();
     }
 }

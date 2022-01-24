@@ -16,6 +16,9 @@ namespace API.Helpers
 
             // CategoryDto -> Category
             CreateMap<CreateCategoryDto, Category>();
+
+            // PostDto -> Post
+            CreateMap<CreatePostDto, Post>();
         }
     }
 }

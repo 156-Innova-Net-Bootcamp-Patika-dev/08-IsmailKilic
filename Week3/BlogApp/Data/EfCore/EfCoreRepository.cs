@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Data.Abstract;
 using Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Data.EfCore
 {
@@ -22,28 +26,39 @@ namespace Data.EfCore
             return entity;
         }
 
-        public async Task<TEntity> Delete(int id)
+        public void Delete(TEntity entity)
         {
-            var entity = await context.Set<TEntity>().FindAsync(id);
-            if (entity == null)
+            var deletedEntity = context.Entry(entity);
+            deletedEntity.State = EntityState.Deleted;
+            context.SaveChanges();
+        }
+
+        public TEntity Get(Expression<Func<TEntity, bool>> filter,params Expression<Func<TEntity, Object>>[] includes)
+        {
+            IQueryable<TEntity> query = context.Set<TEntity>();
+            if(includes.Length > 0)
             {
-                return entity;
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
             }
-
-            context.Set<TEntity>().Remove(entity);
-            await context.SaveChangesAsync();
-
-            return entity;
+            return query.SingleOrDefault(filter);
         }
 
-        public async Task<TEntity> Get(int id)
+        public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null, params Expression<Func<TEntity, Object>>[] includes)
         {
-            return await context.Set<TEntity>().FindAsync(id);
-        }
-
-        public async Task<List<TEntity>> GetAll()
-        {
-            return await context.Set<TEntity>().ToListAsync();
+            IQueryable<TEntity> query = context.Set<TEntity>();
+            if (includes.Length > 0)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return filter == null
+                ? query.ToList()
+                : query.Where(filter).ToList();
         }
 
         public async Task<TEntity> Update(TEntity entity)

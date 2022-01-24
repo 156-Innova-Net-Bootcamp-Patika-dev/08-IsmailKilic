@@ -49,6 +49,8 @@ namespace API
             services.AddScoped<IUserService,UserService>();
             services.AddScoped<EfCoreCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<EfCorePostRepository>();
+            services.AddScoped<IPostService, PostService>();
             services.AddScoped<IJwtUtils, JwtUtils>();
         }
             

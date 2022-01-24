@@ -16,9 +16,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var categories = await _service.GetAll();
+            var categories = _service.GetAll();
             return Ok(categories);
         }
 
