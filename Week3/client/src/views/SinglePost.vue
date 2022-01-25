@@ -8,12 +8,14 @@
   <img :src="post.photo" class="img-fluid my-4 mx-auto" alt="" />
   <div class="text-justify" v-html="post.body"></div>
 
-  <AddComment />
+  <CommentSection :comments="post.comments"/>
+  <AddComment :postId="post.id"/>
 </template>
 
 <script>
 import moment from "moment";
 import AddComment from "../components/AddComment.vue";
+import CommentSection from "../components/CommentSection.vue";
 moment.locale("tr");
 export default {
   data() {
@@ -31,6 +33,6 @@ export default {
       return moment(this.post.createdAt).format("Do MMM, YYYY");
     },
   },
-  components: { AddComment },
+  components: { AddComment, CommentSection },
 };
 </script>
