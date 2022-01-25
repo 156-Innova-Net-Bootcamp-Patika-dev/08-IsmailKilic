@@ -19,6 +19,8 @@ namespace API.Helpers
 
             // PostDto -> Post
             CreateMap<CreatePostDto, Post>();
+            // PostDto -> Post
+            CreateMap<CreateCommentDto, Comment>();
         }
     }
 }

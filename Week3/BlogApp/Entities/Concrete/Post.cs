@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Entities.Abstract;
@@ -23,5 +24,7 @@ namespace Entities.Concrete
 
         public Category Category { get; set; }
         public User User { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+
     }
 }

@@ -47,10 +47,16 @@ namespace API
 
             services.AddScoped<EfCoreUserRepository>();
             services.AddScoped<IUserService,UserService>();
+
             services.AddScoped<EfCoreCategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+
             services.AddScoped<EfCorePostRepository>();
             services.AddScoped<IPostService, PostService>();
+
+            services.AddScoped<EfCoreCommentRepository>();
+            services.AddScoped<ICommentService, CommentService>();
+
             services.AddScoped<IJwtUtils, JwtUtils>();
         }
             

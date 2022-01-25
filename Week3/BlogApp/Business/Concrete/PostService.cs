@@ -54,7 +54,8 @@ namespace Business.Concrete
 
         public Post GetOneBySlug(string slug)
         {
-            var post = _postCepository.Get(x => x.Slug == slug, (x => x.Category), (x => x.User));
+            var post = _postCepository.Get(x => x.Slug == slug,
+                (x => x.Category), (x => x.User), (x => x.Comments));
             return post;
         }
 
