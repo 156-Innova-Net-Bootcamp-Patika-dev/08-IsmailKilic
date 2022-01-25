@@ -50,5 +50,11 @@ namespace Business.Concrete
             comment.User = userExisted;
             await _commentRepository.Add(comment);
         }
+
+        public void DeleteById(int id)
+        {
+            var comment = _commentRepository.Get(x => x.Id == id);
+            _commentRepository.Delete(comment);
+        }
     }
 }

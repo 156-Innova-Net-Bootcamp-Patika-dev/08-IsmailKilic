@@ -21,5 +21,13 @@ namespace API.Controllers
             await _service.CreateComment(model);
             return Created("~api/comments", new { message = "Kayıt başarılı" });
         }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            _service.DeleteById(id);
+            return NoContent();
+        }
     }
 }
