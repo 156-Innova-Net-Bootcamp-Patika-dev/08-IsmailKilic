@@ -36,17 +36,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["_isAuth","getUser"]),
+    ...mapGetters(["_isAuth", "getUser"]),
   },
   methods: {
-    async onSave(){
-      const res = await this.$appAxios.post("/comments", {
+    async onSave() {
+      await this.$appAxios.post("/comments", {
         ...this.data,
         userId: this.getUser.id,
-        postId: this.postId
-      })
-      console.log(res);
-    }
-  }
+        postId: this.postId,
+      });
+      this.$router.go(0);
+    },
+  },
 };
 </script>

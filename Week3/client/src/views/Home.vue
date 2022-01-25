@@ -24,8 +24,10 @@ export default {
   mounted() {
     this.getPosts();
   },
-  updated() {
-    this.getPosts();
+  watch: {
+    '$route': function() {
+      this.getPosts();
+    }
   },
   methods: {
     getPosts() {

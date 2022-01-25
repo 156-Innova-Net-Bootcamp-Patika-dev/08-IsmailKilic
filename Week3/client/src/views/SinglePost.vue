@@ -1,8 +1,8 @@
 <template>
   <h1>{{ post.title }}</h1>
   <div class="mt-3">
-    <span class="mr-1 rounded border px-2">{{ post.category.name }}</span>
-    <span class="rounded mr-1 border px-2">{{ post.user.fullName }}</span>
+    <span class="mr-1 rounded border px-2">{{ post.category?.name || "" }}</span>
+    <span class="rounded mr-1 border px-2">{{ post.user?.fullName || "" }}</span>
     <span class="rounded border px-2">{{ date }}</span>
   </div>
   <img :src="post.photo" class="img-fluid my-4 mx-auto" alt="" />
@@ -20,7 +20,7 @@ moment.locale("tr");
 export default {
   data() {
     return {
-      post: null,
+      post: {},
     };
   },
   async created() {

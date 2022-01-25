@@ -1,6 +1,6 @@
 <template>
-  <h6>Yorumlar ( {{comments.length}} )</h6>
-  <comment v-for="cmnt in comments" :key="cmnt.id" :comment="cmnt"/>
+  <h6>Yorumlar ( {{ comments?.length || 0 }} )</h6>
+  <comment v-for="cmnt in comments" :key="cmnt.id" :comment="cmnt" />
 </template>
 
 <script>
