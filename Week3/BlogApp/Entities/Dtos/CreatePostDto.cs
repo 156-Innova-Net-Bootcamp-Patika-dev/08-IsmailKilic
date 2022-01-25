@@ -7,8 +7,10 @@ namespace Entities.Dtos
         [Required]
         public string Title { get; set; }
         [Required]
+        [MinLength(100)]
         public string Body { get; set; }
         [Required]
+        [Url]
         public string Photo { get; set; }
         [Required]
         public int CategoryId { get; set; }
