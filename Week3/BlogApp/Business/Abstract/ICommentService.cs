@@ -6,6 +6,6 @@ namespace Business.Abstract
     public interface ICommentService
     {
         Task CreateComment(CreateCommentDto model);
-        void DeleteById(int id);
+        void DeleteById(int id, int userId);
     }
 }

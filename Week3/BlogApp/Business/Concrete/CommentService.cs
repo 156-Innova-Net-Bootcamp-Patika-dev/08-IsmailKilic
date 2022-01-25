@@ -51,9 +51,13 @@ namespace Business.Concrete
             await _commentRepository.Add(comment);
         }
 
-        public void DeleteById(int id)
+        public void DeleteById(int id, int userId)
         {
-            var comment = _commentRepository.Get(x => x.Id == id);
+            var comment = _commentRepository.Get(x => x.Id == id, (x=>x.User));
+            if(comment.User.Id != userId)
+            {
+                throw new BadRequestException("Silmek istediğiniz yorum size ait değil");
+            }
             _commentRepository.Delete(comment);
         }
     }

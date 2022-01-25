@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-3 d-flex p-3 col-sm-8 flex-row">
+  <div class="card mb-3 d-flex p-3 col-md-8 flex-row">
     <div class="avatar"></div>
     <div class="ml-3 col">
       <div>
@@ -27,7 +27,7 @@ export default {
       return moment(new Date(this.comment.createdAt), "YYYYMMDD").fromNow();
     },
     isMyComment() {
-      return this.comment?.id === this.getUser?.id;
+      return this.comment?.user.id === this.getUser?.id;
     },
   },
   methods: {

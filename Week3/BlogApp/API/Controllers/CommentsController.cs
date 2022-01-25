@@ -24,9 +24,12 @@ namespace API.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _service.DeleteById(id);
+            var context = HttpContext;
+            var user = (AuthUser)context.Items["User"];
+
+            _service.DeleteById(id, user.Id);
             return NoContent();
         }
     }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="_isAuth" class="card col-sm-8 p-4 mt-5">
+  <div v-if="_isAuth" class="card col-md-8 p-4 mt-5">
     <h3>Yorum Ekle</h3>
     <form @submit.prevent="onSave">
       <input

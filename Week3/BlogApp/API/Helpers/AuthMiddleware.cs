@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Helpers.Jwt;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 
 namespace Business.Helpers.Middleware
@@ -33,7 +34,7 @@ namespace Business.Helpers.Middleware
                 var id = token.Claims.Where(x => x.Type == "id").SingleOrDefault().Value;
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = new 
+                context.Items["User"] = new AuthUser
                 {
                     Id = int.Parse(id),
                 };
