@@ -8,6 +8,12 @@ using System.Collections.Generic;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 {
+    /// <summary>
+    /// This class is run when authorize attribute used
+    /// Checks context whether context has user
+    /// If not, returns 401 UnAuthorized response
+    /// </summary>
+    /// <param name="context"></param>
     public void OnAuthorization(AuthorizationFilterContext context)
     {
         var user = (AuthUser)context.HttpContext.Items["User"];

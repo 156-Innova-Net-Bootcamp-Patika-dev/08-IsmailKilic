@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Business.Helpers.Middleware
 {
+    /// <summary>
+    /// Auth middleware runs before request
+    /// It checks whether JWT token provided
+    /// Decodes jwt token and adds user info to context
+    /// </summary>
     public class AuthMiddleware
     {
         private readonly RequestDelegate _next;

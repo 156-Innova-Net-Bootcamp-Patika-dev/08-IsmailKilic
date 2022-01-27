@@ -6,6 +6,7 @@ namespace API.Helpers
 {
     public class MappingProfile : Profile
     {
+        // Mapping implementations
         public MappingProfile()
         {
             // User -> LoginResponse

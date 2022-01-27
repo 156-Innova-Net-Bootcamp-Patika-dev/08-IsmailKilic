@@ -45,6 +45,7 @@ namespace API
 
             services.Configure<AppSettings>(_configuration.GetSection("AppSettings"));
 
+            // di injections
             services.AddScoped<EfCoreUserRepository>();
             services.AddScoped<IUserService,UserService>();
 
@@ -72,6 +73,7 @@ namespace API
 
             app.UseRouting();
 
+            // Auth middleware
             app.UseMiddleware<AuthMiddleware>();
 
             // global cors policy

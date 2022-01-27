@@ -7,6 +7,10 @@ using Business.Exceptions;
 
 namespace API.Filters
 {
+    /// <summary>
+    /// This class runs when user throw an exception
+    /// It configures status code and error messages
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class ExceptionFilter : ExceptionFilterAttribute
     {
