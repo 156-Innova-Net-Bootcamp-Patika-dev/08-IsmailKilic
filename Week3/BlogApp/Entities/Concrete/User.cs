@@ -5,6 +5,10 @@ using Entities.Abstract;
 
 namespace Entities.Concrete
 {
+    /// <summary>
+    /// User table
+    /// Has many to one relationship with post and comment tables
+    /// </summary>
     public class User : IEntity
     {
         [Key]

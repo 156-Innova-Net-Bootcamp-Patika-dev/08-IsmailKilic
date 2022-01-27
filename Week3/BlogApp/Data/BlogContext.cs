@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
+    /// <summary>
+    /// Context implementation
+    /// Takes connection string from api startup
+    /// </summary>
     public class BlogContext : DbContext
     {
         public BlogContext(DbContextOptions<BlogContext> options)

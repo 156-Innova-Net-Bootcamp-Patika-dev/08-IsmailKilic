@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
+    /// <summary>
+    /// Category table
+    /// Has one to many relationship with post table
+    /// </summary>
     public class Category : IEntity
     {
         [Key]

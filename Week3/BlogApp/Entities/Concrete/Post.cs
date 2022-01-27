@@ -6,6 +6,11 @@ using Entities.Abstract;
 
 namespace Entities.Concrete
 {
+    /// <summary>
+    /// Post table
+    /// Has one to one relationship with category and user tables
+    /// Has many to one relationship with comment table
+    /// </summary>
     public class Post : IEntity
     {
         [Key]

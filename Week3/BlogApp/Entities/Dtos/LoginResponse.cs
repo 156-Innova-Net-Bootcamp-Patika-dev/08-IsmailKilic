@@ -1,5 +1,8 @@
 ﻿namespace Entities.Dtos
 {
+    /// <summary>
+    /// View model used for login response
+    /// </summary>
     public class LoginResponse
     {
         public int Id { get; set; }

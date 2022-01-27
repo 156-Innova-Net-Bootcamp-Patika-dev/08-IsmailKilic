@@ -2,6 +2,9 @@
 
 namespace Entities.Dtos
 {
+    /// <summary>
+    /// Dto used to create a new post
+    /// </summary>
     public class CreatePostDto
     {
         [Required]

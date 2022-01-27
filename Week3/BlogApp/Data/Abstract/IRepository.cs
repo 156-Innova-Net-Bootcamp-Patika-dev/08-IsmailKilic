@@ -6,6 +6,10 @@ using Entities.Abstract;
 
 namespace Data.Abstract
 {
+    /// <summary>
+    /// Interface for repository pattern
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IRepository<T> where T : class, IEntity
     {
         List<T> GetList(Expression<Func<T, bool>> filter = null, params Expression<Func<T, Object>>[] includes);
