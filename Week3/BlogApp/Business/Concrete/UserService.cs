@@ -39,6 +39,13 @@ namespace Business.Concrete
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Finds user by provided email
+        /// Checks passwords, creates jwt token and returns it
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>LoginResponse</returns>
+        /// <exception cref="BadRequestException"></exception>
         public LoginResponse Login(LoginDto model)
         {
             var user = _userRepository.GetByEmail(model.Email);
@@ -53,6 +60,14 @@ namespace Business.Concrete
             return response;
         }
 
+        /// <summary>
+        /// Finds user by provided email
+        /// If email is already registered, returns bad request exception
+        /// Hashes password and creates user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="BadRequestException"></exception>
         public async Task Register(RegisterDto model)
         {
             var user = _userRepository.GetByEmail(model.Email);

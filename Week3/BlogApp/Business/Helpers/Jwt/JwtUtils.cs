@@ -18,6 +18,11 @@ namespace Business.Helpers.Jwt
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Creates a jwt token using user id and returns it
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>string</returns>
         public string Generate(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -32,6 +37,11 @@ namespace Business.Helpers.Jwt
             return tokenHandler.WriteToken(token);
         }
 
+        /// <summary>
+        /// Validates jwt token if it is signed by provided secret key
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns>JwtSecurityToken</returns>
         public JwtSecurityToken ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -29,6 +29,13 @@ namespace Business.Concrete
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Creates a new post
+        /// Throws a bad request if user or category not found
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="BadRequestException"></exception>
         public async Task CreatePost(CreatePostDto model)
         {
             var userExisted = _userRepository.Get(x => x.Id == model.UserId);
@@ -52,6 +59,11 @@ namespace Business.Concrete
             await _postCepository.Add(post);
         }
 
+        /// <summary>
+        /// Gets slug, finds post by slug and returns it
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <returns>Post</returns>
         public Post GetOneBySlug(string slug)
         {
             var post = _postCepository.Get(x => x.Slug == slug,
@@ -59,12 +71,21 @@ namespace Business.Concrete
             return post;
         }
 
+        /// <summary>
+        /// Returns all posts including category and user by category slug
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <returns>List<Post></returns>
         public List<Post> GetBySlug(string slug)
         {
             var posts = _postCepository.GetList(x => x.Category.Slug == slug, (x => x.Category), (x => x.User));
             return posts;
         }
 
+        /// <summary>
+        /// Returns all posts
+        /// </summary>
+        /// <returns>List<Post></returns>
         public async Task<List<Post>> GetAll()
         {
             var posts = await _postCepository.GetPosts();

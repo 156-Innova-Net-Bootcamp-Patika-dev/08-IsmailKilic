@@ -22,6 +22,11 @@ namespace Business.Concrete
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Uses slugHelper and creates a new category
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task CreateCategory(CreateCategoryDto model)
         {
             SlugHelper helper = new SlugHelper();
@@ -30,6 +35,10 @@ namespace Business.Concrete
             await _repository.Add(category);
         }
 
+        /// <summary>
+        /// Returns all categories including their posts
+        /// </summary>
+        /// <returns>List<Category></returns>
         public List<Category> GetAll()
         {
             var categories = _repository.GetList(null, (x => x.Posts));

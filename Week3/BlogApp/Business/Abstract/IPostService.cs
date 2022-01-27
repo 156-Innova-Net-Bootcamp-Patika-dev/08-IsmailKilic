@@ -5,6 +5,9 @@ using Entities.Dtos;
 
 namespace Business.Abstract
 {
+    /// <summary>
+    /// Interface to manage post operations
+    /// </summary>
     public interface IPostService
     {
         Task CreatePost(CreatePostDto model);
