@@ -18,6 +18,12 @@ namespace API.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Returns all posts
+        /// If slug provided, returns posts by category
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAll(string slug)
         {
@@ -28,6 +34,11 @@ namespace API.Controllers
             return Ok(posts);
         }
 
+        /// <summary>
+        /// Returns one post by slug
+        /// </summary>
+        /// <param name="slug"></param>
+        /// <returns></returns>
         [HttpGet("{slug}")]
         public IActionResult GetBySlug(string slug)
         {
@@ -36,6 +47,11 @@ namespace API.Controllers
             return Ok(post);
         }
 
+        /// <summary>
+        /// Creates a new post
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreatePostDto model)

@@ -15,6 +15,10 @@ namespace API.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Returns all categories
+        /// </summary>
+        /// <returns>List<Category></returns>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -22,6 +26,12 @@ namespace API.Controllers
             return Ok(categories);
         }
 
+        /// <summary>
+        /// Creates a new category
+        /// User needs to authorize to use this route
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateCategoryDto model)
