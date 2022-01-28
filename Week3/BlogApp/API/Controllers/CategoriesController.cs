@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace API.Controllers
 {
@@ -10,9 +12,13 @@ namespace API.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _service;
-        public CategoriesController(ICategoryService service)
+        private const string cacheKey = "categoryKey";
+        private readonly IMemoryCache _memCache;
+
+        public CategoriesController(ICategoryService service, IMemoryCache memCache)
         {
             _service = service;
+            _memCache = memCache;
         }
 
         /// <summary>
@@ -22,7 +28,15 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
+            if (_memCache.TryGetValue(cacheKey, out object list))
+                return Ok(list);
+
             var categories = _service.GetAll();
+            _memCache.Set(cacheKey, categories, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTime.Now.AddHours(3),
+                Priority = CacheItemPriority.Normal
+            });
             return Ok(categories);
         }
 
