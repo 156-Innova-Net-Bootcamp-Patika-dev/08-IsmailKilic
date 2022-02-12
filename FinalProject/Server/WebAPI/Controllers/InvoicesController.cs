@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Application.Features.Commands.Invoices.CreateInvoice;
+using Application.Features.Queries.GetInvoices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +22,12 @@ namespace WebAPI.Controllers
         public async Task<CreateInvoiceResponse> CreateInvoice(CreateInvoiceRequest request)
         {
             return await mediator.Send(request);
+        }
+
+        [HttpGet]
+        public async Task<List<GetInvoicesResponse>> GetInvoices()
+        {
+            return await mediator.Send(new GetInvoicesQuery());
         }
     }
 }

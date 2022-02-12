@@ -3,6 +3,7 @@ using Application.Features.Commands.Apartments.CreateApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
 using Application.Features.Commands.Invoices.CreateInvoice;
 using Application.Features.Queries.GetApartments;
+using Application.Features.Queries.GetInvoices;
 using AutoMapper;
 using Domain.Entities;
 using Domain.ViewModels;
@@ -25,6 +26,8 @@ namespace Application.Mapping
             
             CreateMap<CreateInvoiceRequest, Invoice>();
             CreateMap<Invoice, CreateInvoiceResponse>();
+            CreateMap<Invoice, GetInvoicesResponse>();
+
         }
     }
 }
