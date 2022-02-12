@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.ViewModels;
 
 namespace Application.Features.Queries.GetApartments
 {
@@ -11,6 +12,6 @@ namespace Application.Features.Queries.GetApartments
         public int Floor { get; set; }
         public int No { get; set; }
         public OwnerType OwnerType { get; set; }
-        public ApplicationUser User { get; set; }
+        public UserVM User { get; set; }
     }
 }

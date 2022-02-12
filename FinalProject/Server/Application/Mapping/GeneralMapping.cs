@@ -4,6 +4,7 @@ using Application.Features.Commands.Apartments.RemoveUser;
 using Application.Features.Queries.GetApartments;
 using AutoMapper;
 using Domain.Entities;
+using Domain.ViewModels;
 
 namespace Application.Mapping
 {
@@ -17,7 +18,8 @@ namespace Application.Mapping
             CreateMap<Apartment, AssignUserResponse>();
             CreateMap<Apartment, GetApartmentsResponse>();
             CreateMap<Apartment, RemoveUserResponse>();
-            
+
+            CreateMap<ApplicationUser, UserVM>();
         }
     }
 }
