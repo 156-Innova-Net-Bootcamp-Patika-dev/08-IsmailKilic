@@ -14,9 +14,11 @@ namespace Infrastructure.Persistence.Context
 
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Message> Messages{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             base.OnModelCreating(builder);
             SeedUsers(builder);
             SeedRoles(builder);
