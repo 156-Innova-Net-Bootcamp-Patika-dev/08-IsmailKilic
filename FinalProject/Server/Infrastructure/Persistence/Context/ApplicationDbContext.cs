@@ -13,6 +13,7 @@ namespace Infrastructure.Persistence.Context
         }
 
         public DbSet<Apartment> Apartments { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

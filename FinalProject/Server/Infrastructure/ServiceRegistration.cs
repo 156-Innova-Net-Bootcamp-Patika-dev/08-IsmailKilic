@@ -19,6 +19,7 @@ namespace Infrastructure
             serviceCollection.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
 
             serviceCollection.AddScoped<IAparmentRepository, ApartmentRepository>();
+            serviceCollection.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
             // For Identity  
             serviceCollection.AddIdentity<ApplicationUser, IdentityRole>(_ =>
