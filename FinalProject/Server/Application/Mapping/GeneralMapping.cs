@@ -1,6 +1,7 @@
 ﻿using Application.Features.Commands.Apartments.AssignUser;
 using Application.Features.Commands.Apartments.CreateApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
+using Application.Features.Commands.Invoices.CreateInvoice;
 using Application.Features.Queries.GetApartments;
 using AutoMapper;
 using Domain.Entities;
@@ -20,6 +21,10 @@ namespace Application.Mapping
             CreateMap<Apartment, RemoveUserResponse>();
 
             CreateMap<ApplicationUser, UserVM>();
+            CreateMap<Apartment, ApartmentVM>();
+            
+            CreateMap<CreateInvoiceRequest, Invoice>();
+            CreateMap<Invoice, CreateInvoiceResponse>();
         }
     }
 }
