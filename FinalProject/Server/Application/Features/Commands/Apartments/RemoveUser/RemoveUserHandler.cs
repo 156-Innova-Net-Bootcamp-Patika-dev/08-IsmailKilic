@@ -23,7 +23,7 @@ namespace Application.Features.Commands.Apartments.RemoveUser
             var apartment = apartmentRepository.Get(x => x.Id == request.ApartmentId);
             if (apartment == null) throw new Exception("Daire bulunamadı");
 
-            apartment.UserId = null;
+            apartment.User = null;
             apartment.IsFree = true;
 
             return mapper.Map<RemoveUserResponse>(await apartmentRepository.Update(apartment));

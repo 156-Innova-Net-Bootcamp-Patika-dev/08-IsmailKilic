@@ -9,7 +9,6 @@ namespace Domain.Entities
         public bool IsFree { get; set; }
         public string Type { get; set; }
         public int Floor { get; set; }
-        public string UserId { get; set; }
         public int No { get; set; }
         public OwnerType OwnerType { get; set; }
 
