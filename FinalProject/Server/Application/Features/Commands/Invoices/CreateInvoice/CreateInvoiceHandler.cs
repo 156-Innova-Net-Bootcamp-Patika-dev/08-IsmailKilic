@@ -24,6 +24,13 @@ namespace Application.Features.Commands.Invoices.CreateInvoice
 
         public async Task<CreateInvoiceResponse> Handle(CreateInvoiceRequest request, CancellationToken cancellationToken)
         {
+            // Check if invoice already created
+            var existedInvoice = invoiceRepository.Get(x => x.InvoiceType == request.InvoiceType &&
+                x.Month == request.Month && x.Year == request.Year &&
+                x.Apartment.Id == request.ApartmentId);
+            if (existedInvoice != null) throw new Exception("Bu fatura daha önce eklenmiş");
+
+            // Check if apartment existed
             var apartment = aparmentRepository.Get(x=>x.Id == request.ApartmentId);
             if (apartment == null) throw new Exception("Daire bulunamadı");
 

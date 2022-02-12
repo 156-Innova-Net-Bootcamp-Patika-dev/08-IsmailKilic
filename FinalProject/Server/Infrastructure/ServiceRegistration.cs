@@ -20,6 +20,7 @@ namespace Infrastructure
 
             serviceCollection.AddScoped<IAparmentRepository, ApartmentRepository>();
             serviceCollection.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            serviceCollection.AddScoped<IMessageRepository, MessageRepository>();
 
             // For Identity  
             serviceCollection.AddIdentity<ApplicationUser, IdentityRole>(_ =>
