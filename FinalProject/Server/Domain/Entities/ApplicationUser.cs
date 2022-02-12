@@ -6,6 +6,7 @@ namespace Domain.Entities
 {
     public class ApplicationUser : IdentityUser, BaseEntity
     {
+        public string FullName { get; set; }
         public string TCNo { get; set; }
         public string LicenseNo { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using System.Collections.Generic;
+using Domain.Common;
 
 namespace Domain.Entities
 {
@@ -13,6 +14,7 @@ namespace Domain.Entities
         public OwnerType OwnerType { get; set; }
 
         public ApplicationUser User { get; set; }
+        public IEnumerable<Invoice> Invoices{ get; set; }
     }
 
     public enum OwnerType
