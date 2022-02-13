@@ -39,7 +39,7 @@ namespace Application.Features.Commands.Messages.SendMessage
                 IsRead = false,
                 Receiver = receiver,
                 Sender = sender,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now
             };
 
             var sendingMessage = await messageRepository.Add(message);

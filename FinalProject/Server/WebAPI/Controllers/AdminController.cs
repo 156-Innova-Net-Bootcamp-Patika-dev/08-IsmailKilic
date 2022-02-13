@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
             return await mediator.Send(request);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet]
         [Route("users")]
         public async Task<List<GetUsersResponse>> GetAllUsers()
