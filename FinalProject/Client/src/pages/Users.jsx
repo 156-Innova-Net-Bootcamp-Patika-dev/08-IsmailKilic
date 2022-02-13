@@ -35,7 +35,7 @@ const Users = () => {
           data.map((d, index) => (
             <tr key={index} className='h-10 odd:bg-white odd:text-gray-700 even:bg-[#F3F3F3]'>
               <td>{index+1}</td>
-              <td>{d.fullName}</td>
+              <td>{d.fullname}</td>
               <td>{d.tcNo}</td>
               <td>{d.email}</td>
               <td>{d.userName}</td>

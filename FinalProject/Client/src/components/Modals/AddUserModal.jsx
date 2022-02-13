@@ -35,6 +35,7 @@ const AddUserModal = () => {
         <Modal isOpen={showAddUserModal} close={closeModal} className='p-2'>
             <Formik
                 initialValues={{
+                    fullname: '',
                     username: '',
                     email: '',
                     role: '',
@@ -50,6 +51,13 @@ const AddUserModal = () => {
                 render={({ errors, touched }) => (
                     <Form className='flex flex-col space-y-3'>
                         <h2 className='text-lg text-center text-white uppercase'>Kişi Ekle</h2>
+
+                        <Field className='w-full p-2 rounded-sm outline-none' name="fullname" placeholder="Kullanıcı Adı" type="text" />
+                        <ErrorMessage
+                            name="fullname"
+                            component="div"
+                            className="text-white field-error"
+                        />
 
                         <Field className='w-full p-2 rounded-sm outline-none' name="username" placeholder="Kullanıcı Adı" type="text" />
                         <ErrorMessage
