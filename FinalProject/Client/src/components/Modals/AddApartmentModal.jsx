@@ -9,11 +9,11 @@ import axiosClient from '../../utils/axiosClient';
 const ApartmentSchema = Yup.object().shape({
     block: Yup.string().required('Blok Kodu alanı boş olmamalı'),
     type: Yup.string().required('Daire tipi alanı boş olmamalı'),
-    floor: Yup.number().moreThan(1, "Kat No 1'den büyük olmalı"),
-    no: Yup.number().moreThan(1, "Kapı No 1'den büyük olmalı"),
+    floor: Yup.number().moreThan(0, "Kat No 0'dan büyük olmalı"),
+    no: Yup.number().moreThan(0, "Kapı No 0'dan büyük olmalı"),
 });
 
-const AddApartmentModal = () => {
+const AddApartmentModal = ({ addData }) => {
     const dispatch = useDispatch();
     const { showAddAptModal } = useSelector((state) => state.app);
 
@@ -23,6 +23,7 @@ const AddApartmentModal = () => {
 
     const handleSubmit = async (values) => {
         const res = await axiosClient.post("apartments", values);
+        addData(res.data);
         closeModal();
     }
 

@@ -49,6 +49,10 @@ const Apartments = () => {
         setData(datas)
     }
 
+    const addData = (newData) => {
+        setData([...data, newData]);
+    }
+
     const titles = ["Id", "Daire No", "Blok", "Durum", "Kat", "Tip", "Sahibi", ""]
 
     return (
@@ -58,7 +62,7 @@ const Apartments = () => {
                 <button onClick={openModal} className='button'>Yeni Daire Ekle</button>
             </div>
 
-            <AddApartmentModal />
+            <AddApartmentModal addData={addData} />
             <AssignUserModal updateData={updateData} isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
 
             <Table titles={titles} >
