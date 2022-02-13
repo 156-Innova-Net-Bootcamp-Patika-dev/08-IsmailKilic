@@ -20,7 +20,7 @@ namespace Application.Features.Commands.Apartments.RemoveUser
 
         public async Task<RemoveUserResponse> Handle(RemoveUserRequest request, CancellationToken cancellationToken)
         {
-            var apartment = apartmentRepository.Get(x => x.Id == request.ApartmentId);
+            var apartment = apartmentRepository.Get(x => x.Id == request.ApartmentId, x => x.User);
             if (apartment == null) throw new Exception("Daire bulunamadı");
 
             apartment.User = null;
@@ -29,5 +29,4 @@ namespace Application.Features.Commands.Apartments.RemoveUser
             return mapper.Map<RemoveUserResponse>(await apartmentRepository.Update(apartment));
         }
     }
-
 }
