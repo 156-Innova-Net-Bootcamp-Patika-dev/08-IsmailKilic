@@ -2,7 +2,7 @@ import React from 'react'
 
 const Table = ({ titles, children }) => {
     return (
-        <table className="mt-12 shadow-2xl w-full border-collapse text-center table-fixed">
+        <table className="w-full mt-12 text-center border-collapse shadow-2xl table-auto">
             <thead className='h-10 bg-[#37304A] text-white'>
                 <tr>
                     {
