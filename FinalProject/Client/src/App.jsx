@@ -10,7 +10,7 @@ import Messages from './pages/Messages';
 import Users from './pages/Users';
 
 const App = () => {
-  const { authenticated } = useSelector(state => state.auth)
+  const { authenticated, roles } = useSelector(state => state.auth)
 
   return (
     <div className="min-h-screen flex font-mono bg-gradient-to-b from-[#bccde0] to-[#a3b1bb]">
@@ -19,20 +19,25 @@ const App = () => {
           ?
           <>
             <Sidebar />
-            <div className='md:ml-64 flex-1'>
+            <div className='flex-1 md:ml-64'>
               <Header />
               <div className='p-4'>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/apartments" element={<Apartments />} />
-                  <Route path="/users" element={<Users />} />
                   <Route path="/messages" element={<Messages />} />
+                  {
+                    roles.includes("Admin") &&
+                    <>
+                      <Route path="/apartments" element={<Apartments />} />
+                      <Route path="/users" element={<Users />} />
+                    </>
+                  }
                 </Routes>
               </div>
             </div>
           </>
           :
-          <div className='p-4 flex flex-1 justify-center items-center'>
+          <div className='flex items-center justify-center flex-1 p-4'>
             <Routes>
               <Route path="*" element={<Login />} />
             </Routes>

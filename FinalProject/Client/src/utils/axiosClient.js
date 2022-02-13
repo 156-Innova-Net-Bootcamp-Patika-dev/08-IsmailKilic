@@ -6,4 +6,11 @@ const axiosClient = axios.create({
     timeoutErrorMessage: "Server hatası"
 })
 
+axiosClient.interceptors.request.use(request => {
+    const token = JSON.parse(localStorage.getItem("user"))?.token || ""
+    request.headers.common.Authorization = `Bearer ${token}`;
+
+    return request;
+})
+
 export default axiosClient
