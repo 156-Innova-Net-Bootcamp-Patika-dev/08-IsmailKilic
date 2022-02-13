@@ -30,6 +30,7 @@ namespace Application.Features.Commands.Admin.Register
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = request.Username,
                 PhoneNumber = request.Phone,
+                FullName = request.Fullname,
                 TCNo = request.TCNo,
                 LicenseNo = request.LicenseNo
             };
