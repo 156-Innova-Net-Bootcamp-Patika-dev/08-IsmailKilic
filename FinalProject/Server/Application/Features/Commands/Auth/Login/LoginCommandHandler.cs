@@ -64,6 +64,7 @@ namespace Application.Features.Commands.Auth.Login
                     return new LoginCommandResponse
                     {
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
+                        Roles = userRoles,
                         Message = "User loginned successfully"
                     };
                 }
