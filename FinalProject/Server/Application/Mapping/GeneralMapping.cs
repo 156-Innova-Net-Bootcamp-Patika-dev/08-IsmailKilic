@@ -5,6 +5,7 @@ using Application.Features.Commands.Invoices.CreateInvoice;
 using Application.Features.Commands.Messages.SendMessage;
 using Application.Features.Queries.GetApartments;
 using Application.Features.Queries.GetInvoices;
+using Application.Features.Queries.GetMessages;
 using Application.Features.Queries.GetUsers;
 using AutoMapper;
 using Domain.Entities;
@@ -32,6 +33,7 @@ namespace Application.Mapping
             CreateMap<Invoice, GetInvoicesResponse>();
 
             CreateMap<Message, SendMessageResponse>();
+            CreateMap<Message, GetMessagesResponse>();
         }
     }
 }

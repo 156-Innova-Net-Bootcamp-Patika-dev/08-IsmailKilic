@@ -22,6 +22,7 @@ namespace WebAPI
             services.AddPersistenceServices(Configuration);
             services.AddSwaggerService();
 
+            services.AddHttpContextAccessor();
             services.AddCors();
         }
 
