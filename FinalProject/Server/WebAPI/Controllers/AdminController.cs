@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Application.Features.Commands.Admin.Register;
+using Application.Features.Queries.GetUsers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,14 @@ namespace WebAPI.Controllers
         public async Task<RegisterCommandResponse> Register(RegisterCommandRequest request)
         {
             return await mediator.Send(request);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("users")]
+        public async Task<List<GetUsersResponse>> GetAllUsers()
+        {
+            return await mediator.Send(new GetUsersQuery());
         }
     }
 }
