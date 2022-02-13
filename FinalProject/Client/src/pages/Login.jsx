@@ -20,7 +20,8 @@ const Login = () => {
 
             localStorage.setItem("user", JSON.stringify({
                 token: res.data.token,
-                roles: res.data.roles
+                roles: res.data.roles,
+                user: res.data.user
             }));
             dispatch(loginSuccess(res.data))
         } catch (error) {

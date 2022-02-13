@@ -7,6 +7,6 @@
         @apply w-full outline-none p-2 mb-2 rounded-md
     }
     .button {
-        @apply bg-gray-700 text-white p-1 px-3 rounded-sm
+        @apply bg-gray-700 text-white p-1 px-3 rounded-sm hover:bg-gray-500
     }
 }

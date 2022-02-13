@@ -5,7 +5,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Entities;
+using Domain.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -18,14 +20,15 @@ namespace Application.Features.Commands.Auth.Login
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration _configuration;
         readonly SignInManager<ApplicationUser> signInManager;
-
+        private readonly IMapper mapper;
 
         public LoginCommandHandler(UserManager<ApplicationUser> userManager, IConfiguration _configuration,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager, IMapper mapper)
         {
             this.userManager = userManager;
             this._configuration = _configuration;
             this.signInManager = signInManager;
+            this.mapper = mapper;
         }
 
         public async Task<LoginCommandResponse> Handle(LoginCommandRequest request, CancellationToken cancellationToken)
@@ -65,7 +68,7 @@ namespace Application.Features.Commands.Auth.Login
                     {
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
                         Roles = userRoles,
-                        Message = "User loginned successfully"
+                        User = mapper.Map<UserVM>(user),
                     };
                 }
                 throw new Exception("Wrong username or password");
