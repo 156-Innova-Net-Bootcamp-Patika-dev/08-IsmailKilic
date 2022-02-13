@@ -3,7 +3,7 @@ import Modal from './Modal'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import axiosClient from '../../utils/axiosClient';
 
-const AssignUserModal = ({ isOpen, close, id }) => {
+const AssignUserModal = ({ isOpen, close, id, updateData }) => {
     const [users, setUsers] = useState([])
 
     useEffect(async () => {
@@ -16,6 +16,7 @@ const AssignUserModal = ({ isOpen, close, id }) => {
     const handleSubmit = async (values) => {
         values.ownerType = parseInt(values.ownerType);
         const res = await axiosClient.post("apartments/assign-user", values);
+        updateData(res.data);
         close();
     }
 

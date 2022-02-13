@@ -1,5 +1,6 @@
 ﻿
 using Domain.Entities;
+using Domain.ViewModels;
 
 namespace Application.Features.Commands.Apartments.AssignUser
 {
@@ -12,5 +13,6 @@ namespace Application.Features.Commands.Apartments.AssignUser
         public int Floor { get; set; }
         public int No { get; set; }
         public OwnerType OwnerType { get; set; }
+        public UserVM User { get; set; }
     }
 }

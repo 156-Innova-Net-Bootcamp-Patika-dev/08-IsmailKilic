@@ -28,10 +28,25 @@ const Apartments = () => {
     }
 
     const handleRemoveUser = async (id) => {
-        const res = await axiosClient.post("apartments/remove-user", {
-            apartmentId: id
-        })
-        console.log(res.data);
+        try {
+            const res = await axiosClient.post("apartments/remove-user", {
+                apartmentId: id
+            })
+
+            const datas = [...data]
+            const index = datas.findIndex(x => x.id === id)
+            datas[index] = res.data
+            setData(datas)
+        } catch (error) {
+
+        }
+    }
+
+    const updateData = (newData) => {
+        const datas = [...data]
+        const index = datas.findIndex(x => x.id === newData.id)
+        datas[index] = newData
+        setData(datas)
     }
 
     const titles = ["Id", "Daire No", "Blok", "Durum", "Kat", "Tip", "Sahibi", ""]
@@ -44,7 +59,7 @@ const Apartments = () => {
             </div>
 
             <AddApartmentModal />
-            <AssignUserModal isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
+            <AssignUserModal updateData={updateData} isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
 
             <Table titles={titles} >
                 {
