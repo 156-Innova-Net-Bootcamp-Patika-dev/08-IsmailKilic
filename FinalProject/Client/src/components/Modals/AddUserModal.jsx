@@ -28,7 +28,7 @@ const AddUserModal = () => {
 
     const handleSubmit = async (values) => {
         const res = await axiosClient.post("admin/newuser", values);
-        console.log(values);
+        closeModal();
     }
 
     return (

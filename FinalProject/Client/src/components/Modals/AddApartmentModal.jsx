@@ -23,6 +23,7 @@ const AddApartmentModal = () => {
 
     const handleSubmit = async (values) => {
         const res = await axiosClient.post("apartments", values);
+        closeModal();
     }
 
     return (
@@ -38,8 +39,8 @@ const AddApartmentModal = () => {
                 onSubmit={(values, { resetForm }) => {
                     handleSubmit(values);
                     resetForm();
-                }}
-                render={({ errors, touched }) => (
+                }}>
+                {({ errors, touched }) => (
                     <Form className='flex flex-col space-y-3'>
                         <h2 className='text-lg text-center text-white uppercase'>Daire Ekle</h2>
 
@@ -75,7 +76,7 @@ const AddApartmentModal = () => {
                         <button type='submit' className='w-full py-2 text-white rounded-sm bg-emerald-600 hover:bg-emerald-800'>Ekle</button>
                     </Form>
                 )}
-            />
+            </Formik>
         </Modal>
     )
 }
