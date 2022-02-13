@@ -24,16 +24,23 @@ namespace Application.Features.Commands.Apartments.AssignUser
 
         public async Task<AssignUserResponse> Handle(AssignUserRequest request, CancellationToken cancellationToken)
         {
+            // find and check if apartment exist
             var apartment = apartmentRepository.Get(x => x.Id == request.ApartmentId);
             if (apartment == null) throw new Exception("Daire bulunamadı");
 
+            // check if apartment is free
+            if(apartment.IsFree == false) throw new Exception("Bu daire dolu");
+
+            // find user
             var user = await userManager.FindByIdAsync(request.UserId);
             if (user == null) throw new Exception("Kullanıcı bulunamadı");
 
+            // assign user to apartment
             apartment.User = user;
             apartment.IsFree = false;
             apartment.OwnerType = request.OwnerType;
 
+            // return response
             return mapper.Map<AssignUserResponse>(await apartmentRepository.Update(apartment));
         }
     }
