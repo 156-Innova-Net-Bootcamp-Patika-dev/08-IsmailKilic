@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces.Repositories;
@@ -13,7 +12,7 @@ namespace Application.Features.Queries.GetApartments
         private readonly IAparmentRepository apartmentRepository;
         private readonly IMapper mapper;
 
-        public GetApartmentsHandler(IAparmentRepository apartmentRepository,IMapper mapper)
+        public GetApartmentsHandler(IAparmentRepository apartmentRepository, IMapper mapper)
         {
             this.apartmentRepository = apartmentRepository;
             this.mapper = mapper;
@@ -21,7 +20,9 @@ namespace Application.Features.Queries.GetApartments
 
         public async Task<List<GetApartmentsResponse>> Handle(GetApartmentsQuery request, CancellationToken cancellationToken)
         {
-            var apartments = apartmentRepository.GetList(null,x=>x.User);
+            var apartments = request.ByUser
+                ? apartmentRepository.GetList(x=>x.User.Id == request.UserId, x => x.User)
+                : apartmentRepository.GetList(null, x => x.User);
             return mapper.Map<List<GetApartmentsResponse>>(apartments);
         }
     }
