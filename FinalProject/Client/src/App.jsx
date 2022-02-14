@@ -5,9 +5,11 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ApartmentDetail from './pages/ApartmentDetail';
 import Apartments from './pages/Apartments';
+import ChangePassword from './pages/ChangePassword';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Messages from './pages/Messages';
+import Profile from './pages/Profile';
 import Users from './pages/Users';
 
 const App = () => {
@@ -26,6 +28,8 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/messages" element={<Messages />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/change-password" element={<ChangePassword />} />
                   {
                     roles.includes("Admin") &&
                     <>
