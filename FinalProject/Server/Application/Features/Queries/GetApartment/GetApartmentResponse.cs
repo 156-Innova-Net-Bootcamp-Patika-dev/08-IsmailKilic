@@ -15,6 +15,6 @@ namespace Application.Features.Queries.GetApartment
         public OwnerType OwnerType { get; set; }
 
         public UserVM User { get; set; }
-        public List<Invoice> Invoices { get; set; }
+        public List<InvoiceVM> Invoices { get; set; }
     }
 }

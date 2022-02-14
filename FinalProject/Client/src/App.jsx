@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Routes, Route, Link } from "react-router-dom";
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import ApartmentDetail from './pages/ApartmentDetail';
 import Apartments from './pages/Apartments';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -13,7 +14,7 @@ const App = () => {
   const { authenticated, roles } = useSelector(state => state.auth)
 
   return (
-    <div className="min-h-screen flex font-mono bg-gradient-to-b from-[#bccde0] to-[#a3b1bb]">
+    <div className="min-h-screen overflow-x-hidden flex font-mono bg-gradient-to-b from-[#bccde0] to-[#a3b1bb]">
       {
         authenticated
           ?
@@ -29,6 +30,7 @@ const App = () => {
                     roles.includes("Admin") &&
                     <>
                       <Route path="/apartments" element={<Apartments />} />
+                      <Route path="/apartments/:id" element={<ApartmentDetail />} />
                       <Route path="/users" element={<Users />} />
                     </>
                   }

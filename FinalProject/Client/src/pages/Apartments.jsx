@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import AddApartmentModal from '../components/Modals/AddApartmentModal'
 import AssignUserModal from '../components/Modals/AssignUserModal'
 import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
@@ -14,6 +15,7 @@ const Apartments = () => {
     const [assignId, setAssignId] = useState(0)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const openModal = () => {
         dispatch(toggleAptModal())
@@ -62,6 +64,10 @@ const Apartments = () => {
 
     const titles = ["Id", "Daire No", "Blok", "Durum", "Kat", "Tip", "Sahibi", ""]
 
+    const goDetail = (id) => {
+        navigate(`/apartments/${id}`);
+    }
+
     return (
         <div className='w-full mx-auto md:w-5/6'>
             <div className='flex justify-between mt-5'>
@@ -71,12 +77,12 @@ const Apartments = () => {
 
             <AddApartmentModal addData={addData} />
             <AssignUserModal updateData={updateData} isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
-            <CreateInvoiceModal id={assignId} isOpen={showInvoiceModal} close={()=>setShowInvoiceModal(false)} />
+            <CreateInvoiceModal id={assignId} isOpen={showInvoiceModal} close={() => setShowInvoiceModal(false)} />
 
             <Table titles={titles} >
                 {
                     data.map((d, index) => (
-                        <tr key={index} className='h-10 odd:bg-white odd:text-gray-700 even:bg-[#F3F3F3]'>
+                        <tr onClick={() => goDetail(d.id)} key={index} className='h-10 cursor-pointer hover:-translate-x-1 odd:bg-white odd:text-gray-700 even:bg-[#F3F3F3]'>
                             <td>{d.id}</td>
                             <td>{d.no}</td>
                             <td>{d.block}</td>

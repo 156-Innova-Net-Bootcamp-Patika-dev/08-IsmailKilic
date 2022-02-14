@@ -33,6 +33,7 @@ namespace Application.Mapping
             CreateMap<CreateInvoiceRequest, Invoice>();
             CreateMap<Invoice, CreateInvoiceResponse>();
             CreateMap<Invoice, GetInvoicesResponse>();
+            CreateMap<Invoice, InvoiceVM>();
 
             CreateMap<Message, SendMessageResponse>();
             CreateMap<Message, GetMessagesResponse>();
