@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -26,14 +27,14 @@ namespace Application.Features.Commands.Apartments.AssignUser
         {
             // find and check if apartment exist
             var apartment = apartmentRepository.Get(x => x.Id == request.ApartmentId);
-            if (apartment == null) throw new Exception("Daire bulunamadı");
+            if (apartment == null) throw new BadRequestException("Daire bulunamadı");
 
             // check if apartment is free
-            if(apartment.IsFree == false) throw new Exception("Bu daire dolu");
+            if(apartment.IsFree == false) throw new BadRequestException("Bu daire dolu");
 
             // find user
             var user = await userManager.FindByIdAsync(request.UserId);
-            if (user == null) throw new Exception("Kullanıcı bulunamadı");
+            if (user == null) throw new BadRequestException("Kullanıcı bulunamadı");
 
             // assign user to apartment
             apartment.User = user;

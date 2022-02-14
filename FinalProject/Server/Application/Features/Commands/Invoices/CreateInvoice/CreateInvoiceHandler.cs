@@ -5,6 +5,7 @@ using Application.Interfaces.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using System;
+using Application.Exceptions;
 
 namespace Application.Features.Commands.Invoices.CreateInvoice
 {
@@ -28,11 +29,11 @@ namespace Application.Features.Commands.Invoices.CreateInvoice
             var existedInvoice = invoiceRepository.Get(x => x.InvoiceType == request.InvoiceType &&
                 x.Month == request.Month && x.Year == request.Year &&
                 x.Apartment.Id == request.ApartmentId);
-            if (existedInvoice != null) throw new Exception("Bu fatura daha önce eklenmiş");
+            if (existedInvoice != null) throw new BadRequestException("Bu fatura daha önce eklenmiş");
 
             // Check if apartment existed
             var apartment = aparmentRepository.Get(x=>x.Id == request.ApartmentId);
-            if (apartment == null) throw new Exception("Daire bulunamadı");
+            if (apartment == null) throw new BadRequestException("Daire bulunamadı");
 
             var invoice = mapper.Map<Invoice>(request);
             invoice.Apartment = apartment;

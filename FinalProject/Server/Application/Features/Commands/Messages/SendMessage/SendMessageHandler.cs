@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -27,11 +28,11 @@ namespace Application.Features.Commands.Messages.SendMessage
         {
             // Check if sender exist
             var sender = await userManager.FindByIdAsync(request.SenderId);
-            if (sender == null) throw new Exception("Gönderen kullanıcı bulunamadı");
+            if (sender == null) throw new BadRequestException("Gönderen kullanıcı bulunamadı");
 
             // Check if receiver exist
             var receiver = await userManager.FindByIdAsync(request.ReceiverId);
-            if (receiver == null) throw new Exception("Alıcı kullanıcı bulunamadı");
+            if (receiver == null) throw new BadRequestException("Alıcı kullanıcı bulunamadı");
 
             var message = new Message
             {

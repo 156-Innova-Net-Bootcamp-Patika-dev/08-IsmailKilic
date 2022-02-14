@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using AutoMapper;
 using MediatR;
@@ -21,7 +22,7 @@ namespace Application.Features.Commands.Apartments.RemoveUser
         public async Task<RemoveUserResponse> Handle(RemoveUserRequest request, CancellationToken cancellationToken)
         {
             var apartment = apartmentRepository.Get(x => x.Id == request.ApartmentId, x => x.User);
-            if (apartment == null) throw new Exception("Daire bulunamadı");
+            if (apartment == null) throw new BadRequestException("Daire bulunamadı");
 
             apartment.User = null;
             apartment.IsFree = true;

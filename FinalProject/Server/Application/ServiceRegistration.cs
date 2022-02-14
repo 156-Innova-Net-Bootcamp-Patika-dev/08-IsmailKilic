@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Exceptions;
 using FluentValidation.AspNetCore;
 using Infrastructure.Attributes;
 using MediatR;
@@ -13,6 +14,7 @@ namespace Application
         {
             serviceCollection.AddControllers(options =>
             {
+                options.Filters.Add(typeof(ExceptionFilter));
                 options.Filters.Add(typeof(ValidationFilter));
             }).AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

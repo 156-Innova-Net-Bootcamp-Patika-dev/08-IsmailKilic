@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -22,7 +23,7 @@ namespace Application.Features.Commands.Apartments.CreateApartment
         {
             var existedApt = apartmentRepository.Get(x => x.Block == request.Block && x.Floor == request.Floor 
             && x.No == request.No);
-            if (existedApt != null) throw new System.Exception("Bu daire daha önce kayıt edilmiş");
+            if (existedApt != null) throw new BadRequestException("Bu daire daha önce kayıt edilmiş");
 
             var apartment = mapper.Map<Apartment>(request);
             apartment.IsFree = true;

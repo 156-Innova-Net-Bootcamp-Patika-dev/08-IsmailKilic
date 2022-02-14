@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Exceptions;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +22,7 @@ namespace Application.Features.Commands.Admin.Register
             var userExists = await userManager.FindByNameAsync(request.Username);
             if (userExists != null)
             {
-                throw new Exception("This username is already registered");
+                throw new BadRequestException("This username is already registered");
             }
 
             ApplicationUser user = new()
