@@ -26,9 +26,14 @@ const AddUserModal = () => {
         dispatch(toggleUserModal());
     }
 
-    const handleSubmit = async (values) => {
-        const res = await axiosClient.post("admin/newuser", values);
-        closeModal();
+    const handleSubmit = async (values, resetForm) => {
+        try {
+            const res = await axiosClient.post("admin/newuser", values);
+            closeModal();
+            resetForm();
+        } catch (err) {
+            alert(err.response.data.errors)
+        }
     }
 
     return (
@@ -45,14 +50,13 @@ const AddUserModal = () => {
                 }}
                 validationSchema={UserSchema}
                 onSubmit={(values, { resetForm }) => {
-                    handleSubmit(values);
-                    resetForm();
+                    handleSubmit(values, resetForm);
                 }}
                 render={({ errors, touched }) => (
                     <Form className='flex flex-col space-y-3'>
                         <h2 className='text-lg text-center text-white uppercase'>Kişi Ekle</h2>
 
-                        <Field className='w-full p-2 rounded-sm outline-none' name="fullname" placeholder="Kullanıcı Adı" type="text" />
+                        <Field className='w-full p-2 rounded-sm outline-none' name="fullname" placeholder="Ad Soyad" type="text" />
                         <ErrorMessage
                             name="fullname"
                             component="div"

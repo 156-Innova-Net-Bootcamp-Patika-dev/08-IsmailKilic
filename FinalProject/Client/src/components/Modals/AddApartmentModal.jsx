@@ -21,10 +21,15 @@ const AddApartmentModal = ({ addData }) => {
         dispatch(toggleAptModal());
     }
 
-    const handleSubmit = async (values) => {
-        const res = await axiosClient.post("apartments", values);
-        addData(res.data);
-        closeModal();
+    const handleSubmit = async (values, resetForm) => {
+        try {
+            const res = await axiosClient.post("apartments", values);
+            addData(res.data);
+            closeModal();
+            resetForm();
+        } catch (err) {
+            alert(err.response.data.errors)
+        }
     }
 
     return (
@@ -38,8 +43,7 @@ const AddApartmentModal = ({ addData }) => {
                 }}
                 validationSchema={ApartmentSchema}
                 onSubmit={(values, { resetForm }) => {
-                    handleSubmit(values);
-                    resetForm();
+                    handleSubmit(values, resetForm);
                 }}>
                 {({ errors, touched }) => (
                     <Form className='flex flex-col space-y-3'>

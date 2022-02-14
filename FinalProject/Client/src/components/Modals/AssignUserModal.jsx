@@ -13,11 +13,16 @@ const AssignUserModal = ({ isOpen, close, id, updateData }) => {
     }, [])
 
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = async (values, resetForm) => {
         values.ownerType = parseInt(values.ownerType);
-        const res = await axiosClient.post("apartments/assign-user", values);
-        updateData(res.data);
-        close();
+        try {
+            const res = await axiosClient.post("apartments/assign-user", values);
+            updateData(res.data);
+            close();
+            resetForm();
+        } catch (err) {
+            alert(err.response.data.errors)
+        }
     }
 
     return (
@@ -30,8 +35,7 @@ const AssignUserModal = ({ isOpen, close, id, updateData }) => {
                 }}
                 enableReinitialize={true}
                 onSubmit={(values, { resetForm }) => {
-                    handleSubmit(values);
-                    resetForm();
+                    handleSubmit(values, resetForm);
                 }}>
                 {({ errors, touched }) => (
                     <Form className='flex flex-col space-y-3'>

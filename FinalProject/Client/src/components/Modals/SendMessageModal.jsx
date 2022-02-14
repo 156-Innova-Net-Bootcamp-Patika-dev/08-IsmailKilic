@@ -14,13 +14,18 @@ const SendMessageModal = ({ isOpen, close, addMessage }) => {
         setUsers(data)
     }, [])
 
-    const handleSubmit = async (values) => {
-        const res = await axiosClient.post("messages", {
-            ...values,
-            senderId: user.id
-        })
-        addMessage(res.data);
-        close();
+    const handleSubmit = async (values,resetForm) => {
+        try {
+            const res = await axiosClient.post("messages", {
+                ...values,
+                senderId: user.id
+            })
+            addMessage(res.data);
+            close();
+            resetForm();
+        } catch (err) {
+            alert(err.response.data.errors)
+        }
     }
 
     return (
@@ -32,8 +37,7 @@ const SendMessageModal = ({ isOpen, close, addMessage }) => {
                 }}
                 enableReinitialize={true}
                 onSubmit={(values, { resetForm }) => {
-                    handleSubmit(values);
-                    resetForm();
+                    handleSubmit(values, resetForm);
                 }}>
                 {({ errors, touched }) => (
                     <Form className='flex flex-col space-y-3'>
@@ -53,7 +57,7 @@ const SendMessageModal = ({ isOpen, close, addMessage }) => {
                             className="text-white field-error"
                         />
 
-                        <Field className='w-full p-2 rounded-sm outline-none' name="content" placeholder="Mesaj" type="text" as="textarea"/>
+                        <Field className='w-full p-2 rounded-sm outline-none' name="content" placeholder="Mesaj" type="text" as="textarea" />
                         <ErrorMessage
                             name="content"
                             component="div"

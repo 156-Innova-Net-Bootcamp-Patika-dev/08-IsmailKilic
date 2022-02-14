@@ -14,7 +14,7 @@ const LoginSchema = Yup.object().shape({
 const Login = () => {
     const dispatch = useDispatch()
 
-    const handleLogin = async (values) => {
+    const handleLogin = async (values, resetForm) => {
         try {
             const res = await axiosClient.post("auth/login", values)
 
@@ -24,8 +24,9 @@ const Login = () => {
                 user: res.data.user
             }));
             dispatch(loginSuccess(res.data))
-        } catch (error) {
-            alert(error)
+            resetForm();
+        } catch (err) {
+            alert(err.response.data.errors)
         }
     }
 
@@ -37,8 +38,7 @@ const Login = () => {
             }}
             validationSchema={LoginSchema}
             onSubmit={(values, { resetForm }) => {
-                handleLogin(values);
-                resetForm();
+                handleLogin(values, resetForm);
             }}>
             {({ errors, touched }) => (
                 <Form>

@@ -4,11 +4,15 @@ import axiosClient from '../../utils/axiosClient'
 import Modal from './Modal'
 
 const CreateInvoiceModal = ({ isOpen, close, id }) => {
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, resetForm) => {
     values.invoiceType = parseInt(values.invoiceType)
-    const res = await axiosClient.post("invoices", values)
-    close()
-    console.log(res.data);
+    try {
+      const res = await axiosClient.post("invoices", values)
+      close()
+      resetForm()
+    } catch (err) {
+      alert(err.response.data.errors)
+    }
   }
 
   return (
@@ -23,8 +27,7 @@ const CreateInvoiceModal = ({ isOpen, close, id }) => {
         }}
         enableReinitialize={true}
         onSubmit={(values, { resetForm }) => {
-          handleSubmit(values);
-          resetForm();
+          handleSubmit(values, resetForm);
         }}>
         {({ errors, touched }) => (
           <Form className='flex flex-col space-y-3'>
