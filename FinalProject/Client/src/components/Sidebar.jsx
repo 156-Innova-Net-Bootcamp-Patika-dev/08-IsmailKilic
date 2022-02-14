@@ -22,7 +22,8 @@ const Sidebar = () => {
         if (isInitialMount.current) {
             isInitialMount.current = false
         } else {
-            toggle()
+            if(sidebarOpened)
+                toggle()
         }
     }, [location.pathname])
 
