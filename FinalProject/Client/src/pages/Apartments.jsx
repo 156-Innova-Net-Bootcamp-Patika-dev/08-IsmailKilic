@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import AddApartmentModal from '../components/Modals/AddApartmentModal'
 import AssignUserModal from '../components/Modals/AssignUserModal'
+import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
 import Table from '../components/Table'
 import { toggleAptModal } from '../store/app'
 import axiosClient from '../utils/axiosClient'
@@ -9,6 +10,7 @@ import axiosClient from '../utils/axiosClient'
 const Apartments = () => {
     const [data, setData] = useState([])
     const [showAssignUserModal, setShowAssignUserModal] = useState(false)
+    const [showInvoiceModal, setShowInvoiceModal] = useState(false)
     const [assignId, setAssignId] = useState(0)
 
     const dispatch = useDispatch()
@@ -25,6 +27,11 @@ const Apartments = () => {
     const openAssignModal = (id) => {
         setAssignId(id)
         setShowAssignUserModal(true)
+    }
+
+    const openInvoiceModal = (id) => {
+        setAssignId(id)
+        setShowInvoiceModal(true)
     }
 
     const handleRemoveUser = async (id) => {
@@ -64,6 +71,7 @@ const Apartments = () => {
 
             <AddApartmentModal addData={addData} />
             <AssignUserModal updateData={updateData} isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
+            <CreateInvoiceModal id={assignId} isOpen={showInvoiceModal} close={()=>setShowInvoiceModal(false)} />
 
             <Table titles={titles} >
                 {
@@ -80,7 +88,7 @@ const Apartments = () => {
                                 {d.isFree ?
                                     <button onClick={() => openAssignModal(d.id)} className='text-sm bg-green-600 button'>Kişi Ata</button>
                                     : <button onClick={() => handleRemoveUser(d.id)} className='text-sm bg-red-600 button'>Kişiyi Kaldır</button>}
-                                <button className='ml-2 text-sm button'>Fatura Ekle</button>
+                                <button onClick={() => openInvoiceModal(d.id)} className='ml-2 text-sm button'>Fatura Ekle</button>
                             </td>
                         </tr>
                     ))
