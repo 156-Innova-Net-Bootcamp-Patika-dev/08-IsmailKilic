@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Application.Features.Commands.Apartments.AssignUser;
 using Application.Features.Commands.Apartments.CreateApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
+using Application.Features.Queries.GetApartment;
 using Application.Features.Queries.GetApartments;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -32,6 +33,12 @@ namespace WebAPI.Controllers
         public async Task<List<GetApartmentsResponse>> GetAll()
         {
             return await mediator.Send(new GetApartmentsQuery());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<GetApartmentResponse> GetById(int id)
+        {
+            return await mediator.Send(new GetApartmentQuery() { Id = id });
         }
 
         [HttpPost]

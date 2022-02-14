@@ -3,6 +3,7 @@ using Application.Features.Commands.Apartments.CreateApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
 using Application.Features.Commands.Invoices.CreateInvoice;
 using Application.Features.Commands.Messages.SendMessage;
+using Application.Features.Queries.GetApartment;
 using Application.Features.Queries.GetApartments;
 using Application.Features.Queries.GetInvoices;
 using Application.Features.Queries.GetMessages;
@@ -19,6 +20,7 @@ namespace Application.Mapping
         {
             CreateMap<CreateApartmentRequest, Apartment>();
             CreateMap<Apartment, CreateApartmentResponse>();
+            CreateMap<Apartment, GetApartmentResponse>();
 
             CreateMap<Apartment, AssignUserResponse>();
             CreateMap<Apartment, GetApartmentsResponse>();
