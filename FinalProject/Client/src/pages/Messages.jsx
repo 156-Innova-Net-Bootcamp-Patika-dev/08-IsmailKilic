@@ -30,7 +30,9 @@ const Messages = () => {
     }
   }, [tab, messages])
 
-
+  const addMessage = (data) => {
+    setMessages([data, ...messages])
+  }
 
   return (
     <div className='bg-white'>
@@ -48,7 +50,7 @@ const Messages = () => {
           <button onClick={() => setShowModal(true)} className='button'>Yeni Mesaj</button>
         </div>}
 
-        <SendMessageModal isOpen={showModal} close={() => setShowModal(false)} />
+        <SendMessageModal addMessage={addMessage} isOpen={showModal} close={() => setShowModal(false)} />
 
         <ul className='mt-6'>
           {

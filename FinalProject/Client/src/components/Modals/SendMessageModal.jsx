@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import axiosClient from '../../utils/axiosClient'
 import Modal from './Modal'
 
-const SendMessageModal = ({ isOpen, close }) => {
+const SendMessageModal = ({ isOpen, close, addMessage }) => {
     const { user } = useSelector(state => state.auth)
     const [users, setUsers] = useState([])
 
@@ -19,7 +19,7 @@ const SendMessageModal = ({ isOpen, close }) => {
             ...values,
             senderId: user.id
         })
-        console.log(res.data);
+        addMessage(res.data);
         close();
     }
 

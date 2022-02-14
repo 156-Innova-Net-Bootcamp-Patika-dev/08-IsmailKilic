@@ -82,7 +82,7 @@ const Apartments = () => {
             <Table titles={titles} >
                 {
                     data.map((d, index) => (
-                        <tr onClick={() => goDetail(d.id)} key={index} className='h-10 cursor-pointer hover:-translate-x-1 odd:bg-white odd:text-gray-700 even:bg-[#F3F3F3]'>
+                        <tr key={index} className='h-10 cursor-pointer hover:-translate-x-1 odd:bg-white odd:text-gray-700 even:bg-[#F3F3F3]'>
                             <td>{d.id}</td>
                             <td>{d.no}</td>
                             <td>{d.block}</td>
@@ -95,6 +95,7 @@ const Apartments = () => {
                                     <button onClick={() => openAssignModal(d.id)} className='text-sm bg-green-600 button'>Kişi Ata</button>
                                     : <button onClick={() => handleRemoveUser(d.id)} className='text-sm bg-red-600 button'>Kişiyi Kaldır</button>}
                                 <button onClick={() => openInvoiceModal(d.id)} className='ml-2 text-sm button'>Fatura Ekle</button>
+                                <button onClick={() => goDetail(d.id)} className='ml-2 text-sm button'>Detay</button>
                             </td>
                         </tr>
                     ))
