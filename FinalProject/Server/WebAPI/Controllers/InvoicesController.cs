@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Features.Commands.Invoices.CreateInvoice;
-using Application.Features.Queries.GetInvoices;
+using Application.Features.Queries.GetInvoicesByUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +32,9 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<List<GetInvoicesResponse>> GetInvoices()
         {
-            return await mediator.Send(new GetInvoicesQuery());
+            var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
+
+            return await mediator.Send(new GetInvoicesQuery() { UserId = userId });
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.ViewModels;
 
-namespace Application.Features.Queries.GetInvoices
+namespace Application.Features.Queries.GetInvoicesByUser
 {
     public class GetInvoicesResponse
     {

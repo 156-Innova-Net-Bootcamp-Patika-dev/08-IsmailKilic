@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axiosClient from '../utils/axiosClient'
 
-const invoiceTypes = ["Aidat", "Elektrik", "Su", "Doğalgaz"]
+export const invoiceTypes = ["Aidat", "Elektrik", "Su", "Doğalgaz"]
 
 const ApartmentDetail = () => {
     let { id } = useParams();

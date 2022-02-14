@@ -5,14 +5,14 @@ using Application.Interfaces.Repositories;
 using AutoMapper;
 using MediatR;
 
-namespace Application.Features.Queries.GetInvoices
+namespace Application.Features.Queries.GetInvoicesByUser
 {
     public class GetInvoicesHandler : IRequestHandler<GetInvoicesQuery, List<GetInvoicesResponse>>
     {
         private readonly IInvoiceRepository invoiceRepository;
         private readonly IMapper mapper;
 
-        public GetInvoicesHandler(IInvoiceRepository invoiceRepository,IMapper mapper)
+        public GetInvoicesHandler(IInvoiceRepository invoiceRepository, IMapper mapper)
         {
             this.invoiceRepository = invoiceRepository;
             this.mapper = mapper;
@@ -20,7 +20,7 @@ namespace Application.Features.Queries.GetInvoices
 
         public async Task<List<GetInvoicesResponse>> Handle(GetInvoicesQuery request, CancellationToken cancellationToken)
         {
-            var invoices = invoiceRepository.GetList(null, x => x.Apartment);
+            var invoices = invoiceRepository.GetList(x => x.Apartment.User.Id == request.UserId, x => x.Apartment);
             return mapper.Map<List<GetInvoicesResponse>>(invoices);
         }
     }
