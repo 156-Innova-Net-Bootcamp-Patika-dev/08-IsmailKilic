@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Application.Features.Commands.Auth.Login;
+using Application.Features.Commands.Auth.UpdateUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,11 +35,13 @@ namespace WebAPI.Controllers
             return await mediator.Send(request);
         }
 
-        //[HttpPost]
-        //[Route("register")]
-        //public async Task<RegisterCommandResponse> Register(RegisterCommandRequest request)
-        //{
-        //    return await mediator.Send(request);
-        //}
+        [Authorize]
+        [HttpPut("update-user")]
+        public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request)
+        {
+            var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
+            request.Id = userId;
+            return await mediator.Send(request);
+        }
     }
 }
