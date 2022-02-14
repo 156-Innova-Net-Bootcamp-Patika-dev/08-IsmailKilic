@@ -23,12 +23,14 @@ namespace WebAPI.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<SendMessageResponse> CreateInvoice(SendMessageRequest request)
+        public async Task<SendMessageResponse> SendMessage(SendMessageRequest request)
         {
             return await mediator.Send(request);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<List<GetMessagesResponse>> GetMessages()
         {

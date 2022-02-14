@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ApartmentsController : ControllerBase
@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<CreateApartmentResponse> Register(CreateApartmentRequest request)
+        public async Task<CreateApartmentResponse> CreateApartment(CreateApartmentRequest request)
         {
             return await mediator.Send(request);
         }

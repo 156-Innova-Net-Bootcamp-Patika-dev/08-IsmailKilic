@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Application.Features.Commands.Invoices.CreateInvoice;
 using Application.Features.Queries.GetInvoices;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -18,12 +19,14 @@ namespace WebAPI.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<CreateInvoiceResponse> CreateInvoice(CreateInvoiceRequest request)
         {
             return await mediator.Send(request);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<List<GetInvoicesResponse>> GetInvoices()
         {
