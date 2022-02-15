@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using Application.Exceptions;
+using Application.Features.Events;
 using FluentValidation.AspNetCore;
 using Infrastructure.Attributes;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,20 @@ namespace Application
             });
             serviceCollection.AddMediatR(Assembly.GetExecutingAssembly());
             serviceCollection.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            serviceCollection.AddMassTransit(x =>
+            {
+                x.AddConsumer<PaymentCreatedConsumer>();
+
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+
+            serviceCollection.AddMassTransitHostedService();
 
         }
     }
