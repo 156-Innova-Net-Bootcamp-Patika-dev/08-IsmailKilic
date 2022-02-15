@@ -19,11 +19,19 @@ const ApartmentDetail = () => {
     }, [])
 
     useEffect(() => {
-        if (!data || data.invoices?.length === 0 || month < 1) return
+        if (!data || data.invoices?.length === 0) return
         month && filter("month", month)
+    }, [month])
+
+    useEffect(() => {
+        if (!data || data.invoices?.length === 0) return
         year && filter("year", year)
+    }, [year])
+
+    useEffect(() => {
+        if (!data || data.invoices?.length === 0) return
         invoiceType >= 0 && filter("invoiceType", invoiceType)
-    }, [month, year, invoiceType])
+    }, [invoiceType])
 
     const filter = (key, val) => {
         setfilteredInvoice(data.invoices?.filter(x => x[key] == val))
@@ -71,7 +79,7 @@ const ApartmentDetail = () => {
                     <select value={invoiceType} onChange={e => setInvoiceType(e.target.value)}>
                         <option value={-1}>Fatura tipini seçiniz...</option>
                         {
-                            invoiceTypes.map((type,index) => (
+                            invoiceTypes.map((type, index) => (
                                 <option key={index} value={index}>{type}</option>
                             ))
                         }
