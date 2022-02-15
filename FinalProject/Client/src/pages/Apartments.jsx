@@ -7,6 +7,8 @@ import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
 import Table from '../components/Table'
 import { toggleAptModal } from '../store/app'
 import axiosClient from '../utils/axiosClient'
+import IcSharpAdd from '../components/Icons/IcSharpAdd'
+import MdiDelete from '../components/Icons/MdiDelete'
 
 const Apartments = () => {
     const [data, setData] = useState([])
@@ -92,8 +94,12 @@ const Apartments = () => {
                             <td>{d.user?.userName}</td>
                             <td>
                                 {d.isFree ?
-                                    <button onClick={() => openAssignModal(d.id)} className='text-sm bg-green-600 button'>Kişi Ata</button>
-                                    : <button onClick={() => handleRemoveUser(d.id)} className='text-sm bg-red-600 button'>Kişiyi Kaldır</button>}
+                                    <button onClick={() => openAssignModal(d.id)} className='text-lg bg-green-600 button'>
+                                        <IcSharpAdd />
+                                    </button>
+                                    : <button onClick={() => handleRemoveUser(d.id)} className='text-lg bg-red-600 button'>
+                                        <MdiDelete />
+                                        </button>}
                                 <button onClick={() => openInvoiceModal(d.id)} className='ml-2 text-sm button'>Fatura Ekle</button>
                                 <button onClick={() => goDetail(d.id)} className='ml-2 text-sm button'>Detay</button>
                             </td>
