@@ -28,11 +28,24 @@ const Header = () => {
             <div className='flex-1'></div>
 
             <div className='relative mr-10 group'>
-                <span className='flex items-center cursor-pointer '>{user.userName}
+                <span className='flex items-center cursor-pointer'>{user.userName}
                     <MdiMenuDown />
                 </span>
 
-                <div className='absolute right-0 hidden p-2 text-white bg-gray-700 group-hover:flex flex-col min-w-[180px]'>
+                <div className='
+                absolute
+                shadow-2xl
+                shadow-black
+                rounded-md 
+                hidden
+                group-hover:flex
+                right-0 
+                p-2 
+                text-white 
+                bg-gray-700 
+                flex-col 
+                min-w-[180px]'
+                >
                     <Link to={"/profile"} className="flex p-1 hover:bg-gray-600" >Profil</Link>
                     <Link to={"/change-password"} className="flex p-1 hover:bg-gray-600" >Şifre Değiştir</Link>
                     <button onClick={handleLogout} className="flex p-1 hover:bg-gray-600" >Çıkış Yap</button>
