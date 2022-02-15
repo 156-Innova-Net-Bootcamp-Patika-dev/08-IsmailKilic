@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MassTransit;
+using PaymentAPI.Data;
+using Microsoft.Extensions.Options;
+using PaymentAPI.Services;
 
 namespace PaymentAPI
 {
@@ -33,6 +29,16 @@ namespace PaymentAPI
             });
 
             services.AddMassTransitHostedService();
+
+            services.AddScoped<IPaymentService, PaymentManager>();
+            services.AddScoped<IMongoDbSettings, MongoDbSettings>();
+            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+
+            //MongoDb
+            services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDbSettings"));
+
+            services.AddSingleton<IMongoDbSettings>(serviceProvider =>
+                serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

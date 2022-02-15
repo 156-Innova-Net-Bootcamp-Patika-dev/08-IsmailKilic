@@ -3,6 +3,7 @@ using MassTransit;
 using MessageContracts.Events;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PaymentAPI.Services;
 
 namespace PaymentAPI.Controllers
 {
@@ -10,21 +11,17 @@ namespace PaymentAPI.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly IPublishEndpoint publishEndpoint;
+        private readonly IPaymentService paymentService;
 
-        public PaymentsController(IPublishEndpoint publishEndpoint)
+        public PaymentsController(IPaymentService paymentService)
         {
-            this.publishEndpoint = publishEndpoint;
+            this.paymentService = paymentService;
         }
 
         [HttpPost]
         public async Task<ActionResult> Post(int value)
         {
-            await publishEndpoint.Publish<PaymentCreated>(new PaymentCreated
-            {
-                InvoiceId = value
-            });
-
+            await paymentService.CreatePayment(value);
             return Ok();
         }
     }
