@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axiosClient from '../utils/axiosClient'
+import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
 
 export const invoiceTypes = ["Aidat", "Elektrik", "Su", "Doğalgaz"]
 
@@ -11,6 +12,7 @@ const ApartmentDetail = () => {
     const [month, setMonth] = useState("")
     const [invoiceType, setInvoiceType] = useState(-1)
     const [filteredInvoice, setfilteredInvoice] = useState([])
+    const [showInvoiceModal, setShowInvoiceModal] = useState(false)
 
     useEffect(async () => {
         const res = await axiosClient.get(`apartments/${id}`)
@@ -35,6 +37,10 @@ const ApartmentDetail = () => {
 
     const filter = (key, val) => {
         setfilteredInvoice(data.invoices?.filter(x => x[key] == val))
+    }
+
+    const openInvoiceModal = () => {
+        setShowInvoiceModal(true)
     }
 
     return (
@@ -70,7 +76,13 @@ const ApartmentDetail = () => {
                 </div>
             </div>
 
-            <h3 className='my-4 text-xl'>Faturalar</h3>
+            <CreateInvoiceModal id={id} isOpen={showInvoiceModal} close={() => setShowInvoiceModal(false)} />
+
+            <div className='flex items-center'>
+                <h3 className='my-4 text-xl'>Faturalar</h3>
+                <button onClick={openInvoiceModal} className='h-10 ml-2 text-sm button'>Fatura Ekle</button>
+            </div>
+            
             <div>
                 <h4>Filtrele</h4>
                 <div className='flex space-x-2'>
