@@ -7,7 +7,7 @@ import VaadinClose from './Icons/VaadinClose'
 
 const Sidebar = () => {
     const { sidebarOpened } = useSelector(state => state.app)
-    const { roles, user } = useSelector(state => state.auth)
+    const { user,roles } = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
     const location = useLocation()

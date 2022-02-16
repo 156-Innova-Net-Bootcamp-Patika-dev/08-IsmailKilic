@@ -20,13 +20,12 @@ const Login = () => {
 
             localStorage.setItem("user", JSON.stringify({
                 token: res.data.token,
-                roles: res.data.roles,
             }));
 
             dispatch(loginSuccess(res.data))
             resetForm();
         } catch (err) {
-            alert(err.response.data.errors)
+            alert("Hatalı giriş")
         }
     }
 

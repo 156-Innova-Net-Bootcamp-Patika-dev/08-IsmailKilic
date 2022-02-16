@@ -5,6 +5,7 @@ import axiosClient from '../utils/axiosClient'
 import moment from 'moment/min/moment-with-locales';
 import MessageDetailModal from '../components/Modals/MessageDetailModal';
 import { updateUser } from '../store/auth'
+import MdiDelete from '../components/Icons/MdiDelete';
 
 moment.locale("tr")
 
@@ -91,7 +92,9 @@ const Messages = () => {
                 <p className='ml-3'>{tab === "inbox" ? msg.sender.userName : msg.receiver.userName}</p>
                 <p className='flex-1 w-0 mx-10 truncate'>{msg.content}</p>
                 <span className='group-hover:invisible'>{moment(msg.createdAt).format("lll")}</span>
-                <button className='invisible group-hover:visible'>Sil</button>
+                <button className='invisible group-hover:visible text-white rounded-full p-2 hover:bg-red-400 bg-red-600'>
+                  <MdiDelete />
+                </button>
               </li>
             ))
           }

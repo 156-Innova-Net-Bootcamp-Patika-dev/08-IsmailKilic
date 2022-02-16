@@ -26,12 +26,20 @@ const App = () => {
       dispatch(setAuth(true))
     } catch (error) {
       dispatch(setAuth(false))
+      localStorage.removeItem("user")
     }
   }, [])
 
 
   return (
     <div className="min-h-screen overflow-x-hidden flex font-mono bg-gradient-to-b from-[#bccde0] to-[#a3b1bb]">
+      {
+        authenticated === null &&
+        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden opacity-75 flex flex-col items-center justify-center">
+          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+          <h2 className="text-center text-white text-xl font-semibold">Yükleniyor...</h2>
+        </div>
+      }
       {
         authenticated &&
         <>

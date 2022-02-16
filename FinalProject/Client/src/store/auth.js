@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    roles: JSON.parse(localStorage.getItem("user"))?.roles || [],
     user: null,
-    token: JSON.parse(localStorage.getItem("user"))?.token || "",
-    authenticated: null
+    authenticated: null,
+    roles: []
 }
 
 export const authSlice = createSlice({
@@ -14,15 +13,14 @@ export const authSlice = createSlice({
         loginSuccess: (state, action) => {
             state.authenticated = true;
             state.user = action.payload.user;
-            state.roles = action.payload.roles;
+            state.roles = action.payload.user.roles;
         },
         updateUser: (state, action) => {
             state.user = action.payload;
         },
         logout: (state) => {
             state.authenticated = false;
-            state.roles = [];
-            state.user = {};
+            state.user = null;
             localStorage.removeItem("user");
         },
         setAuth: (state, action) => {
