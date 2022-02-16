@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Features.Commands.Auth.ChangePassword;
 using Application.Features.Commands.Auth.Login;
 using Application.Features.Commands.Auth.UpdateUser;
+using Application.Features.Queries.GetAuthenticatedUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,14 @@ namespace WebAPI.Controllers
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
             request.Id = userId;
             return await mediator.Send(request);
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<GetAuthenticatedUserResponse> GetAuthUser()
+        {
+            var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
+            return await mediator.Send(new GetAuthenticatedUserQuery() { Id = userId });
         }
     }
 }
