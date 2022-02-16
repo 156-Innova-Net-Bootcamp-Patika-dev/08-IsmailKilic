@@ -91,8 +91,8 @@ const Messages = () => {
                 <input type="checkbox" checked={msg.isRead} disabled />
                 <p className='ml-3 truncate w-14'>{tab === "inbox" ? msg.sender.userName : msg.receiver.userName}</p>
                 <p className='flex-1 w-0 mx-10 truncate'>{msg.content}</p>
-                <span className='group-hover:invisible'>{moment(msg.createdAt).format("lll")}</span>
-                <button className='invisible group-hover:visible text-white rounded-full p-2 hover:bg-red-400 bg-red-600'>
+                <span className='group-hover:invisible hidden md:block'>{moment(msg.createdAt).format("MMM DD H:mm")}</span>
+                <button className='hidden group-hover:block text-white rounded-full p-2 hover:bg-red-400 bg-red-600'>
                   <MdiDelete />
                 </button>
               </li>

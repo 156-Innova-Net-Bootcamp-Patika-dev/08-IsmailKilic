@@ -12,7 +12,7 @@ import Login from './pages/Login';
 import Messages from './pages/Messages';
 import Profile from './pages/Profile';
 import Users from './pages/Users';
-import { setAuth, updateUser } from './store/auth';
+import { setAuth, updateRoles, updateUser } from './store/auth';
 import axiosClient from './utils/axiosClient';
 
 const App = () => {
@@ -22,6 +22,7 @@ const App = () => {
   useEffect(async () => {
     try {
       const res = await axiosClient.get("auth/me")
+      dispatch(updateRoles(res.data))
       dispatch(updateUser(res.data))
       dispatch(setAuth(true))
     } catch (error) {

@@ -33,8 +33,12 @@ namespace Application.Features.Commands.Auth.UpdateUser
             user.LicenseNo = request.LicenseNo;
 
             await userManager.UpdateAsync(user);
-            
-            return mapper.Map<UpdateUserResponse>(user);
+
+            var newUser = mapper.Map<UpdateUserResponse>(user);
+            var userRoles = await userManager.GetRolesAsync(user);
+
+            newUser.Roles = userRoles;
+            return newUser;
         }
     }
 }

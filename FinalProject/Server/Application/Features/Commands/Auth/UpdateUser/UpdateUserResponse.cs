@@ -1,4 +1,6 @@
-﻿namespace Application.Features.Commands.Auth.UpdateUser
+﻿using System.Collections.Generic;
+
+namespace Application.Features.Commands.Auth.UpdateUser
 {
     public class UpdateUserResponse
     {
@@ -9,5 +11,6 @@
         public string PhoneNumber { get; set; }
         public string TCNo { get; set; }
         public string LicenseNo { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }
