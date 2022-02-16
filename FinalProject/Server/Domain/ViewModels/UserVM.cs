@@ -1,4 +1,6 @@
-﻿namespace Domain.ViewModels
+﻿using System.Collections.Generic;
+
+namespace Domain.ViewModels
 {
     public class UserVM
     {
@@ -10,5 +12,6 @@
         public string TCNo { get; set; }
         public string LicenseNo { get; set; }
         public int Unread { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

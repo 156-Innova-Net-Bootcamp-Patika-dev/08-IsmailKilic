@@ -65,11 +65,13 @@ namespace Application.Features.Commands.Auth.Login
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
 
+                var newUser = mapper.Map<UserVM>(user);
+                newUser.Roles = userRoles;
+
                 return new LoginCommandResponse
                 {
                     Token = new JwtSecurityTokenHandler().WriteToken(token),
-                    Roles = userRoles,
-                    User = mapper.Map<UserVM>(user),
+                    User = newUser,
                 };
             }
             throw new BadRequestException("Hatalı kullanıcı adı veya şifre");

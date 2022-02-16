@@ -1,4 +1,6 @@
-﻿namespace Application.Features.Queries.GetAuthenticatedUser
+﻿using System.Collections.Generic;
+
+namespace Application.Features.Queries.GetAuthenticatedUser
 {
     public class GetAuthenticatedUserResponse
     {
@@ -10,5 +12,6 @@
         public string TCNo { get; set; }
         public string LicenseNo { get; set; }
         public int Unread { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

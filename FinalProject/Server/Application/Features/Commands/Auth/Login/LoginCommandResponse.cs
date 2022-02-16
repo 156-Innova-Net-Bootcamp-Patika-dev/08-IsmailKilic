@@ -7,7 +7,6 @@ namespace Application.Features.Commands.Auth.Login
     {
         public string Token { get; set; }
         public string Message { get; set; }
-        public IList<string> Roles { get; set; }
         public UserVM User { get; set; }
     }
 }

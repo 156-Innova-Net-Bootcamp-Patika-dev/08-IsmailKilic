@@ -27,8 +27,11 @@ namespace Application.Features.Queries.GetAuthenticatedUser
         {
             var user = await userManager.FindByIdAsync(request.Id);
             if (user == null) throw new NotFoundException("Kullanıcı bulunamadı");
-
-            return mapper.Map<GetAuthenticatedUserResponse>(user);
+            var userRoles = await userManager.GetRolesAsync(user);
+            
+            var returnedData = mapper.Map<GetAuthenticatedUserResponse>(user);
+            returnedData.Roles = userRoles;
+            return returnedData;
         }
     }
 }
