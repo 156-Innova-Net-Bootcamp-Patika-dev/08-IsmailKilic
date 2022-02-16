@@ -8,6 +8,7 @@ import { updateUser } from '../store/auth';
 const Profile = () => {
 	const { user } = useSelector(state => state.auth)
 	const dispatch = useDispatch()
+	console.log(user);
 
 	const handleUpdate = async (values) => {
 		try {
@@ -19,13 +20,15 @@ const Profile = () => {
 		}
 	}
 
+	if(!user) return null
+
 	return (
 		<Formik
 			initialValues={{
-				fullName: user.fullName || "",
-				phoneNumber: user.phoneNumber || "",
-				tcNo: user.tcNo || "",
-				licenseNo: user.licenseNo || "",
+				fullName: user ? user.fullName : "",
+				phoneNumber: user ? user.phoneNumber : "",
+				tcNo: user ? user.tcNo : "",
+				licenseNo: user ? user.licenseNo : "",
 			}}
 			enableReinitialize={true}
 			onSubmit={(values, { resetForm }) => {
