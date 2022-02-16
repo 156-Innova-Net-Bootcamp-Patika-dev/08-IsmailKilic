@@ -9,4 +9,5 @@
   <li>Mesaj gönderme, listeleme</li>
   <li>Kullanıcı bilgileri güncelleme, şifre değiştirme</li>
   <li>Kullanıcıya ait apartman ve ödenmemiş faturaları gösterme</li>
+  <li>Okunmamış mesaj sayısını gösterme</li>
 </ul>
