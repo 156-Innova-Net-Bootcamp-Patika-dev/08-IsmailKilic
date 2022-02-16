@@ -10,6 +10,7 @@ using Application.Features.Queries.GetAuthenticatedUser;
 using Application.Features.Queries.GetInvoicesByUser;
 using Application.Features.Queries.GetMessages;
 using Application.Features.Queries.GetUsers;
+using Application.Features.Queries.ReadMessage;
 using AutoMapper;
 using Domain.Entities;
 using Domain.ViewModels;
@@ -42,6 +43,7 @@ namespace Application.Mapping
 
             CreateMap<Message, SendMessageResponse>();
             CreateMap<Message, GetMessagesResponse>();
+            CreateMap<Message, ReadMessageResponse>();
         }
     }
 }
