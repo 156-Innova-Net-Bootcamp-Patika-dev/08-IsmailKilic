@@ -87,7 +87,7 @@ const Apartments = () => {
                             <td>{d.floor}</td>
                             <td>{d.type}</td>
                             <td>{d.user?.userName}</td>
-                            <td>
+                            <td className='flex items-center'>
                                 {d.isFree ?
                                     <button onClick={() => openAssignModal(d.id)} className='text-lg bg-green-600 button'>
                                         <IcSharpAdd />

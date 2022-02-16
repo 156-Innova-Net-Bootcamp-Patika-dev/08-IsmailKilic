@@ -63,7 +63,7 @@ const ApartmentDetail = () => {
                         data?.user ?
                             <div>
                                 <ul>
-                                    <li>Ad Soyad: {data?.user?.fullname}</li>
+                                    <li>Ad Soyad: {data?.user?.fullName}</li>
                                     <li>Kullanıcı Adı: {data?.user?.userName}</li>
                                     <li>Email: {data?.user?.email}</li>
                                     <li>Telefon No: {data?.user?.phoneNumber}</li>
