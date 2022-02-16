@@ -10,6 +10,7 @@ namespace Domain.Entities
         public string FullName { get; set; }
         public string TCNo { get; set; }
         public string LicenseNo { get; set; }
+        public int Unread { get; set; }
 
         public IEnumerable<Apartment> Apartments { get; set; }
         [InverseProperty("Sender")]

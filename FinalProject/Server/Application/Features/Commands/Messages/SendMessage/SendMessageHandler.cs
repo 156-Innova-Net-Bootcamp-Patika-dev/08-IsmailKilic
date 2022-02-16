@@ -33,6 +33,9 @@ namespace Application.Features.Commands.Messages.SendMessage
             // Check if receiver exist
             var receiver = await userManager.FindByIdAsync(request.ReceiverId);
             if (receiver == null) throw new BadRequestException("Alıcı kullanıcı bulunamadı");
+            receiver.Unread++;
+
+            await userManager.UpdateAsync(receiver);
 
             var message = new Message
             {

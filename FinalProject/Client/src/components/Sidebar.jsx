@@ -7,7 +7,7 @@ import VaadinClose from './Icons/VaadinClose'
 
 const Sidebar = () => {
     const { sidebarOpened } = useSelector(state => state.app)
-    const { roles } = useSelector(state => state.auth)
+    const { roles, user } = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
     const location = useLocation()
@@ -22,7 +22,7 @@ const Sidebar = () => {
         if (isInitialMount.current) {
             isInitialMount.current = false
         } else {
-            if(sidebarOpened)
+            if (sidebarOpened)
                 toggle()
         }
     }, [location.pathname])
@@ -32,7 +32,7 @@ const Sidebar = () => {
         { name: "Ana Sayfa", href: "/", admin: false },
         { name: "Daireler", href: "/apartments", admin: true },
         { name: "Kişiler", href: "/users", admin: true },
-        { name: "Mesajlar", href: "/messages", admin: false },
+        { name: `Mesajlar (${user.unread})`, href: "/messages", admin: false },
     ]
 
     return (
