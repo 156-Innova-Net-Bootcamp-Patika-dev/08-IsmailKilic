@@ -87,9 +87,9 @@ const Messages = () => {
               <li
                 onClick={() => openMessageDetail(msg.id)}
                 key={msg.id}
-                className={`${msg.isRead ? "bg-gray-200 border-white" : "bg-gray-50"} hover:py-4 w-full py-2.5 group items-center flex-1 border-y flex px-3 cursor-pointer`}>
+                className={`${msg.isRead ? "bg-gray-300 border-white" : "bg-gray-50"} h-8 hover:py-4 w-full py-2.5 group items-center flex-1 border-y flex px-3 cursor-pointer`}>
                 <input type="checkbox" checked={msg.isRead} disabled />
-                <p className='ml-3'>{tab === "inbox" ? msg.sender.userName : msg.receiver.userName}</p>
+                <p className='ml-3 truncate w-14'>{tab === "inbox" ? msg.sender.userName : msg.receiver.userName}</p>
                 <p className='flex-1 w-0 mx-10 truncate'>{msg.content}</p>
                 <span className='group-hover:invisible'>{moment(msg.createdAt).format("lll")}</span>
                 <button className='invisible group-hover:visible text-white rounded-full p-2 hover:bg-red-400 bg-red-600'>
