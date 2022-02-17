@@ -35,7 +35,7 @@ namespace Application
 
             serviceCollection.AddMassTransit(x =>
             {
-                x.AddConsumer<PaymentCreatedConsumer>();
+                x.AddConsumersFromNamespaceContaining<PaymentCreatedConsumer>();
 
                 x.SetKebabCaseEndpointNameFormatter();
 
@@ -46,7 +46,6 @@ namespace Application
             });
 
             serviceCollection.AddMassTransitHostedService();
-
         }
     }
 }

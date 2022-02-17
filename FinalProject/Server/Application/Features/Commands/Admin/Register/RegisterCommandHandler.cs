@@ -3,7 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Exceptions;
 using Domain.Entities;
+using MassTransit;
 using MediatR;
+using MessageContracts.Events;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Features.Commands.Admin.Register
@@ -11,10 +13,13 @@ namespace Application.Features.Commands.Admin.Register
     public class RegisterCommandHandler : IRequestHandler<RegisterCommandRequest, RegisterCommandResponse>
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager)
+
+        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, IPublishEndpoint publishEndpoint)
         {
             this.userManager = userManager;
+            this.publishEndpoint = publishEndpoint;
         }
 
         public async Task<RegisterCommandResponse> Handle(RegisterCommandRequest request, CancellationToken cancellationToken)
@@ -44,6 +49,14 @@ namespace Application.Features.Commands.Admin.Register
                 throw new Exception(result.ToString());
 
             await userManager.AddToRoleAsync(user, request.Role);
+
+            // publish an event
+            _ = publishEndpoint.Publish(new UserCreated
+            {
+                UserId = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+            });
 
             return new RegisterCommandResponse
             {

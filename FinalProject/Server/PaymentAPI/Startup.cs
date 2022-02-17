@@ -8,6 +8,7 @@ using MassTransit;
 using PaymentAPI.Data;
 using Microsoft.Extensions.Options;
 using PaymentAPI.Services;
+using PaymentAPI.Consumers;
 
 namespace PaymentAPI
 {
@@ -25,7 +26,14 @@ namespace PaymentAPI
         {
             services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq();
+                x.AddConsumersFromNamespaceContaining<UserCreatedConsumer>();
+
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ConfigureEndpoints(context);
+                });
             });
 
             services.AddMassTransitHostedService();
