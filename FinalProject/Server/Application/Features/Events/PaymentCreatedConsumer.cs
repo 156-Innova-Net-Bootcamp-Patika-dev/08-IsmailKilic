@@ -1,22 +1,25 @@
 ﻿using System.Threading.Tasks;
+using Application.Interfaces.Repositories;
 using MassTransit;
 using MessageContracts.Events;
-using Microsoft.Extensions.Logging;
 
 namespace Application.Features.Events
 {
     public class PaymentCreatedConsumer : IConsumer<PaymentCreated>
     {
-        ILogger<PaymentCreatedConsumer> _logger;
+        private readonly IInvoiceRepository invoiceRepository;
 
-        public PaymentCreatedConsumer(ILogger<PaymentCreatedConsumer> logger)
+        public PaymentCreatedConsumer(IInvoiceRepository invoiceRepository)
         {
-            _logger = logger;
+            this.invoiceRepository = invoiceRepository;
         }
 
         public async Task Consume(ConsumeContext<PaymentCreated> context)
         {
-            _logger.LogInformation("Value: {Value}", context.Message.InvoiceId);
+            var invoice = invoiceRepository.Get(x => x.Id == context.Message.InvoiceId);
+            invoice.IsPaid = true;
+
+            await invoiceRepository.Update(invoice);
         }
     }
 }
