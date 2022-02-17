@@ -1,9 +1,6 @@
-﻿using PaymentAPI.Data;
-
-namespace PaymentAPI.Models
+﻿namespace PaymentAPI.Models.Dtos
 {
-    [BsonCollection("payments")]
-    public class Payment : IEntity
+    public class CreatePaymentDto
     {
         public int InvoiceId { get; set; }
         public int ApartmentId { get; set; }

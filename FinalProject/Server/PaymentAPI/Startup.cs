@@ -9,6 +9,9 @@ using PaymentAPI.Data;
 using Microsoft.Extensions.Options;
 using PaymentAPI.Services;
 using PaymentAPI.Consumers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace PaymentAPI
 {
@@ -38,9 +41,32 @@ namespace PaymentAPI
 
             services.AddMassTransitHostedService();
 
+            services.AddCors();
+
             services.AddScoped<IPaymentService, PaymentManager>();
             services.AddScoped<IMongoDbSettings, MongoDbSettings>();
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            // Adding Jwt Bearer  
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["JWT:ValidAudience"],
+                    ValidIssuer = Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                };
+            });
 
             //MongoDb
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDbSettings"));
@@ -65,10 +91,16 @@ namespace PaymentAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PaymentAPI v1"));
             }
 
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

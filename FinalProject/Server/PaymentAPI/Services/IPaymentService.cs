@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using PaymentAPI.Models.Dtos;
 
 namespace PaymentAPI.Services
 {
     public interface IPaymentService
     {
-        Task CreatePayment(int value);
+        Task CreatePayment(CreatePaymentDto dto);
     }
 }

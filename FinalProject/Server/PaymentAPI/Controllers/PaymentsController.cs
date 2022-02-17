@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using MassTransit;
 using MessageContracts.Events;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PaymentAPI.Models.Dtos;
 using PaymentAPI.Services;
 
 namespace PaymentAPI.Controllers
@@ -18,10 +22,14 @@ namespace PaymentAPI.Controllers
             this.paymentService = paymentService;
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Post(int value)
+        public async Task<ActionResult> Post(CreatePaymentDto dto)
         {
-            await paymentService.CreatePayment(value);
+            var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
+            dto.UserId = userId;
+
+            await paymentService.CreatePayment(dto);
             return Ok();
         }
     }
