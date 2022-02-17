@@ -57,6 +57,8 @@ const Login = () => {
                         className="text-white field-error"
                     />
 
+                    <div className='text-center mt-3'>Varsayılan şifre: User*123.</div>
+                    <div className='text-center mb-3'>İlk girişte şifrenizi değiştirmeyi unutmayın</div>
                     <button type='submit' className='w-full py-2 text-white rounded-sm bg-emerald-600 hover:bg-emerald-800'>Giriş Yap</button>
                 </Form>
             )}

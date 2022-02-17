@@ -41,8 +41,8 @@ namespace Application.Features.Commands.Admin.Register
                 LicenseNo = request.LicenseNo
             };
 
-            // burada rastgele şifre oluşturulup mail ile kullanıcıya gönderilecek
-            var password = "Admin*123";
+            // varsayılan şifre
+            var password = "User*123";
             var result = await userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)
