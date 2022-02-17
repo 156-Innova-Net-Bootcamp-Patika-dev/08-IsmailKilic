@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import Messages from './pages/Messages';
 import MyPayments from './pages/MyPayments';
 import Profile from './pages/Profile';
+import UserPayments from './pages/UserPayments';
 import Users from './pages/Users';
 import { setAuth, updateRoles, updateUser } from './store/auth';
 import axiosClient from './utils/axiosClient';
@@ -60,6 +61,7 @@ const App = () => {
                     <Route path="/apartments" element={<Apartments />} />
                     <Route path="/apartments/:id" element={<ApartmentDetail />} />
                     <Route path="/users" element={<Users />} />
+                    <Route path="/payments" element={<UserPayments />} />
                   </>
                 }
                 {

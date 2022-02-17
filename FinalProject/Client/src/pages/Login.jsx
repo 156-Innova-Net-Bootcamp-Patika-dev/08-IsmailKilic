@@ -40,7 +40,7 @@ const Login = () => {
                 handleLogin(values, resetForm);
             }}>
             {({ errors, touched }) => (
-                <Form>
+                <Form className='translate-y-1/2'>
                     <h1 className='mb-10 text-2xl font-semibold text-center uppercase'>Giriş Yap</h1>
 
                     <Field className='input' name="username" placeholder="Kullanıcı Adı" type="text" />

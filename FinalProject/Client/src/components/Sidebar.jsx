@@ -32,7 +32,7 @@ const Sidebar = () => {
         { name: "Ana Sayfa", href: "/", admin: false },
         { name: "Daireler", href: "/apartments", admin: true },
         { name: "Kişiler", href: "/users", admin: true },
-        { name: "Ödemelerim", href: "/payments", admin: false },
+        { name: "Ödemeler", href: "/payments", admin: false },
         { name: `Mesajlar (${user.unread})`, href: "/messages", admin: false },
     ]
 

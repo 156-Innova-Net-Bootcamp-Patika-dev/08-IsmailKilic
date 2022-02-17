@@ -28,18 +28,18 @@ const columns = [
     },
 ];
 
-const MyPayments = () => {
+const UserPayments = () => {
     const [payments, setPayments] = useState([])
 
     useEffect(async () => {
-        const res = await axiosClient.get(`${import.meta.env.VITE_APP_PAYMENT_API}payments`);
+        const res = await axiosClient.get(`${import.meta.env.VITE_APP_PAYMENT_API}payments/all`);
         setPayments(res.data);
     }, [])
 
 
     return (
         <div className='max-w-5xl mx-auto pt-10'>
-            <h2 className='text-xl uppercase my-5'>Ödemelerim</h2>
+            <h2 className='text-xl uppercase my-5'>son Ödemeler</h2>
 
             <MyDataTable
                 columns={columns}
@@ -48,4 +48,4 @@ const MyPayments = () => {
     )
 }
 
-export default MyPayments
+export default UserPayments
