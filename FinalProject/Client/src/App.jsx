@@ -10,6 +10,7 @@ import ChangePassword from './pages/ChangePassword';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Messages from './pages/Messages';
+import MyPayments from './pages/MyPayments';
 import Profile from './pages/Profile';
 import Users from './pages/Users';
 import { setAuth, updateRoles, updateUser } from './store/auth';
@@ -59,6 +60,12 @@ const App = () => {
                     <Route path="/apartments" element={<Apartments />} />
                     <Route path="/apartments/:id" element={<ApartmentDetail />} />
                     <Route path="/users" element={<Users />} />
+                  </>
+                }
+                {
+                  roles.includes("User") &&
+                  <>
+                    <Route path="/payments" element={<MyPayments />} />
                   </>
                 }
               </Routes>

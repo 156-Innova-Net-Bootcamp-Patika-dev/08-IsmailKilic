@@ -24,7 +24,7 @@ const Invoices = ({ invoices }) => {
 
         const cardNumber = paymentResponse.details.cardNumber
         try {
-            const res = await axiosClient.post("https://localhost:5003/api/payments", {
+            const res = await axiosClient.post(`${import.meta.env.VITE_APP_PAYMENT_API}payments`, {
                 invoiceId: item.id,
                 apartmentId: item.apartment.id,
                 last4Number: cardNumber.slice(cardNumber.length - 4),

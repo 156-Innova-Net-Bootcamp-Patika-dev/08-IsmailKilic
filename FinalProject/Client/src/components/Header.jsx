@@ -38,6 +38,7 @@ const Header = () => {
                 shadow-black
                 rounded-md 
                 hidden
+                z-50
                 group-hover:flex
                 right-0 
                 p-2 
