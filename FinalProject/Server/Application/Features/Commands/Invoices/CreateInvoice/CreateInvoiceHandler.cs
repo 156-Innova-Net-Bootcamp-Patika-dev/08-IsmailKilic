@@ -6,6 +6,8 @@ using AutoMapper;
 using Domain.Entities;
 using System;
 using Application.Exceptions;
+using MassTransit;
+using MessageContracts.Events;
 
 namespace Application.Features.Commands.Invoices.CreateInvoice
 {
@@ -14,13 +16,15 @@ namespace Application.Features.Commands.Invoices.CreateInvoice
         private readonly IInvoiceRepository invoiceRepository;
         private readonly IMapper mapper;
         private readonly IAparmentRepository aparmentRepository;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public CreateInvoiceHandler(IInvoiceRepository invoiceRepository,IMapper mapper,
-            IAparmentRepository aparmentRepository)
+        public CreateInvoiceHandler(IInvoiceRepository invoiceRepository, IMapper mapper,
+            IAparmentRepository aparmentRepository, IPublishEndpoint publishEndpoint)
         {
             this.invoiceRepository = invoiceRepository;
             this.mapper = mapper;
             this.aparmentRepository = aparmentRepository;
+            this.publishEndpoint = publishEndpoint;
         }
 
         public async Task<CreateInvoiceResponse> Handle(CreateInvoiceRequest request, CancellationToken cancellationToken)
@@ -32,7 +36,7 @@ namespace Application.Features.Commands.Invoices.CreateInvoice
             if (existedInvoice != null) throw new BadRequestException("Bu fatura daha önce eklenmiş");
 
             // Check if apartment existed
-            var apartment = aparmentRepository.Get(x=>x.Id == request.ApartmentId);
+            var apartment = aparmentRepository.Get(x => x.Id == request.ApartmentId);
             if (apartment == null) throw new BadRequestException("Daire bulunamadı");
 
             var invoice = mapper.Map<Invoice>(request);
@@ -40,6 +44,16 @@ namespace Application.Features.Commands.Invoices.CreateInvoice
             invoice.IsPaid = false;
 
             var newInvoice = await invoiceRepository.Add(invoice);
+            
+            // publish an event
+            _ = publishEndpoint.Publish(new InvoiceCreated
+            {
+                InvoiceId = newInvoice.Id,
+                ApartmentId = newInvoice.Apartment.Id,
+                Month = newInvoice.Month,
+                Year = newInvoice.Year,
+                InvoiceType = (int)newInvoice.InvoiceType,
+            });
             return mapper.Map<CreateInvoiceResponse>(newInvoice);
         }
     }
