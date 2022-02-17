@@ -9,5 +9,6 @@ namespace PaymentAPI.Services
     {
         Task CreatePayment(CreatePaymentDto dto);
         List<Payment> GetPaymentsByUser(string userId);
+        List<Payment> GetAllPayments();
     }
 }

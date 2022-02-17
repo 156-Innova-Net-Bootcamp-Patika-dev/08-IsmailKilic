@@ -40,5 +40,12 @@ namespace PaymentAPI.Controllers
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
             return Ok(paymentService.GetPaymentsByUser(userId));
         }
+
+        [Authorize]
+        [HttpGet("all")]
+        public IActionResult GetAllPayments()
+        {
+            return Ok(paymentService.GetAllPayments());
+        }
     }
 }

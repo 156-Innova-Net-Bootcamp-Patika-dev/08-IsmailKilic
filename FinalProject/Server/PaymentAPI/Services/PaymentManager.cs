@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using MessageContracts.Events;
+using MongoDB.Driver;
 using PaymentAPI.Data;
 using PaymentAPI.Models;
 using PaymentAPI.Models.Dtos;
@@ -72,6 +73,12 @@ namespace PaymentAPI.Services
         public List<Payment> GetPaymentsByUser(string userId)
         {
             var payments = paymentRepository.FilterBy(x => x.UserId == userId).ToList();
+            return payments;
+        }
+
+        public List<Payment> GetAllPayments()
+        {
+            var payments = paymentRepository.AsQueryable().ToList();
             return payments;
         }
     }
