@@ -1,14 +1,31 @@
 import React from 'react'
-import { useState } from 'react';
 import { invoiceTypes } from '../pages/ApartmentDetail';
-import PaymentModal from './Modals/PaymentModal';
 
 const Invoices = ({ invoices }) => {
-    const [show, setShow] = useState(false)
+    const paymentMethods = [{
+        supportedMethods: ['basic-card']
+    }];
+    
+    async function satinAl(item) {
+        const paymentDetails = {
+            total: {
+                label: 'Toplam',
+                amount: {
+                    currency: 'TRY',
+                    value: parseFloat(item.price)
+                }
+            }
+        };
+
+        const request = new PaymentRequest(paymentMethods, paymentDetails);
+        const paymentResponse = await request.show();
+        await paymentResponse.complete();
+
+        console.log(paymentResponse);
+    }
 
     return (
         <div className='p-2 bg-gray-700 grow'>
-            <PaymentModal isOpen={show} close={() => setShow(false)} />
 
             <h2 className='text-lg'>Faturalarım</h2>
             {
@@ -22,7 +39,7 @@ const Invoices = ({ invoices }) => {
                             </ul>
 
                             <button
-                                onClick={() => setShow(true)}
+                                onClick={()=>satinAl(item)}
                                 className='inline h-10 px-3 text-gray-700 bg-white rounded-sm hover:bg-gray-200'>
                                 Ödeme Yap
                             </button>
