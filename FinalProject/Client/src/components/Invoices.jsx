@@ -1,11 +1,12 @@
 import React from 'react'
 import { invoiceTypes } from '../pages/ApartmentDetail';
+import axiosClient from '../utils/axiosClient';
 
 const Invoices = ({ invoices }) => {
     const paymentMethods = [{
         supportedMethods: ['basic-card']
     }];
-    
+
     async function satinAl(item) {
         const paymentDetails = {
             total: {
@@ -21,7 +22,18 @@ const Invoices = ({ invoices }) => {
         const paymentResponse = await request.show();
         await paymentResponse.complete();
 
-        console.log(paymentResponse);
+        const cardNumber = paymentResponse.details.cardNumber
+        try {
+            const res = await axiosClient.post("https://localhost:5003/api/payments", {
+                invoiceId: item.id,
+                apartmentId: item.apartment.id,
+                last4Number: cardNumber.slice(cardNumber.length - 4),
+                price: item.price
+            })
+            alert("Ödeme başarılı");
+        } catch (err) {
+
+        }
     }
 
     return (
@@ -39,7 +51,7 @@ const Invoices = ({ invoices }) => {
                             </ul>
 
                             <button
-                                onClick={()=>satinAl(item)}
+                                onClick={() => satinAl(item)}
                                 className='inline h-10 px-3 text-gray-700 bg-white rounded-sm hover:bg-gray-200'>
                                 Ödeme Yap
                             </button>

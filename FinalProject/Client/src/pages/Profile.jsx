@@ -8,7 +8,6 @@ import { updateUser } from '../store/auth';
 const Profile = () => {
 	const { user } = useSelector(state => state.auth)
 	const dispatch = useDispatch()
-	console.log(user);
 
 	const handleUpdate = async (values) => {
 		try {
