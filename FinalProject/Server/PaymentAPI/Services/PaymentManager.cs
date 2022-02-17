@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using MessageContracts.Events;
@@ -65,6 +67,12 @@ namespace PaymentAPI.Services
             user.Balance -= dto.Price;
             await userRepository.ReplaceOneAsync(user);
             await paymentRepository.InsertOneAsync(payment);
+        }
+
+        public List<Payment> GetPaymentsByUser(string userId)
+        {
+            var payments = paymentRepository.FilterBy(x => x.UserId == userId).ToList();
+            return payments;
         }
     }
 }

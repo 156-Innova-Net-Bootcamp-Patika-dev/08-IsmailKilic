@@ -32,5 +32,13 @@ namespace PaymentAPI.Controllers
             await paymentService.CreatePayment(dto);
             return Ok();
         }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetPaymentsByUser()
+        {
+            var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
+            return Ok(paymentService.GetPaymentsByUser(userId));
+        }
     }
 }
