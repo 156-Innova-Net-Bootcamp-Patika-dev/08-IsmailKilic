@@ -34,7 +34,7 @@ const App = () => {
 
 
   return (
-    <div className="min-h-screen overflow-x-hidden flex font-mono bg-gradient-to-b from-[#bccde0] to-[#a3b1bb]">
+    <div className="min-h-screen overflow-x-hidden font-mono bg-gradient-to-b from-[#bccde0] to-[#a3b1bb]">
       {
         authenticated === null &&
         <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden opacity-75 flex flex-col items-center justify-center">

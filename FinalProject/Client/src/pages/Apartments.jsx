@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import AddApartmentModal from '../components/Modals/AddApartmentModal'
 import AssignUserModal from '../components/Modals/AssignUserModal'
-import Table from '../components/Table'
 import { toggleAptModal } from '../store/app'
 import axiosClient from '../utils/axiosClient'
 import IcSharpAdd from '../components/Icons/IcSharpAdd'
 import MdiDelete from '../components/Icons/MdiDelete'
+import MyDataTable from '../components/MyDataTable'
 
 const Apartments = () => {
     const [data, setData] = useState([])
@@ -33,7 +33,7 @@ const Apartments = () => {
 
     const handleRemoveUser = async (id) => {
         let conf = confirm("Bu daireyi boşaltmak istediğinize emin misiniz?")
-        if(!conf) return 
+        if (!conf) return
 
         try {
             const res = await axiosClient.post("apartments/remove-user", {
@@ -60,15 +60,37 @@ const Apartments = () => {
         setData([...data, newData]);
     }
 
-    const titles = ["Id", "Daire No", "Blok", "Durum", "Kat", "Tip", "Sahibi", ""]
-
     const goDetail = (id) => {
         navigate(`/apartments/${id}`);
     }
 
+    const columns = [
+        { name: 'Id', selector: row => row.id, maxWidth: '10px' },
+        { name: 'Daire No', selector: row => row.no, maxWidth: '10px' },
+        { name: 'Blok', selector: row => row.block, },
+        { name: 'Durum', selector: row => row.isFree ? 'Boş' : 'Dolu', },
+        { name: 'Kat', selector: row => row.floor, },
+        { name: 'Tip', selector: row => row.type, },
+        { name: 'Sahibi', selector: row => row.user?.userName, },
+        {
+            name: '', minWidth: '150px',
+            selector: row =>
+                <div className='flex items-center'>
+                    {row.isFree ?
+                        <button onClick={() => openAssignModal(row.id)} className='text-lg bg-green-600 button'>
+                            <IcSharpAdd />
+                        </button>
+                        : <button onClick={() => handleRemoveUser(row.id)} className='text-lg bg-red-600 button'>
+                            <MdiDelete />
+                        </button>}
+                    <button onClick={() => goDetail(row.id)} className='ml-2 text-sm button'>Detay</button>
+                </div>,
+        },
+    ];
+
     return (
         <div className='w-full mx-auto md:w-5/6'>
-            <div className='flex justify-between mt-5'>
+            <div className='flex justify-between my-5'>
                 <h2 className='text-xl uppercase'>Daireler</h2>
                 <button onClick={openModal} className='button'>Yeni Daire Ekle</button>
             </div>
@@ -76,31 +98,10 @@ const Apartments = () => {
             <AddApartmentModal addData={addData} />
             <AssignUserModal updateData={updateData} isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
 
-            <Table titles={titles} >
-                {
-                    data.map((d, index) => (
-                        <tr key={index} className='h-10 cursor-pointer hover:-translate-x-1 odd:bg-white odd:text-gray-700 even:bg-[#F3F3F3]'>
-                            <td>{d.id}</td>
-                            <td>{d.no}</td>
-                            <td>{d.block}</td>
-                            <td>{d.isFree ? "Boş" : "Dolu"}</td>
-                            <td>{d.floor}</td>
-                            <td>{d.type}</td>
-                            <td>{d.user?.userName}</td>
-                            <td className='flex items-center'>
-                                {d.isFree ?
-                                    <button onClick={() => openAssignModal(d.id)} className='text-lg bg-green-600 button'>
-                                        <IcSharpAdd />
-                                    </button>
-                                    : <button onClick={() => handleRemoveUser(d.id)} className='text-lg bg-red-600 button'>
-                                        <MdiDelete />
-                                        </button>}
-                                <button onClick={() => goDetail(d.id)} className='ml-2 text-sm button'>Detay</button>
-                            </td>
-                        </tr>
-                    ))
-                }
-            </Table>
+            <MyDataTable
+                columns={columns}
+                data={data}
+            />
         </div>
     )
 }

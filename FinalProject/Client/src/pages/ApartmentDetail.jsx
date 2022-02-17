@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axiosClient from '../utils/axiosClient'
 import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
+import MyDataTable from '../components/MyDataTable';
 
 export const invoiceTypes = ["Aidat", "Elektrik", "Su", "Doğalgaz"]
 
@@ -43,6 +44,14 @@ const ApartmentDetail = () => {
         setShowInvoiceModal(true)
     }
 
+    const columns = [
+        { name: 'Id', selector: row => row.id, maxWidth: '10px' },
+        { name: 'Fatura Tipi', selector: row => invoiceTypes[row.invoiceType], },
+        { name: 'Dönem', selector: row => `${row.month}/${row.year}`, },
+        { name: 'Fiyat', selector: row => row.price + ' TL', },
+        { name: 'Ödendi', selector: row => row.isPaid ? 'Evet' : 'Hayır' },
+    ];
+
     return (
         <div>
             {/* apartment infos */}
@@ -78,41 +87,31 @@ const ApartmentDetail = () => {
 
             <CreateInvoiceModal id={id} isOpen={showInvoiceModal} close={() => setShowInvoiceModal(false)} />
 
-            <div className='flex items-center'>
-                <h3 className='my-4 text-xl'>Faturalar</h3>
-                <button onClick={openInvoiceModal} className='h-10 ml-2 text-sm button'>Fatura Ekle</button>
-            </div>
-            
-            <div>
-                <h4>Filtrele</h4>
-                <div className='flex space-x-2'>
-                    <input min={2000} max={2022} value={year} type="number" onChange={e => setYear(e.target.value)} className='px-2' placeholder='Yıl' />
-                    <input min={1} max={12} value={month} type="number" onChange={e => setMonth(e.target.value)} className='px-2' placeholder='Ay' />
-                    <select value={invoiceType} onChange={e => setInvoiceType(e.target.value)}>
-                        <option value={-1}>Fatura tipini seçiniz...</option>
-                        {
-                            invoiceTypes.map((type, index) => (
-                                <option key={index} value={index}>{type}</option>
-                            ))
-                        }
-                    </select>
+            <div className='max-w-5xl mx-auto'>
+                <div className='flex items-center'>
+                    <h3 className='my-4 text-xl'>Faturalar</h3>
+                    <button onClick={openInvoiceModal} className='h-10 ml-2 text-sm button'>Fatura Ekle</button>
                 </div>
-            </div>
 
-            <div>
-                <ul>
-                    {
-                        filteredInvoice?.map(item => (
-                            <li key={item.id} className="flex flex-col p-2 mt-2 bg-white rounded-sm">
-                                <span>Fatura Tipi: {invoiceTypes[item.invoiceType]}</span>
-                                <span>Yıl: {item.year}</span>
-                                <span>Ay: {item.month}</span>
-                                <span>Fiyat: {item.price}</span>
-                                <span>Ödendi: {item.isPaid ? "Evet" : "Hayır"}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
+                <div className='mb-4'>
+                    <h4>Filtrele</h4>
+                    <div className='flex space-x-2'>
+                        <input min={2000} max={2022} value={year} type="number" onChange={e => setYear(e.target.value)} className='px-2' placeholder='Yıl' />
+                        <input min={1} max={12} value={month} type="number" onChange={e => setMonth(e.target.value)} className='px-2' placeholder='Ay' />
+                        <select value={invoiceType} onChange={e => setInvoiceType(e.target.value)}>
+                            <option value={-1}>Fatura tipini seçiniz...</option>
+                            {
+                                invoiceTypes.map((type, index) => (
+                                    <option key={index} value={index}>{type}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <MyDataTable
+                    columns={columns}
+                    data={filteredInvoice} />
             </div>
 
         </div>
