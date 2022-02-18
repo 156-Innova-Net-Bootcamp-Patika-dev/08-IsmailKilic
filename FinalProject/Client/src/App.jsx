@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route } from "react-router-dom";
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import AdminHome from './pages/AdminHome';
 import ApartmentDetail from './pages/ApartmentDetail';
 import Apartments from './pages/Apartments';
 import ChangePassword from './pages/ChangePassword';
@@ -51,13 +52,13 @@ const App = () => {
             <Header />
             <div className='p-4'>
               <Routes>
-                <Route path="/" element={<Home />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/change-password" element={<ChangePassword />} />
                 {
                   roles.includes("Admin") &&
                   <>
+                    <Route path="/" element={<AdminHome />} />
                     <Route path="/apartments" element={<Apartments />} />
                     <Route path="/apartments/:id" element={<ApartmentDetail />} />
                     <Route path="/users" element={<Users />} />
@@ -67,6 +68,7 @@ const App = () => {
                 {
                   roles.includes("User") &&
                   <>
+                    <Route path="/" element={<Home />} />
                     <Route path="/payments" element={<MyPayments />} />
                   </>
                 }

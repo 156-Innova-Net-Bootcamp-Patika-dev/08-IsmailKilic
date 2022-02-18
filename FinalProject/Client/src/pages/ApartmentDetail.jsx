@@ -10,34 +10,31 @@ const ApartmentDetail = () => {
     let { id } = useParams();
     const [data, setData] = useState({})
     const [year, setYear] = useState("")
+    const [invoices, setInvoices] = useState([])
     const [month, setMonth] = useState("")
-    const [invoiceType, setInvoiceType] = useState(-1)
+    const [type, setType] = useState("")
     const [filteredInvoice, setfilteredInvoice] = useState([])
     const [showInvoiceModal, setShowInvoiceModal] = useState(false)
 
     useEffect(async () => {
         const res = await axiosClient.get(`apartments/${id}`)
         setData(res.data);
+        setInvoices(res.data.invoices)
         setfilteredInvoice(res.data.invoices);
     }, [])
 
     useEffect(() => {
-        if (!data || data.invoices?.length === 0) return
-        month && filter("month", month)
-    }, [month])
+        if (invoices.length === 0) return
+        console.log("asd");
+        filter()
+    }, [month, year, type])
 
-    useEffect(() => {
-        if (!data || data.invoices?.length === 0) return
-        year && filter("year", year)
-    }, [year])
-
-    useEffect(() => {
-        if (!data || data.invoices?.length === 0) return
-        invoiceType >= 0 && filter("invoiceType", invoiceType)
-    }, [invoiceType])
-
-    const filter = (key, val) => {
-        setfilteredInvoice(data.invoices?.filter(x => x[key] == val))
+    const filter = () => {
+        setfilteredInvoice(invoices.filter(x =>
+            (year ? x.year == year : true) &&
+            (month ? x.month == month : true) &&
+            (type ? x.invoiceType == type : true)
+        ))
     }
 
     const openInvoiceModal = () => {
@@ -96,15 +93,14 @@ const ApartmentDetail = () => {
                 <div className='mb-4'>
                     <h4>Filtrele</h4>
                     <div className='flex space-x-2'>
-                        <input min={2000} max={2022} value={year} type="number" onChange={e => setYear(e.target.value)} className='px-2' placeholder='Yıl' />
-                        <input min={1} max={12} value={month} type="number" onChange={e => setMonth(e.target.value)} className='px-2' placeholder='Ay' />
-                        <select value={invoiceType} onChange={e => setInvoiceType(e.target.value)}>
-                            <option value={-1}>Fatura tipini seçiniz...</option>
-                            {
-                                invoiceTypes.map((type, index) => (
-                                    <option key={index} value={index}>{type}</option>
-                                ))
-                            }
+                        <input min={2000} value={year} onChange={e => setYear(e.target.value)} type="number" placeholder='Yıl' className='w-20 input' />
+                        <input min={1} max={12} value={month} onChange={e => setMonth(e.target.value)} type="number" placeholder='Ay' className='w-20 input' />
+                        <select value={type} onChange={e => setType(e.target.value)} className="w-40 input">
+                            <option value="">Fatura tipi</option>
+                            <option value={0}>Aidat</option>
+                            <option value={1}>Elektrik</option>
+                            <option value={2}>Su</option>
+                            <option value={3}>Doğalgaz</option>
                         </select>
                     </div>
                 </div>
