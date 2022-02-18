@@ -72,13 +72,13 @@ namespace PaymentAPI.Services
 
         public List<Payment> GetPaymentsByUser(string userId)
         {
-            var payments = paymentRepository.FilterBy(x => x.UserId == userId).ToList();
+            var payments = paymentRepository.FilterBy(x => x.UserId == userId).OrderByDescending(x => x.CreatedAt).ToList();
             return payments;
         }
 
         public List<Payment> GetAllPayments()
         {
-            var payments = paymentRepository.AsQueryable().ToList();
+            var payments = paymentRepository.AsQueryable().OrderByDescending(x => x.CreatedAt).ToList();
             return payments;
         }
     }

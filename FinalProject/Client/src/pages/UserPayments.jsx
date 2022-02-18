@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import axiosClient from '../utils/axiosClient'
 import MyDataTable from '../components/MyDataTable';
 import moment from 'moment/min/moment-with-locales';
+import { Link } from 'react-router-dom';
 
 moment.locale("tr")
 const columns = [
     {
         name: 'Daire Id',
-        selector: row => row.apartmentId,
+        selector: row => 
+        <Link to={`/apartments/${row.apartmentId}`}>{row.apartmentId}</Link>,
         maxWidth: '10px'
     },
     {

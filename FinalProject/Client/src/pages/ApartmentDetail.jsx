@@ -5,6 +5,7 @@ import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
 import MyDataTable from '../components/MyDataTable';
 
 export const invoiceTypes = ["Aidat", "Elektrik", "Su", "Doğalgaz"]
+export const ownerTypes = ["Ev Sahibi", "Kiracı"]
 
 const ApartmentDetail = () => {
     let { id } = useParams();
@@ -25,7 +26,6 @@ const ApartmentDetail = () => {
 
     useEffect(() => {
         if (invoices.length === 0) return
-        console.log("asd");
         filter()
     }, [month, year, type])
 
@@ -61,6 +61,7 @@ const ApartmentDetail = () => {
                         <li>Daire No: {data?.no}</li>
                         <li>Daire Tipi: {data?.type}</li>
                         <li>Durum: {data?.isFree ? "Boş" : "Dolu"}</li>
+                        <li>{ownerTypes[data?.ownerType]}</li>
                     </ul>
                 </div>
                 <div className='grow'>

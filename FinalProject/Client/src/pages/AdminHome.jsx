@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import MyDataTable from '../components/MyDataTable'
 import axiosClient from '../utils/axiosClient'
 import { invoiceTypes } from './ApartmentDetail'
@@ -12,6 +13,7 @@ const AdminHome = () => {
     const [year, setYear] = useState("")
     const [month, setMonth] = useState("")
     const [type, setType] = useState("")
+    const [paid, setPaid] = useState("")
 
     // get all invoices
     useEffect(async () => {
@@ -24,7 +26,7 @@ const AdminHome = () => {
     useEffect(() => {
         if (data.length === 0) return
         filter()
-    }, [month, year, type])
+    }, [month, year, type, paid])
 
     // when change filteredData calculate total prices
     useEffect(() => {
@@ -36,7 +38,8 @@ const AdminHome = () => {
         setFilteredData(data.filter(x =>
             (year ? x.year == year : true) &&
             (month ? x.month == month : true) &&
-            (type ? x.invoiceType == type : true)
+            (type ? x.invoiceType == type : true) &&
+            (paid ? x.isPaid == (paid === "true" ? true : false) : true)
         ))
     }
 
@@ -56,7 +59,11 @@ const AdminHome = () => {
 
     const columns = [
         { name: 'Id', selector: row => row.id, maxWidth: '10px' },
-        { name: 'Daire Id', selector: row => row.apartment.id, maxWidth: '10px' },
+        {
+            name: 'Daire Id', selector: row =>
+                <Link className='underline' to={`/apartments/${row.apartment.id}`}>{row.apartment.id}</Link>,
+            maxWidth: '10px'
+        },
         { name: 'Fatura Tipi', selector: row => invoiceTypes[row.invoiceType], },
         { name: 'Dönem', selector: row => `${row.month}/${row.year}`, },
         { name: 'Fiyat', selector: row => row.price + ' TL', },
@@ -66,7 +73,7 @@ const AdminHome = () => {
     return (
         <div className='max-w-6xl mx-auto pt-10'>
 
-            <div className='mb-3 flex justify-between'>
+            <div className='mb-3 flex flex-col lg:flex-row justify-between'>
                 <div>
                     <h4>Filtrele</h4>
                     <div className='flex space-x-2'>
@@ -78,6 +85,11 @@ const AdminHome = () => {
                             <option value={1}>Elektrik</option>
                             <option value={2}>Su</option>
                             <option value={3}>Doğalgaz</option>
+                        </select>
+                        <select value={paid} onChange={e => setPaid(e.target.value)} className="input">
+                            <option value="">Ödenme durumu</option>
+                            <option value={true}>Evet</option>
+                            <option value={false}>Hayır</option>
                         </select>
                     </div>
                 </div>
