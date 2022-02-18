@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Features.Commands.Invoices.CreateInvoice;
+using Application.Features.Queries.GetAllInvoices;
 using Application.Features.Queries.GetInvoicesByUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -35,6 +36,14 @@ namespace WebAPI.Controllers
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
 
             return await mediator.Send(new GetInvoicesQuery() { UserId = userId });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("all")]
+        public async Task<List<GetAllInvoicesResponse>> GetAllInvoices()
+        {
+
+            return await mediator.Send(new GetAllInvoicesQuery());
         }
     }
 }

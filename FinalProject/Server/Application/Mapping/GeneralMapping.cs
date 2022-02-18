@@ -4,6 +4,7 @@ using Application.Features.Commands.Apartments.RemoveUser;
 using Application.Features.Commands.Auth.UpdateUser;
 using Application.Features.Commands.Invoices.CreateInvoice;
 using Application.Features.Commands.Messages.SendMessage;
+using Application.Features.Queries.GetAllInvoices;
 using Application.Features.Queries.GetApartment;
 using Application.Features.Queries.GetApartments;
 using Application.Features.Queries.GetAuthenticatedUser;
@@ -39,6 +40,7 @@ namespace Application.Mapping
             CreateMap<CreateInvoiceRequest, Invoice>();
             CreateMap<Invoice, CreateInvoiceResponse>();
             CreateMap<Invoice, GetInvoicesResponse>();
+            CreateMap<Invoice, GetAllInvoicesResponse>();
             CreateMap<Invoice, InvoiceVM>();
 
             CreateMap<Message, SendMessageResponse>();
