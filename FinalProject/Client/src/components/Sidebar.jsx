@@ -4,6 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useLocation } from 'react-router-dom'
 import { toggleSidebar } from '../store/app'
 import VaadinClose from './Icons/VaadinClose'
+import MdiHome from './Icons/MdiHome'
+import IcBaselineApartment from './Icons/IcBaselineApartment'
+import IcRoundGroup from './Icons/IcRoundGroup'
+import IcRoundMessage from './Icons/IcRoundMessage'
+import FluentPayment16Filled from './Icons/FluentPayment16Filled'
 
 const Sidebar = () => {
     const { sidebarOpened } = useSelector(state => state.app)
@@ -29,11 +34,40 @@ const Sidebar = () => {
 
 
     const links = [
-        { name: "Ana Sayfa", href: "/", admin: false },
-        { name: "Daireler", href: "/apartments", admin: true },
-        { name: "Kişiler", href: "/users", admin: true },
-        { name: "Ödemeler", href: "/payments", admin: false },
-        { name: `Mesajlar (${user.unread})`, href: "/messages", admin: false },
+        {
+            name:
+                <div className='flex items-center space-x-3'>
+                    <MdiHome />
+                    <span>Anasayfa</span>
+                </div>, href: "/", admin: false
+        },
+        {
+            name:
+                <div className='flex items-center space-x-3'>
+                    <IcBaselineApartment />
+                    <span>Daireler</span>
+                </div>, href: "/apartments", admin: true
+        },
+        {
+            name:
+                <div className='flex items-center space-x-3'>
+                    <IcRoundGroup />
+                    <span>Kişiler</span>
+                </div>, href: "/users", admin: true
+        },
+        {
+            name: <div className='flex items-center space-x-3'>
+                <FluentPayment16Filled />
+                <span>Ödemeler</span>
+            </div>, href: "/payments", admin: false
+        },
+        {
+            name:
+                <div className='flex items-center space-x-3'>
+                    <IcRoundMessage />
+                    <span>Mesajlar ({user.unread})</span>
+                </div>, href: "/messages", admin: false
+        },
     ]
 
     return (
