@@ -1,6 +1,7 @@
 import React from 'react'
 import { invoiceTypes } from '../pages/ApartmentDetail';
 import axiosClient from '../utils/axiosClient';
+import MyDataTable from './MyDataTable';
 
 const Invoices = ({ invoices }) => {
     const paymentMethods = [{
@@ -32,32 +33,31 @@ const Invoices = ({ invoices }) => {
             })
             alert("Ödeme başarılı");
         } catch (err) {
-
+            alert("Ödeme hatalı");
         }
     }
 
+    const columns = [
+        { name: 'Id', selector: row => row.id, maxWidth: '10px' },
+        { name: 'Fatura Tipi', selector: row => invoiceTypes[row.invoiceType], },
+        { name: 'Dönem', selector: row => `${row.month}/${row.year}`, },
+        { name: 'Fiyat', selector: row => row.price + ' TL', },
+        {
+            name: '', minWidth: '140px', selector: row =>
+                <div>
+                    <button
+                        onClick={() => satinAl(row)}
+                        className='inline h-10 px-3 my-1 text-white bg-blue-600 rounded-sm hover:bg-blue-700'>
+                        Ödeme Yap
+                    </button>
+                </div>
+        },
+    ];
+
     return (
-        <div className='p-2 bg-gray-700 grow'>
-
-            <h2 className='text-lg'>Faturalarım</h2>
-            {
-                invoices.length === 0 ? <div>Ödenmemiş faturanız bulunmamaktadır.</div> :
-                    invoices.filter(x => x.isPaid === false).map(item => (
-                        <div key={item.id} className='flex items-center px-3 py-1 mt-2 border'>
-                            <ul className='flex-1'>
-                                <li>Fatura tipi: {invoiceTypes[item.invoiceType]}</li>
-                                <li>Dönem: {item.month}/{item.year}</li>
-                                <li>Fiyat: {item.price} TL</li>
-                            </ul>
-
-                            <button
-                                onClick={() => satinAl(item)}
-                                className='inline h-10 px-3 text-gray-700 bg-white rounded-sm hover:bg-gray-200'>
-                                Ödeme Yap
-                            </button>
-                        </div>
-                    ))
-            }
+        <div>
+            <h2 className='text-lg text-black'>Faturalarım</h2>
+            <MyDataTable columns={columns} data={invoices.filter(x => !x.isPaid)} />
         </div>
     )
 }

@@ -15,8 +15,8 @@ const Home = () => {
   }, [])
 
   return (
-    <div className='flex flex-col space-y-2 text-white md:space-y-0 md:space-x-4 md:flex-row'>
-      <div className='p-2 bg-gray-700 grow'>
+    <div className='flex flex-col space-y-2 text-white p-2 md:max-w-4xl mx-auto'>
+      <div className='p-2 bg-gray-700 rounded-sm'>
         <h2 className='text-lg'>Dairelerim</h2>
         {
           apartments.length === 0 ? <div>Daireniz bulunmamaktadır.</div> :
