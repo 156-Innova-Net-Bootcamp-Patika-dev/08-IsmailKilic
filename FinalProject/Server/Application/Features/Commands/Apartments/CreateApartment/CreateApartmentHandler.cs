@@ -1,8 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Exceptions;
+using Application.Interfaces.Cache;
 using Application.Interfaces.Repositories;
 using AutoMapper;
+using Domain.Constants;
 using Domain.Entities;
 using MediatR;
 
@@ -12,11 +14,13 @@ namespace Application.Features.Commands.Apartments.CreateApartment
     {
         private readonly IAparmentRepository apartmentRepository;
         private readonly IMapper mapper;
+        private readonly ICacheService cacheService;
 
-        public CreateApartmentHandler(IAparmentRepository apartmentRepository, IMapper mapper)
+        public CreateApartmentHandler(IAparmentRepository apartmentRepository, IMapper mapper, ICacheService cacheService)
         {
             this.apartmentRepository = apartmentRepository;
             this.mapper = mapper;
+            this.cacheService = cacheService;
         }
 
         public async Task<CreateApartmentResponse> Handle(CreateApartmentRequest request, CancellationToken cancellationToken)
@@ -29,6 +33,7 @@ namespace Application.Features.Commands.Apartments.CreateApartment
             apartment.IsFree = true;
 
             var newApartment = await apartmentRepository.Add(apartment);
+            cacheService.Remove(CacheConstants.ApartmentsKey);
 
             return mapper.Map<CreateApartmentResponse>(newApartment);
         }

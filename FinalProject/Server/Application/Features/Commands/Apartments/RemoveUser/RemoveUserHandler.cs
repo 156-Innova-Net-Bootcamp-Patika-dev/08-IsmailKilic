@@ -2,8 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Exceptions;
+using Application.Interfaces.Cache;
 using Application.Interfaces.Repositories;
 using AutoMapper;
+using Domain.Constants;
 using MediatR;
 
 namespace Application.Features.Commands.Apartments.RemoveUser
@@ -12,11 +14,13 @@ namespace Application.Features.Commands.Apartments.RemoveUser
     {
         private readonly IAparmentRepository apartmentRepository;
         private readonly IMapper mapper;
+        private readonly ICacheService cacheService;
 
-        public RemoveUserHandler(IAparmentRepository apartmentRepository, IMapper mapper)
+        public RemoveUserHandler(IAparmentRepository apartmentRepository, IMapper mapper, ICacheService cacheService)
         {
             this.apartmentRepository = apartmentRepository;
             this.mapper = mapper;
+            this.cacheService = cacheService;
         }
 
         public async Task<RemoveUserResponse> Handle(RemoveUserRequest request, CancellationToken cancellationToken)
@@ -26,6 +30,9 @@ namespace Application.Features.Commands.Apartments.RemoveUser
 
             apartment.User = null;
             apartment.IsFree = true;
+
+            // clear cache
+            cacheService.Remove(CacheConstants.ApartmentsKey);
 
             return mapper.Map<RemoveUserResponse>(await apartmentRepository.Update(apartment));
         }
