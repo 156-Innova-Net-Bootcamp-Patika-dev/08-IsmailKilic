@@ -2,8 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Exceptions;
+using Application.Interfaces.Cache;
 using Application.Interfaces.Repositories;
 using AutoMapper;
+using Domain.Constants;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -14,13 +16,16 @@ namespace Application.Features.Commands.Apartments.AssignUser
     {
         private readonly IAparmentRepository apartmentRepository;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICacheService cacheService;
         private readonly IMapper mapper;
 
-        public AssignUserHandler(IAparmentRepository apartmentRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public AssignUserHandler(IAparmentRepository apartmentRepository, IMapper mapper, 
+            UserManager<ApplicationUser> userManager, ICacheService cacheService)
         {
             this.apartmentRepository = apartmentRepository;
             this.mapper = mapper;
             this.userManager = userManager;
+            this.cacheService = cacheService;
         }
 
         public async Task<AssignUserResponse> Handle(AssignUserRequest request, CancellationToken cancellationToken)
@@ -40,6 +45,9 @@ namespace Application.Features.Commands.Apartments.AssignUser
             apartment.User = user;
             apartment.IsFree = false;
             apartment.OwnerType = request.OwnerType;
+
+            // clear cache
+            cacheService.Remove(CacheConstants.ApartmentsKey);
 
             // return response
             return mapper.Map<AssignUserResponse>(await apartmentRepository.Update(apartment));
