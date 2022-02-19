@@ -1,6 +1,8 @@
 ﻿using System.Text;
+using Application.Interfaces.Cache;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
+using Infrastructure.Persistence.Cache.Redis;
 using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,6 +23,8 @@ namespace Infrastructure
             serviceCollection.AddScoped<IAparmentRepository, ApartmentRepository>();
             serviceCollection.AddScoped<IInvoiceRepository, InvoiceRepository>();
             serviceCollection.AddScoped<IMessageRepository, MessageRepository>();
+            serviceCollection.AddSingleton<RedisServer>();
+            serviceCollection.AddSingleton<ICacheService, RedisCacheService>();
 
             // For Identity  
             serviceCollection.AddIdentity<ApplicationUser, IdentityRole>(_ =>
@@ -32,20 +36,6 @@ namespace Infrastructure
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            //serviceCollection.ConfigureApplicationCookie(_ =>
-            //{
-            //    _.LoginPath = new PathString("/api/auth/login");
-            //    _.Cookie = new CookieBuilder
-            //    {
-            //        Name = "AspNetCoreIdentityExampleCookie", //Oluşturulacak Cookie'yi isimlendiriyoruz.
-            //        HttpOnly = true, //Kötü niyetli insanların client-side tarafından Cookie'ye erişmesini engelliyoruz.
-            //        SameSite = SameSiteMode.Lax, //Top level navigasyonlara sebep olmayan requestlere Cookie'nin gönderilmemesini belirtiyoruz.
-            //        SecurePolicy = CookieSecurePolicy.Always //HTTPS üzerinden erişilebilir yapıyoruz.
-            //    };
-            //    _.SlidingExpiration = true; //Expiration süresinin yarısı kadar süre zarfında istekte bulunulursa eğer geri kalan yarısını tekrar sıfırlayarak ilk ayarlanan süreyi tazeleyecektir.
-            //    _.ExpireTimeSpan = TimeSpan.FromMinutes(2); //CookieBuilder nesnesinde tanımlanan Expiration değerinin varsayılan değerlerle ezilme ihtimaline karşın tekrardan Cookie vadesi burada da belirtiliyor.
-            //});
 
             // Adding Authentication  
             serviceCollection.AddAuthentication(options =>
