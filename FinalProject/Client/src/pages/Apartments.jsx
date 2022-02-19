@@ -8,13 +8,14 @@ import axiosClient from '../utils/axiosClient'
 import IcSharpAdd from '../components/Icons/IcSharpAdd'
 import MdiDelete from '../components/Icons/MdiDelete'
 import MyDataTable from '../components/MyDataTable'
+import CreateManyInvoice from '../components/Modals/CreateManyInvoice'
 
 const Apartments = () => {
     const [data, setData] = useState([])
     const [showAssignUserModal, setShowAssignUserModal] = useState(false)
+    const [showInvoice, setShowInvoice] = useState(false)
     const [assignId, setAssignId] = useState(0)
     const [selectedRows, setSelectedRows] = useState([]);
-    console.log(selectedRows);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -104,11 +105,12 @@ const Apartments = () => {
             {
                 selectedRows.length > 0 &&
                 <div className='my-2 flex justify-end'>
-                    <button onClick={openModal} className='button'>Toplu Fatura Ekle</button>
+                    <button onClick={() => setShowInvoice(true)} className='button'>Toplu Fatura Ekle</button>
                 </div>
             }
 
             <AddApartmentModal addData={addData} />
+            <CreateManyInvoice isOpen={showInvoice} ids={selectedRows} close={() => setShowInvoice(false)} />
             <AssignUserModal updateData={updateData} isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
 
             <MyDataTable

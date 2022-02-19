@@ -27,7 +27,7 @@ const ApartmentDetail = () => {
     useEffect(() => {
         if (invoices.length === 0) return
         filter()
-    }, [month, year, type])
+    }, [month, year, type, invoices])
 
     const filter = () => {
         setfilteredInvoice(invoices.filter(x =>
@@ -42,7 +42,7 @@ const ApartmentDetail = () => {
     }
 
     const updateData = (newData) => {
-        setfilteredInvoice([newData, ...filteredInvoice])
+        setInvoices([newData, ...invoices])
     }
 
     const columns = [
