@@ -3,11 +3,12 @@ import React from 'react'
 import axiosClient from '../../utils/axiosClient'
 import Modal from './Modal'
 
-const CreateInvoiceModal = ({ isOpen, close, id }) => {
+const CreateInvoiceModal = ({ isOpen, close, id, updateData }) => {
   const handleSubmit = async (values, resetForm) => {
     values.invoiceType = parseInt(values.invoiceType)
     try {
       const res = await axiosClient.post("invoices", values)
+      updateData(res.data)
       close()
       resetForm()
     } catch (err) {

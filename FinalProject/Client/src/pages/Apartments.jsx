@@ -13,6 +13,8 @@ const Apartments = () => {
     const [data, setData] = useState([])
     const [showAssignUserModal, setShowAssignUserModal] = useState(false)
     const [assignId, setAssignId] = useState(0)
+    const [selectedRows, setSelectedRows] = useState([]);
+    console.log(selectedRows);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -64,6 +66,10 @@ const Apartments = () => {
         navigate(`/apartments/${id}`);
     }
 
+    const handleChange = ({ selectedRows }) => {
+        setSelectedRows(selectedRows.map(x => x.id));
+    };
+
     const columns = [
         { name: 'Id', selector: row => row.id, maxWidth: '10px' },
         { name: 'Daire No', selector: row => row.no, maxWidth: '10px' },
@@ -95,10 +101,19 @@ const Apartments = () => {
                 <button onClick={openModal} className='button'>Yeni Daire Ekle</button>
             </div>
 
+            {
+                selectedRows.length > 0 &&
+                <div className='my-2 flex justify-end'>
+                    <button onClick={openModal} className='button'>Toplu Fatura Ekle</button>
+                </div>
+            }
+
             <AddApartmentModal addData={addData} />
             <AssignUserModal updateData={updateData} isOpen={showAssignUserModal} id={assignId} close={() => setShowAssignUserModal(false)} />
 
             <MyDataTable
+                selectableRows
+                onSelectedRowsChange={handleChange}
                 columns={columns}
                 data={data}
             />

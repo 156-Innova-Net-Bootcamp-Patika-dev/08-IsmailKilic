@@ -29,11 +29,13 @@ const paginationComponentOptions = {
   rangeSeparatorText: 'de',
 };
 
-const MyDataTable = ({ columns, data }) => {
+const MyDataTable = ({ columns, data, selectableRows, onSelectedRowsChange }) => {
   return (
     <DataTable
       striped
+      selectableRows={selectableRows || false}
       pagination
+      onSelectedRowsChange={onSelectedRowsChange}
       paginationComponentOptions={paginationComponentOptions}
       paginationPerPage={5}
       paginationRowsPerPageOptions={[5, 10, 15]}

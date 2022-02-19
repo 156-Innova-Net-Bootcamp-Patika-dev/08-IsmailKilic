@@ -41,6 +41,10 @@ const ApartmentDetail = () => {
         setShowInvoiceModal(true)
     }
 
+    const updateData = (newData) => {
+        setfilteredInvoice([newData, ...filteredInvoice])
+    }
+
     const columns = [
         { name: 'Id', selector: row => row.id, maxWidth: '10px' },
         { name: 'Fatura Tipi', selector: row => invoiceTypes[row.invoiceType], },
@@ -83,7 +87,11 @@ const ApartmentDetail = () => {
                 </div>
             </div>
 
-            <CreateInvoiceModal id={id} isOpen={showInvoiceModal} close={() => setShowInvoiceModal(false)} />
+            <CreateInvoiceModal
+                id={id}
+                isOpen={showInvoiceModal}
+                updateData={updateData}
+                close={() => setShowInvoiceModal(false)} />
 
             <div className='max-w-5xl mx-auto'>
                 <div className='flex items-center'>
