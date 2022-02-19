@@ -1,6 +1,6 @@
 <h1>Apartman Yönetim Sistemi</h1>
 
-<h2>Yapılanlar</h2>
+<h2>Özellikler</h2>
 <ul>
   <li>Daire ekleme</li>
   <li>Otomatik oluşturulmuş şifre ile kişi ekleme, kişileri listeleme</li>
