@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Application.Features.Commands.Apartments.RemoveUser
 {
-    internal class RemoveUserHandler : IRequestHandler<RemoveUserRequest, RemoveUserResponse>
+    public class RemoveUserHandler : IRequestHandler<RemoveUserRequest, RemoveUserResponse>
     {
         private readonly IAparmentRepository apartmentRepository;
         private readonly IMapper mapper;
