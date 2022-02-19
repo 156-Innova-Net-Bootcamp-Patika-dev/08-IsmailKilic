@@ -3,13 +3,17 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Persistence.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        private readonly IConfiguration configuration;
+
+        public ApplicationDbContext(IConfiguration configuration, DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+            this.configuration = configuration;
         }
 
         public DbSet<Apartment> Apartments { get; set; }
@@ -30,15 +34,15 @@ namespace Infrastructure.Persistence.Context
             var user = new ApplicationUser()
             {
                 Id = "b74ddd14-6340-4840-95c2-db12554843e5",
-                UserName = "Admin",
-                NormalizedUserName = "ADMIN",
-                NormalizedEmail = "ADMIN@GMAIL.COM",
-                Email = "admin@gmail.com",
+                UserName = configuration["Admin:username"],
+                NormalizedUserName = configuration["Admin:normalizedUsername"],
+                NormalizedEmail = configuration["Admin:normalizedEmail"],
+                Email = configuration["Admin:email"],
                 LockoutEnabled = false,
             };
 
             PasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
-            user.PasswordHash = passwordHasher.HashPassword(user, "Admin*123");
+            user.PasswordHash = passwordHasher.HashPassword(user, configuration["Admin:password"]);
 
             builder.Entity<ApplicationUser>().HasData(user);
         }
