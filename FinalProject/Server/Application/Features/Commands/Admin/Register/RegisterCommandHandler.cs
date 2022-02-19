@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Exceptions;
+using Application.Interfaces.Cache;
+using Domain.Constants;
 using Domain.Entities;
 using MassTransit;
 using MediatR;
@@ -14,12 +16,13 @@ namespace Application.Features.Commands.Admin.Register
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IPublishEndpoint publishEndpoint;
+        private readonly ICacheService cacheService;
 
-
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, IPublishEndpoint publishEndpoint)
+        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, IPublishEndpoint publishEndpoint, ICacheService cacheService)
         {
             this.userManager = userManager;
             this.publishEndpoint = publishEndpoint;
+            this.cacheService = cacheService;
         }
 
         public async Task<RegisterCommandResponse> Handle(RegisterCommandRequest request, CancellationToken cancellationToken)
@@ -49,6 +52,7 @@ namespace Application.Features.Commands.Admin.Register
                 throw new Exception(result.ToString());
 
             await userManager.AddToRoleAsync(user, request.Role);
+            cacheService.Remove(CacheConstants.UsersKey);
 
             // publish an event
             _ = publishEndpoint.Publish(new UserCreated
