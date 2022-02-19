@@ -24,15 +24,22 @@ namespace Application.Features.Queries.GetApartments
 
         public async Task<List<GetApartmentsResponse>> Handle(GetApartmentsQuery request, CancellationToken cancellationToken)
         {
+            // if user wants his apartments
+            if (request.ByUser)
+            {
+                var list = apartmentRepository.GetList(x => x.User.Id == request.UserId, x => x.User);
+                return mapper.Map<List<GetApartmentsResponse>>(list);
+            }
+
+            // if admin wants all apartments
+            // first check cache
             if (cacheService.Any(CacheConstants.ApartmentsKey))
             {
                 var apartmentList = cacheService.Get<List<GetApartmentsResponse>>(CacheConstants.ApartmentsKey);
                 return apartmentList;
             }
 
-            var apartments = request.ByUser
-                ? apartmentRepository.GetList(x=>x.User.Id == request.UserId, x => x.User)
-                : apartmentRepository.GetList(null, x => x.User);
+            var apartments = apartmentRepository.GetList(null, x => x.User);
 
             var response = mapper.Map<List<GetApartmentsResponse>>(apartments);
             cacheService.Add(CacheConstants.ApartmentsKey, response);
