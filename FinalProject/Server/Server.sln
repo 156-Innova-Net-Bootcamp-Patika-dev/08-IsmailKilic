@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentAPI", "PaymentAPI\PaymentAPI.csproj", "{2E0AABAF-59FE-4BDA-905D-1D61C6D81417}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageContracts", "MessageContracts\MessageContracts.csproj", "{EBD439F0-FC05-434A-8151-032DBC7C9A51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageContracts", "MessageContracts\MessageContracts.csproj", "{EBD439F0-FC05-434A-8151-032DBC7C9A51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8A7BBFC8-567F-4C8A-A187-4180E1C21972}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Tests", "tests\Management.Tests\Management.Tests.csproj", "{A738809F-9F6E-4A71-BF56-9EE310F286AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +49,16 @@ Global
 		{EBD439F0-FC05-434A-8151-032DBC7C9A51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBD439F0-FC05-434A-8151-032DBC7C9A51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBD439F0-FC05-434A-8151-032DBC7C9A51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A738809F-9F6E-4A71-BF56-9EE310F286AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A738809F-9F6E-4A71-BF56-9EE310F286AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A738809F-9F6E-4A71-BF56-9EE310F286AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A738809F-9F6E-4A71-BF56-9EE310F286AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A738809F-9F6E-4A71-BF56-9EE310F286AB} = {8A7BBFC8-567F-4C8A-A187-4180E1C21972}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {32B6BEA7-2F2D-4166-A6D6-6EC6E8D2EC3B}

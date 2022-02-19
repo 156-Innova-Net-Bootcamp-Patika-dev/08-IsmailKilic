@@ -30,7 +30,13 @@ namespace Application.Features.Commands.Admin.Register
             var userExists = await userManager.FindByNameAsync(request.Username);
             if (userExists != null)
             {
-                throw new BadRequestException("This username is already registered");
+                throw new BadRequestException("Bu kullanıcı adı daha önce kayıt edilmiş");
+            }
+
+            var emailExists = await userManager.FindByEmailAsync(request.Email);
+            if (emailExists != null)
+            {
+                throw new BadRequestException("Bu email daha önec kayıt edilmiş");
             }
 
             ApplicationUser user = new()
