@@ -22,7 +22,7 @@ namespace Application.Features.Commands.Auth.ChangePassword
             var result = await userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
 
             if (!result.Succeeded) throw new BadRequestException("Hatalı şifre girişi");
-            return new ChangePasswordResponse { Message = "Şifre değiştirme işlemi başarıl" };
+            return new ChangePasswordResponse { Message = "Şifre değiştirme işlemi başarılı" };
         }
     }
 }
