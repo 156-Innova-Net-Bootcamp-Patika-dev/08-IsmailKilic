@@ -15,6 +15,7 @@ const AssignUserModal = ({ isOpen, close, id, updateData }) => {
 
     const handleSubmit = async (values, resetForm) => {
         values.ownerType = parseInt(values.ownerType);
+        console.log(values);
         try {
             const res = await axiosClient.post("apartments/assign-user", values);
             updateData(res.data);
@@ -31,7 +32,7 @@ const AssignUserModal = ({ isOpen, close, id, updateData }) => {
                 initialValues={{
                     apartmentId: id,
                     userId: "",
-                    ownerType: -1
+                    ownerType: ""
                 }}
                 enableReinitialize={true}
                 onSubmit={(values, { resetForm }) => {
@@ -63,7 +64,7 @@ const AssignUserModal = ({ isOpen, close, id, updateData }) => {
                         />
 
                         <Field className='w-full p-2 rounded-sm outline-none' name="ownerType" placeholder="Sahiplik Durumu" type="number" as="select">
-                            <option value={-1}>Sahiplik durumunu seçiniz...</option>
+                            <option value={""}>Sahiplik durumunu seçiniz...</option>
                             <option value={0}>Ev Sahibi</option>
                             <option value={1}>Kiracı</option>
                         </Field>
