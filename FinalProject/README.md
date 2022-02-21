@@ -11,4 +11,6 @@
   <li>Kullanıcıya ait apartman ve ödenmemiş faturaları gösterme</li>
   <li>Okunmamış mesaj sayısını gösterme, mesaj okuma, okunma durumunu güncelleme</li>
   <li>Ödeme yapma, iki servis arasında rabbitmq ile haberleşme</li>
+  <li>Daireler için toplu fatura ekleme</li>
+  <li>Toplu fatura ödeme</li>
 </ul>

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { loginSuccess } from '../store/auth'
 import * as Yup from 'yup';
 import axiosClient from '../utils/axiosClient';
+import { useNavigate } from 'react-router-dom';
 
 const LoginSchema = Yup.object().shape({
     username: Yup.string().required('Kullanıcı adı alanı boş olmamalı'),
@@ -13,6 +14,7 @@ const LoginSchema = Yup.object().shape({
 
 const Login = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleLogin = async (values, resetForm) => {
         try {
@@ -24,6 +26,7 @@ const Login = () => {
 
             dispatch(loginSuccess(res.data))
             resetForm();
+            navigate("/");
         } catch (err) {
             alert("Hatalı giriş")
         }
