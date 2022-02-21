@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MassTransit;
@@ -30,6 +31,16 @@ namespace PaymentAPI.Controllers
             dto.UserId = userId;
 
             await paymentService.CreatePayment(dto);
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("many")]
+        public async Task<ActionResult> PostMany(List<CreatePaymentDto> dto)
+        {
+            var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
+
+            await paymentService.CreatePaymentMany(dto, userId);
             return Ok();
         }
 

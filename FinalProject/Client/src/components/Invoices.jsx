@@ -46,8 +46,53 @@ const Invoices = ({ invoices }) => {
 
     }
 
+    async function payMultiple() {
+        const sum = selectedRows.reduce((sum, a) => sum + a.price, 0);
+        const displayItems = []
+        for (const item of selectedRows) {
+            displayItems.push({
+                label: invoiceTypes[item.invoiceType] + ' ' + item.month + '/' + item.year,
+                amount: { currency: 'TRY', value: parseFloat(item.price) }
+            })
+        }
+
+        const paymentDetails = {
+            displayItems: displayItems,
+            total: {
+                label: 'Toplam',
+                amount: {
+                    currency: 'TRY',
+                    value: parseFloat(sum)
+                }
+            },
+        };
+
+        const request = new PaymentRequest(paymentMethods, paymentDetails);
+        const paymentResponse = await request.show();
+
+        const cardNumber = paymentResponse.details.cardNumber
+        const body = [];
+        for (const item of selectedRows) {
+            body.push({
+                invoiceId: item.id,
+                apartmentId: item.apartment.id,
+                last4Number: cardNumber.slice(cardNumber.length - 4),
+                price: item.price
+            })
+        }
+
+        try {
+            const res = await axiosClient.post(`${import.meta.env.VITE_APP_PAYMENT_API}payments/many`, body)
+            paymentResponse.complete('success').then(() => alert('Ödeme başarılı'));
+        } catch (err) {
+            paymentResponse.complete('fail').then(() => alert('Ödeme başarısız'));
+        }
+
+    }
+
+
     const handleChange = ({ selectedRows }) => {
-        setSelectedRows(selectedRows.map(x => x.id));
+        setSelectedRows(selectedRows);
     };
 
     const columns = [
@@ -73,7 +118,7 @@ const Invoices = ({ invoices }) => {
                 <h2 className='text-lg text-black'>Faturalarım</h2>
                 {
                     selectedRows.length > 0 &&
-                    <button className='button'>Toplu Ödeme</button>
+                    <button onClick={payMultiple} className='button'>Toplu Ödeme</button>
                 }
             </div>
             <MyDataTable

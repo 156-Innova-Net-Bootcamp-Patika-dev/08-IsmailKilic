@@ -8,6 +8,7 @@ namespace PaymentAPI.Services
     public interface IPaymentService
     {
         Task CreatePayment(CreatePaymentDto dto);
+        Task CreatePaymentMany(List<CreatePaymentDto> dto, string userId);
         List<Payment> GetPaymentsByUser(string userId);
         List<Payment> GetAllPayments();
     }

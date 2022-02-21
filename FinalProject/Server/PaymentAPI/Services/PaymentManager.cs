@@ -81,5 +81,54 @@ namespace PaymentAPI.Services
             var payments = paymentRepository.AsQueryable().OrderByDescending(x => x.CreatedAt).ToList();
             return payments;
         }
+
+        public async Task CreatePaymentMany(List<CreatePaymentDto> dto, string userId)
+        {
+            double totalPrice = 0;
+            foreach (var item in dto) totalPrice += item.Price;
+
+            // check if user existed
+            var user = await userRepository.FindOneAsync(x => x.UserId == userId);
+            if (user == null) throw new Exception("Kullanıcı bulunamadı");
+
+            // check if user balance is greater than invoice price
+            if (user.Balance < totalPrice)
+            {
+                user.Balance += totalPrice;
+                await userRepository.ReplaceOneAsync(user);
+                throw new Exception($"Yeterli bakiye bulunamadı. Bakiyeniz {totalPrice} TL yükseltildi");
+            }
+
+            foreach (var item in dto)
+            {
+                // check if invoice paid before
+                var paymentExisted = await paymentRepository.FindOneAsync(x => x.InvoiceId == item.InvoiceId);
+                if (paymentExisted != null) continue;
+
+                // check if invoice existed
+                var invoice = await invoiceRepository.FindOneAsync(x => x.InvoiceId == item.InvoiceId && x.ApartmentId == item.ApartmentId);
+                if (invoice == null) continue;
+
+                var payment = new Payment
+                {
+                    ApartmentId = item.ApartmentId,
+                    InvoiceId = item.InvoiceId,
+                    Price = item.Price,
+                    UserId = userId,
+                    Last4Number = item.Last4Number,
+                    CreatedAt = DateTime.Now
+                };
+
+                // publish payment-created event
+                _ = publishEndpoint.Publish(new PaymentCreated
+                {
+                    InvoiceId = item.InvoiceId
+                });
+
+                user.Balance -= item.Price;
+                await userRepository.ReplaceOneAsync(user);
+                await paymentRepository.InsertOneAsync(payment);
+            }
+        }
     }
 }
