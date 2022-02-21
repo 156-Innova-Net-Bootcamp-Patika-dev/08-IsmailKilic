@@ -3,22 +3,32 @@ import axiosClient from '../utils/axiosClient'
 import MyDataTable from '../components/MyDataTable';
 import moment from 'moment/min/moment-with-locales';
 import { Link } from 'react-router-dom';
+import { invoiceTypes } from './ApartmentDetail';
 
 moment.locale("tr")
 const columns = [
     {
         name: 'Daire Id',
         selector: row => 
-        <Link to={`/apartments/${row.apartmentId}`}>{row.apartmentId}</Link>,
+        <Link className='underline' to={`/apartments/${row.apartmentId}`}>{row.apartmentId}</Link>,
         maxWidth: '10px'
     },
     {
-        name: 'Fatura Id',
-        selector: row => row.invoiceId,
+        name: 'Fatura Tipi',
+        selector: row => invoiceTypes[row.invoice.invoiceType],
+    },
+    {
+        name: 'Dönem',
+        selector: row => row.invoice.month + '/' + row.invoice.year,
+    },
+    {
+        name: 'Ödemeyi Yapan',
+        selector: row => row.user.userName,
     },
     {
         name: 'Ödenilen Kredi Kartı',
         selector: row => `**** **** **** ${row.last4Number}`,
+        minWidth: '200px'
     },
     {
         name: 'Fiyat',
