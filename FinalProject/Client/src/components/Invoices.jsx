@@ -1,27 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { invoiceTypes } from '../pages/ApartmentDetail';
 import axiosClient from '../utils/axiosClient';
 import MyDataTable from './MyDataTable';
 
 const Invoices = ({ invoices }) => {
+    const [selectedRows, setSelectedRows] = useState([]);
+
     const paymentMethods = [{
         supportedMethods: ['basic-card']
     }];
 
     async function satinAl(item) {
         const paymentDetails = {
+            displayItems: [
+                {
+                    label: invoiceTypes[item.invoiceType] + ' ' + item.month + '/' + item.year,
+                    amount: { currency: 'TRY', value: parseFloat(item.price) }
+                }
+            ],
             total: {
                 label: 'Toplam',
                 amount: {
                     currency: 'TRY',
                     value: parseFloat(item.price)
                 }
-            }
+            },
         };
 
         const request = new PaymentRequest(paymentMethods, paymentDetails);
         const paymentResponse = await request.show();
-        await paymentResponse.complete();
 
         const cardNumber = paymentResponse.details.cardNumber
         try {
@@ -31,11 +38,17 @@ const Invoices = ({ invoices }) => {
                 last4Number: cardNumber.slice(cardNumber.length - 4),
                 price: item.price
             })
-            alert("Ödeme başarılı");
+
+            paymentResponse.complete('success').then(() => alert('Ödeme başarılı'));
         } catch (err) {
-            alert("Ödeme hatalı");
+            paymentResponse.complete('fail').then(() => alert('Ödeme başarısız'));
         }
+
     }
+
+    const handleChange = ({ selectedRows }) => {
+        setSelectedRows(selectedRows.map(x => x.id));
+    };
 
     const columns = [
         { name: 'Id', selector: row => row.id, maxWidth: '10px' },
@@ -56,8 +69,20 @@ const Invoices = ({ invoices }) => {
 
     return (
         <div>
-            <h2 className='text-lg text-black'>Faturalarım</h2>
-            <MyDataTable columns={columns} data={invoices.filter(x => !x.isPaid)} />
+            <div className='flex justify-between my-2'>
+                <h2 className='text-lg text-black'>Faturalarım</h2>
+                {
+                    selectedRows.length > 0 &&
+                    <button className='button'>Toplu Ödeme</button>
+                }
+            </div>
+            <MyDataTable
+                columns={columns}
+                selectableRows
+                noDataComponent={"Ödenmemiş faturanız bulunmamaktadır."}
+                onSelectedRowsChange={handleChange}
+                data={invoices.filter(x => !x.isPaid)}
+            />
         </div>
     )
 }

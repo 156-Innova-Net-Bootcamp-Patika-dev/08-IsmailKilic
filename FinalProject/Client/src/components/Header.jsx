@@ -20,7 +20,7 @@ const Header = () => {
     }
 
     return (
-        <div className='flex items-center w-full h-16 px-6 shadow-2xl shadow-gray-700'>
+        <div className='flex items-center w-full h-16 px-6 shadow-2xl shadow-gray-800'>
             <button onClick={toggle} className='block text-2xl md:hidden'>
                 <DashiconsMenuAlt />
             </button>

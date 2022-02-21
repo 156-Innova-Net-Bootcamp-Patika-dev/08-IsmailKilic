@@ -29,7 +29,13 @@ const paginationComponentOptions = {
   rangeSeparatorText: 'de',
 };
 
-const MyDataTable = ({ columns, data, selectableRows, onSelectedRowsChange }) => {
+const MyDataTable = (
+  { columns,
+    data,
+    selectableRows,
+    onSelectedRowsChange,
+    noDataComponent
+  }) => {
   return (
     <DataTable
       striped
@@ -39,7 +45,7 @@ const MyDataTable = ({ columns, data, selectableRows, onSelectedRowsChange }) =>
       paginationComponentOptions={paginationComponentOptions}
       paginationPerPage={5}
       paginationRowsPerPageOptions={[5, 10, 15]}
-      noDataComponent={<div className='py-5'>Kayıt Bulunamadı</div>}
+      noDataComponent={<div className='py-5'>{noDataComponent ? noDataComponent : 'Kayıt Bulunamadı'}</div>}
       highlightOnHover
       customStyles={customStyles}
       dense
