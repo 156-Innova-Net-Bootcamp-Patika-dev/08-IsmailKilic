@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MassTransit;
 using MessageContracts.Events;
 using MongoDB.Driver;
 using PaymentAPI.Data;
 using PaymentAPI.Models;
 using PaymentAPI.Models.Dtos;
+using PaymentAPI.Models.ViewModels;
 
 namespace PaymentAPI.Services
 {
@@ -17,14 +19,16 @@ namespace PaymentAPI.Services
         private readonly IPublishEndpoint publishEndpoint;
         private readonly IMongoRepository<User> userRepository;
         private readonly IMongoRepository<Invoice> invoiceRepository;
+        private readonly IMapper mapper;
 
         public PaymentManager(IMongoRepository<Payment> paymentRepository, IPublishEndpoint publishEndpoint,
-            IMongoRepository<User> userRepository, IMongoRepository<Invoice> invoiceRepository)
+            IMongoRepository<User> userRepository, IMongoRepository<Invoice> invoiceRepository, IMapper mapper)
         {
             this.paymentRepository = paymentRepository;
             this.publishEndpoint = publishEndpoint;
             this.userRepository = userRepository;
             this.invoiceRepository = invoiceRepository;
+            this.mapper = mapper;
         }
 
         public async Task CreatePayment(CreatePaymentDto dto)
@@ -70,16 +74,38 @@ namespace PaymentAPI.Services
             await paymentRepository.InsertOneAsync(payment);
         }
 
-        public List<Payment> GetPaymentsByUser(string userId)
+        public async Task<List<PaymentVM>> GetPaymentsByUser(string userId)
         {
             var payments = paymentRepository.FilterBy(x => x.UserId == userId).OrderByDescending(x => x.CreatedAt).ToList();
-            return payments;
+            var data = mapper.Map<List<PaymentVM>>(payments);
+
+            for (int i = 0; i < payments.Count; i++)
+            {
+                var user = await userRepository.FindOneAsync(x=>x.UserId == payments[i].UserId);
+                data[i].User = user;
+
+                var invoice = await invoiceRepository.FindOneAsync(x=> x.InvoiceId == payments[i].InvoiceId);
+                data[i].Invoice = invoice;
+            }
+
+            return data;
         }
 
-        public List<Payment> GetAllPayments()
+        public async Task<List<PaymentVM>> GetAllPayments()
         {
             var payments = paymentRepository.AsQueryable().OrderByDescending(x => x.CreatedAt).ToList();
-            return payments;
+            var data = mapper.Map<List<PaymentVM>>(payments);
+
+            for (int i = 0; i < payments.Count; i++)
+            {
+                var user = await userRepository.FindOneAsync(x => x.UserId == payments[i].UserId);
+                data[i].User = user;
+
+                var invoice = await invoiceRepository.FindOneAsync(x => x.InvoiceId == payments[i].InvoiceId);
+                data[i].Invoice = invoice;
+            }
+
+            return data;
         }
 
         public async Task CreatePaymentMany(List<CreatePaymentDto> dto, string userId)

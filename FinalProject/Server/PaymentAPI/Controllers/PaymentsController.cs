@@ -46,17 +46,17 @@ namespace PaymentAPI.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult GetPaymentsByUser()
+        public async Task<IActionResult> GetPaymentsByUser()
         {
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
-            return Ok(paymentService.GetPaymentsByUser(userId));
+            return Ok(await paymentService.GetPaymentsByUser(userId));
         }
 
         [Authorize]
         [HttpGet("all")]
-        public IActionResult GetAllPayments()
+        public async Task<IActionResult> GetAllPayments()
         {
-            return Ok(paymentService.GetAllPayments());
+            return Ok(await paymentService.GetAllPayments());
         }
     }
 }

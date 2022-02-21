@@ -12,6 +12,7 @@ using PaymentAPI.Consumers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Reflection;
 
 namespace PaymentAPI
 {
@@ -38,6 +39,8 @@ namespace PaymentAPI
                     cfg.ConfigureEndpoints(context);
                 });
             });
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddMassTransitHostedService();
 
@@ -74,7 +77,9 @@ namespace PaymentAPI
             services.AddSingleton<IMongoDbSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentAPI", Version = "v1" });

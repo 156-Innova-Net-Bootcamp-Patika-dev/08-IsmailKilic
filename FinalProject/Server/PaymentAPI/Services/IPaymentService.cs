@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using PaymentAPI.Models;
 using PaymentAPI.Models.Dtos;
+using PaymentAPI.Models.ViewModels;
 
 namespace PaymentAPI.Services
 {
@@ -9,7 +9,7 @@ namespace PaymentAPI.Services
     {
         Task CreatePayment(CreatePaymentDto dto);
         Task CreatePaymentMany(List<CreatePaymentDto> dto, string userId);
-        List<Payment> GetPaymentsByUser(string userId);
-        List<Payment> GetAllPayments();
+        Task<List<PaymentVM>> GetPaymentsByUser(string userId);
+        Task<List<PaymentVM>> GetAllPayments();
     }
 }
