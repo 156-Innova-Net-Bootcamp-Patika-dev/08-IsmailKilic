@@ -3,6 +3,7 @@ using Application.Features.Commands.Apartments.CreateApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
 using Application.Features.Commands.Auth.UpdateUser;
 using Application.Features.Commands.Invoices.CreateInvoice;
+using Application.Features.Commands.Invoices.CreateManyInvoices;
 using Application.Features.Commands.Messages.SendMessage;
 using Application.Features.Queries.GetAllInvoices;
 using Application.Features.Queries.GetApartment;
@@ -38,6 +39,7 @@ namespace Application.Mapping
             CreateMap<Apartment, ApartmentVM>();
             
             CreateMap<CreateInvoiceRequest, Invoice>();
+            CreateMap<CreateManyInvoicesRequest, Invoice>();
             CreateMap<Invoice, CreateInvoiceResponse>();
             CreateMap<Invoice, GetInvoicesResponse>();
             CreateMap<Invoice, GetAllInvoicesResponse>();

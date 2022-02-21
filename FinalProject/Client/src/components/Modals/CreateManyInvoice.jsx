@@ -5,16 +5,14 @@ import Modal from './Modal'
 
 const CreateManyInvoice = ({ isOpen, close, ids }) => {
     const handleSubmit = async (values, resetForm) => {
-        console.log({
-            ids: ids,
-            ...values
-        });
         values.invoiceType = parseInt(values.invoiceType)
+
         try {
-            // const res = await axiosClient.post("invoices/many", {
-            //     ids: ids,
-            //     ...values
-            // })
+            const res = await axiosClient.post("invoices/many", {
+                apartmentIds: ids,
+                ...values
+            })
+            console.log(res.data);
             close()
             resetForm()
         } catch (err) {

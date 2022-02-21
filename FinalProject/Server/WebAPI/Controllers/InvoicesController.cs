@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Features.Commands.Invoices.CreateInvoice;
+using Application.Features.Commands.Invoices.CreateManyInvoices;
 using Application.Features.Queries.GetAllInvoices;
 using Application.Features.Queries.GetInvoicesByUser;
 using MediatR;
@@ -25,6 +26,13 @@ namespace WebAPI.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<CreateInvoiceResponse> CreateInvoice(CreateInvoiceRequest request)
+        {
+            return await mediator.Send(request);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("many")]
+        public async Task<CreateManyInvoicesResponse> CreateManysInvoice(CreateManyInvoicesRequest request)
         {
             return await mediator.Send(request);
         }
