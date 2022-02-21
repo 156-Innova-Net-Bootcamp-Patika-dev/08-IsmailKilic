@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Exceptions;
 using AutoMapper;
 using MassTransit;
 using MessageContracts.Events;
@@ -35,23 +36,23 @@ namespace PaymentAPI.Services
         {
             // check if invoice paid before
             var paymentExisted = await paymentRepository.FindOneAsync(x => x.InvoiceId == dto.InvoiceId);
-            if (paymentExisted != null) throw new Exception("Bu fatura daha önce ödenmiş");
+            if (paymentExisted != null) throw new BadRequestException("Bu fatura daha önce ödenmiş");
 
             // check if user existed
             var user = await userRepository.FindOneAsync(x => x.UserId == dto.UserId);
-            if (user == null) throw new Exception("Kullanıcı bulunamadı");
+            if (user == null) throw new BadRequestException("Kullanıcı bulunamadı");
 
             // check if user balance is greater than invoice price
             if (user.Balance < dto.Price)
             {
-                user.Balance += 1000;
+                user.Balance += dto.Price;
                 await userRepository.ReplaceOneAsync(user);
-                throw new Exception("Yeterli bakiye bulunamadı. Bakiyeniz 1000 TL yükseltildi");
+                throw new BadRequestException($"Yeterli bakiye bulunamadı. Bakiyeniz {dto.Price} TL yükseltildi");
             }
 
             // check if invoice existed
             var invoice = await invoiceRepository.FindOneAsync(x => x.InvoiceId == dto.InvoiceId && x.ApartmentId == dto.ApartmentId);
-            if (invoice == null) throw new Exception("Fatura bulunamadı");
+            if (invoice == null) throw new BadRequestException("Fatura bulunamadı");
 
             var payment = new Payment
             {
@@ -115,14 +116,14 @@ namespace PaymentAPI.Services
 
             // check if user existed
             var user = await userRepository.FindOneAsync(x => x.UserId == userId);
-            if (user == null) throw new Exception("Kullanıcı bulunamadı");
+            if (user == null) throw new BadRequestException("Kullanıcı bulunamadı");
 
             // check if user balance is greater than invoice price
             if (user.Balance < totalPrice)
             {
                 user.Balance += totalPrice;
                 await userRepository.ReplaceOneAsync(user);
-                throw new Exception($"Yeterli bakiye bulunamadı. Bakiyeniz {totalPrice} TL yükseltildi");
+                throw new BadRequestException($"Yeterli bakiye bulunamadı. Bakiyeniz {totalPrice} TL yükseltildi");
             }
 
             foreach (var item in dto)
