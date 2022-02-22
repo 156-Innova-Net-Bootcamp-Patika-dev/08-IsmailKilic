@@ -8,7 +8,7 @@ const AssignUserModal = ({ isOpen, close, id, updateData }) => {
 
     useEffect(async () => {
         const res = await axiosClient.get("admin/users")
-        setUsers(res.data)
+        setUsers(res.data.filter(x => !x.isDelete))
 
     }, [])
 

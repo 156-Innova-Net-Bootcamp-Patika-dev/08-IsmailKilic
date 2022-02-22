@@ -10,7 +10,7 @@ const SendMessageModal = ({ isOpen, close, addMessage }) => {
 
     useEffect(async () => {
         const res = await axiosClient.get("admin/users")
-        const data = res.data.filter(x => x.id !== user.id)
+        const data = res.data.filter(x => x.id !== user.id && !x.isDelete)
         setUsers(data)
     }, [])
 

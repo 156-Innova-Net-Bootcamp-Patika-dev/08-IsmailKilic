@@ -18,18 +18,31 @@ const Users = () => {
     dispatch(toggleUserModal())
   }
 
+  const toggleIsDelete = () => {
+    const msg = data.isDelete ? 'Kullanıcıyı aktifleştirmek istediğinize emin misiniz?' :
+      'Kullanıcıyı silmek istediğinize emin misiniz?';
+
+    if (confirm(msg)) {
+
+    }
+  }
+
   const columns = [
     { name: 'Id', selector: row => row.id, maxWidth: '10px' },
     { name: 'Ad Soyad', selector: row => row.fullname, },
     { name: 'TC No', selector: row => row.tcNo, },
     { name: 'Email', selector: row => row.email, },
     { name: 'Kullanıcı Adı', selector: row => row.userName, },
+    {
+      name: 'Durum', selector: row =>
+        <button onClick={toggleIsDelete} className='button'>{row.isDelete ? 'Silindi' : 'Aktif'}</button>,
+    },
     { name: 'Telefon', selector: row => row.phoneNumber, },
     { name: 'Araç Plaka', selector: row => row.licenseNo, },
   ];
 
   return (
-    <div className='w-full mx-auto md:w-5/6'>
+    <div className='w-full mx-auto md:w-11/12'>
       <div className='flex justify-between my-5'>
         <h2 className='text-xl uppercase'>Kişiler</h2>
         <button onClick={openModal} className='button'>Yeni Kişi Ekle</button>
