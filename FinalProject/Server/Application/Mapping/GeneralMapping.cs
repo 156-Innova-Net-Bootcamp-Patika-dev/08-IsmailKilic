@@ -1,4 +1,5 @@
-﻿using Application.Features.Commands.Apartments.AssignUser;
+﻿using Application.Features.Commands.Admin.ToggleDelete;
+using Application.Features.Commands.Apartments.AssignUser;
 using Application.Features.Commands.Apartments.CreateApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
 using Application.Features.Commands.Auth.UpdateUser;
@@ -35,6 +36,7 @@ namespace Application.Mapping
             CreateMap<ApplicationUser, GetUsersResponse>();
             CreateMap<ApplicationUser, UpdateUserResponse>();
             CreateMap<ApplicationUser, GetAuthenticatedUserResponse>();
+            CreateMap<ApplicationUser, ToggleDeleteCommandResponse>();
 
             CreateMap<Apartment, ApartmentVM>();
             

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Features.Commands.Admin.Register;
+using Application.Features.Commands.Admin.ToggleDelete;
 using Application.Features.Queries.GetUsers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,6 +24,14 @@ namespace WebAPI.Controllers
         [HttpPost]
         [Route("newuser")]
         public async Task<RegisterCommandResponse> Register(RegisterCommandRequest request)
+        {
+            return await mediator.Send(request);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("toggle-delete")]
+        public async Task<ToggleDeleteCommandResponse> ToggleUserDeleted(ToggleDeleteCommandRequest request)
         {
             return await mediator.Send(request);
         }
