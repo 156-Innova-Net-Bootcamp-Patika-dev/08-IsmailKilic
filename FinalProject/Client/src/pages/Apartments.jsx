@@ -47,8 +47,8 @@ const Apartments = () => {
             const index = datas.findIndex(x => x.id === id)
             datas[index] = res.data
             setData(datas)
-        } catch (err) {
-            alert(err.response.data.errors)
+        } catch ({ response }) {
+            alert(response.data.errors)
         }
     }
 

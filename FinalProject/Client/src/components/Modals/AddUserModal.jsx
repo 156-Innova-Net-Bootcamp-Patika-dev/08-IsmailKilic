@@ -31,8 +31,8 @@ const AddUserModal = () => {
             const res = await axiosClient.post("admin/newuser", values);
             closeModal();
             resetForm();
-        } catch (err) {
-            alert(err.response.data.errors)
+        } catch ({ response }) {
+            alert(response.data.errors)
         }
     }
 

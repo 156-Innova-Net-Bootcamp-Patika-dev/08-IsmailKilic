@@ -27,8 +27,8 @@ const Login = () => {
             dispatch(loginSuccess(res.data))
             resetForm();
             navigate("/");
-        } catch (err) {
-            alert("Hatalı giriş")
+        } catch ({response}) {
+            alert(response.data.errors)
         }
     }
 

@@ -51,7 +51,6 @@ const Messages = () => {
 
     messages[index] = data
     setMessages([...messages])
-    console.log(123);
 
     // update unread count
     dispatch(updateUser(data.receiver));

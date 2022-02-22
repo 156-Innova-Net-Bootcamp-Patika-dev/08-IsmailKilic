@@ -31,7 +31,7 @@ const Users = () => {
 
         setData([...data]);
         alert("İşlem başarılı");
-      } catch ({response}) {
+      } catch ({ response }) {
         alert(response.data.errors);
       }
     }

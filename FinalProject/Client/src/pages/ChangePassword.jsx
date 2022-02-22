@@ -8,8 +8,8 @@ const ChangePassword = () => {
 			const res = await axiosClient.put("auth/change-password", values);
 			resetForm();
 			alert("Şifreniz güncellendi");
-		} catch (err) {
-			alert(err.response.data.errors);
+		} catch ({ response }) {
+			alert(response.data.errors);
 		}
 	}
 	return (

@@ -21,8 +21,8 @@ const AssignUserModal = ({ isOpen, close, id, updateData }) => {
             updateData(res.data);
             close();
             resetForm();
-        } catch (err) {
-            alert(err.response.data.errors)
+        } catch ({ response }) {
+            alert(response.data.errors)
         }
     }
 

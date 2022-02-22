@@ -14,12 +14,12 @@ const Profile = () => {
 			const res = await axiosClient.put("auth/update-user", values)
 			dispatch(updateUser(res.data));
 			alert("Bilgiler güncellendi");
-		} catch (err) {
-			alert(err.response.data.errors);
+		} catch ({ response }) {
+			alert(response.data.errors);
 		}
 	}
 
-	if(!user) return null
+	if (!user) return null
 
 	return (
 		<Formik

@@ -27,8 +27,8 @@ const AddApartmentModal = ({ addData }) => {
             addData(res.data);
             closeModal();
             resetForm();
-        } catch (err) {
-            alert(err.response.data.errors)
+        } catch ({ response }) {
+            alert(response.data.errors)
         }
     }
 
