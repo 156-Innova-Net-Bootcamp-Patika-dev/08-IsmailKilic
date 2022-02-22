@@ -77,7 +77,11 @@ const AddUserModal = () => {
                             className="text-white field-error"
                         />
 
-                        <Field className='w-full p-2 rounded-sm outline-none' name="role" placeholder="Rol" type="text" />
+                        <Field className='w-full p-2 rounded-sm outline-none' name="role" placeholder="Rol" type="text" as="select">
+                            <option value="">Rol seçiniz</option>
+                            <option value="User">User</option>
+                            <option value="Admin">Admin</option>
+                        </Field>
                         <ErrorMessage
                             name="role"
                             component="div"
