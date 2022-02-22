@@ -40,6 +40,7 @@ namespace Application.Features.Commands.Apartments.AssignUser
             // find user
             var user = await userManager.FindByIdAsync(request.UserId);
             if (user == null) throw new BadRequestException("Kullanıcı bulunamadı");
+            if (user.IsDelete) throw new BadRequestException("Kullanıcı aktif değil");
 
             // assign user to apartment
             apartment.User = user;

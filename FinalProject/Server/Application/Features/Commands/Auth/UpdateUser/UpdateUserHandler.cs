@@ -30,6 +30,7 @@ namespace Application.Features.Commands.Auth.UpdateUser
         {
             var user = await userManager.FindByIdAsync(request.Id);
             if (user == null) throw new BadRequestException("Kullanıcı bulunamadı");
+            if (user.IsDelete) throw new BadRequestException("Kullanıcı aktif değil");
 
             user.FullName = request.FullName;
             user.PhoneNumber = request.PhoneNumber;

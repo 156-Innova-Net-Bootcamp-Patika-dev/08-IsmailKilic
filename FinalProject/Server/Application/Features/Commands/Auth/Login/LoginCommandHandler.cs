@@ -36,6 +36,7 @@ namespace Application.Features.Commands.Auth.Login
         {
             var user = await userManager.FindByNameAsync(request.Username);
             if (user == null) throw new BadRequestException("Kullanıcı adı bulunamadı");
+            if (user.IsDelete) throw new BadRequestException("Kullanıcı aktif değil");
 
             var result = await signInManager.PasswordSignInAsync(user,
                 request.Password, true, true);

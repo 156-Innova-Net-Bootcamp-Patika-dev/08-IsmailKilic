@@ -29,10 +29,12 @@ namespace Application.Features.Commands.Messages.SendMessage
             // Check if sender exist
             var sender = await userManager.FindByIdAsync(request.SenderId);
             if (sender == null) throw new BadRequestException("Gönderen kullanıcı bulunamadı");
+            if (sender.IsDelete) throw new BadRequestException("Gönderen kullanıcı aktif değil");
 
             // Check if receiver exist
             var receiver = await userManager.FindByIdAsync(request.ReceiverId);
             if (receiver == null) throw new BadRequestException("Alıcı kullanıcı bulunamadı");
+            if (receiver.IsDelete) throw new BadRequestException("Alıcı kullanıcı aktif değil");
             receiver.Unread++;
 
             await userManager.UpdateAsync(receiver);
