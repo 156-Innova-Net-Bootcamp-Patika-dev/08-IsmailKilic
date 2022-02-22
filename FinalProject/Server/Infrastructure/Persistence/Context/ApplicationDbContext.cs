@@ -18,10 +18,13 @@ namespace Infrastructure.Persistence.Context
 
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<Message> Messages{ get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUser>()
+                .Property(b => b.IsDelete)
+                .HasDefaultValue(false);
 
             base.OnModelCreating(builder);
             SeedUsers(builder);

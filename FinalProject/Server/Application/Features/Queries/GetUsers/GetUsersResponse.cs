@@ -9,5 +9,6 @@
         public string PhoneNumber { get; set; }
         public string TCNo { get; set; }
         public string LicenseNo { get; set; }
+        public bool IsDelete { get; set; }
     }
 }

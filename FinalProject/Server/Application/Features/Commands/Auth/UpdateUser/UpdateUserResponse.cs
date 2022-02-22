@@ -10,6 +10,7 @@ namespace Application.Features.Commands.Auth.UpdateUser
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string TCNo { get; set; }
+        public bool IsDelete { get; set; }
         public int Unread { get; set; }
         public string LicenseNo { get; set; }
         public IList<string> Roles { get; set; }

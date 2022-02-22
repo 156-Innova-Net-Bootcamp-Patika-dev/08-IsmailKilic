@@ -11,6 +11,7 @@ namespace Domain.ViewModels
         public string PhoneNumber { get; set; }
         public string TCNo { get; set; }
         public string LicenseNo { get; set; }
+        public bool IsDelete { get; set; }
         public int Unread { get; set; }
         public IList<string> Roles { get; set; }
     }
