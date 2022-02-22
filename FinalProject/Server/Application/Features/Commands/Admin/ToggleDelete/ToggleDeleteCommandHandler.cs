@@ -32,12 +32,15 @@ namespace Application.Features.Commands.Admin.ToggleDelete
         {
             var user = await userManager.FindByIdAsync(request.UserId);
             if (user == null) throw new BadRequestException("Kullanıcı bulunamadı");
+            
+            var userRoles = await userManager.GetRolesAsync(user);
+
+            if(userRoles.Contains("Admin")) throw new BadRequestException("Admin kullanıcısını silemezsiniz"); ;
 
             user.IsDelete = !user.IsDelete;
             await userManager.UpdateAsync(user);
 
             var newUser = mapper.Map<ToggleDeleteCommandResponse>(user);
-            var userRoles = await userManager.GetRolesAsync(user);
 
             // clear cache
             cacheService.Remove(CacheConstants.UsersKey);

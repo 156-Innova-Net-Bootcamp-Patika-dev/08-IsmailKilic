@@ -18,12 +18,22 @@ const Users = () => {
     dispatch(toggleUserModal())
   }
 
-  const toggleIsDelete = () => {
-    const msg = data.isDelete ? 'Kullanıcıyı aktifleştirmek istediğinize emin misiniz?' :
+  const toggleIsDelete = async (userId) => {
+    const index = data.findIndex(x => x.id === userId);
+
+    const msg = data[index].isDelete ? 'Kullanıcıyı aktifleştirmek istediğinize emin misiniz?' :
       'Kullanıcıyı silmek istediğinize emin misiniz?';
 
     if (confirm(msg)) {
+      try {
+        const res = await axiosClient.post("admin/toggle-delete", { userId });
+        data[index] = res.data;
 
+        setData([...data]);
+        alert("İşlem başarılı");
+      } catch ({response}) {
+        alert(response.data.errors);
+      }
     }
   }
 
@@ -35,7 +45,7 @@ const Users = () => {
     { name: 'Kullanıcı Adı', selector: row => row.userName, },
     {
       name: 'Durum', selector: row =>
-        <button onClick={toggleIsDelete} className='button'>{row.isDelete ? 'Silindi' : 'Aktif'}</button>,
+        <button onClick={() => toggleIsDelete(row.id)} className='button'>{row.isDelete ? 'Silindi' : 'Aktif'}</button>,
     },
     { name: 'Telefon', selector: row => row.phoneNumber, },
     { name: 'Araç Plaka', selector: row => row.licenseNo, },
