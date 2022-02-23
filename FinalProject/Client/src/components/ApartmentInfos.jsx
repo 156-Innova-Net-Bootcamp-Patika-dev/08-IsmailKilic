@@ -1,13 +1,20 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ownerTypes } from '../pages/ApartmentDetail'
+import axiosClient from '../utils/axiosClient'
 
 const ApartmentInfos = ({ data }) => {
     const navigate = useNavigate()
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (confirm("Bu daireyi silmek istediğinize emin misiniz?")) {
-            navigate("/apartments")
+            try {
+                const res = await axiosClient.delete(`apartments/${data.id}`)
+                alert("Silme başarılı")
+                navigate("/apartments")
+            } catch ({ response }) {
+                alert(response.data.errors)
+            }
         }
     }
     return (

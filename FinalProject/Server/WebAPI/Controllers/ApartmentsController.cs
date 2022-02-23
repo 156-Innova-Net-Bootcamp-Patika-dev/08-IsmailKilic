@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Application.Features.Commands.Apartments.AssignUser;
 using Application.Features.Commands.Apartments.CreateApartment;
+using Application.Features.Commands.Apartments.DeleteApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
 using Application.Features.Queries.GetApartment;
 using Application.Features.Queries.GetApartments;
@@ -31,12 +32,19 @@ namespace WebAPI.Controllers
             return await mediator.Send(request);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<DeleteApartmentCommandResponse> DeleteApartment(int id)
+        {
+            return await mediator.Send(new DeleteApartmentCommandRequest { ApartmentId = id });
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<List<GetApartmentsResponse>> GetAll([FromQuery] int byUser)
         {
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
-            return await mediator.Send(new GetApartmentsQuery() { UserId = userId, ByUser = byUser == 1 ? true: false });
+            return await mediator.Send(new GetApartmentsQuery() { UserId = userId, ByUser = byUser == 1 ? true : false });
         }
 
         [Authorize(Roles = "Admin")]
