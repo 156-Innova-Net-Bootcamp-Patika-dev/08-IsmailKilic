@@ -6,6 +6,7 @@ using Application.Features.Commands.Apartments.AssignUser;
 using Application.Features.Commands.Apartments.CreateApartment;
 using Application.Features.Commands.Apartments.DeleteApartment;
 using Application.Features.Commands.Apartments.RemoveUser;
+using Application.Features.Commands.Apartments.UpdateApartment;
 using Application.Features.Queries.GetApartment;
 using Application.Features.Queries.GetApartments;
 using MediatR;
@@ -37,6 +38,14 @@ namespace WebAPI.Controllers
         public async Task<DeleteApartmentCommandResponse> DeleteApartment(int id)
         {
             return await mediator.Send(new DeleteApartmentCommandRequest { ApartmentId = id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<UpdateApartmentCommandResponse> UpdateApartment(int id, [FromBody] UpdateApartmentCommandRequest request)
+        {
+            request.Id = id;
+            return await mediator.Send(request);
         }
 
         [Authorize]

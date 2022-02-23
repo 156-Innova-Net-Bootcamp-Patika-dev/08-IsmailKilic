@@ -1,3 +1,4 @@
+import { Field, Form, Formik } from 'formik'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ownerTypes } from '../pages/ApartmentDetail'
@@ -17,22 +18,74 @@ const ApartmentInfos = ({ data }) => {
             }
         }
     }
+
+    const handleUpdate = async (values) => {
+        if (confirm("Bu daireyi güncellemek istediğinize emin misiniz?")) {
+            values.ownerType = parseInt(values.ownerType) || 0;
+
+            try {
+                const res = await axiosClient.put(`apartments/${data.id}`, values)
+                alert("Güncelleme başarılı")
+            } catch ({ response }) {
+                alert(response.data.errors)
+            }
+        }
+    }
+
     return (
         <div className='grow'>
             <h2 className='mb-3 text-lg'>Daire Bilgileri</h2>
-            <ul>
-                <li>Blok: {data?.block}</li>
-                <li>Kat: {data?.floor}</li>
-                <li>Daire No: {data?.no}</li>
-                <li>Daire Tipi: {data?.type}</li>
-                <li>Durum: {data?.isFree ? "Boş" : "Dolu"}</li>
-                <li>{ownerTypes[data?.ownerType]}</li>
-                <li className='flex mt-3 space-x-3'>
-                    <button className='button bg-green-600'>Güncelle</button>
-                    {!data?.user && data?.invoices?.length === 0 &&
-                        <button onClick={handleDelete} className='button bg-red-600'>Sil</button>}
-                </li>
-            </ul>
+            <Formik
+                initialValues={{
+                    block: data?.block || '',
+                    type: data?.type || '',
+                    floor: data?.floor || '',
+                    no: data?.no || '',
+                    ownerType: data?.ownerType || ''
+                }}
+                enableReinitialize={true}
+                onSubmit={(values) => {
+                    handleUpdate(values)
+                }}>
+                {({ errors, touched }) => (
+                    <Form>
+                        <div>
+                            Blok:
+                            <Field className='bg-gray-600 ml-1 outline-none' name="block" type="text" />
+                        </div>
+                        <div>
+                            Kat:
+                            <Field className='bg-gray-600 ml-1 outline-none' name="floor" type="text" />
+                        </div>
+                        <div>
+                            Daire No:
+                            <Field className='bg-gray-600 ml-1 outline-none' name="no" type="text" />
+                        </div>
+                        <div>
+                            Daire Tipi:
+                            <Field className='bg-gray-600 ml-1 outline-none' name="type" type="text" />
+                        </div>
+                        <div>Durum: {data?.isFree ? "Boş" : "Dolu"}</div>
+                        <div>
+                            <Field className='bg-gray-600 outline-none' name="ownerType" as="select">
+                                {
+                                    ownerTypes.map((x, index) => (
+                                        <option key={index} value={index}>{x}</option>
+                                    ))
+                                }
+                            </Field>
+                        </div>
+
+                        <div className='flex mt-3 space-x-3'>
+                            <button type='submit' className='button bg-green-600'>Güncelle</button>
+                            {!data?.user && data?.invoices?.length === 0 &&
+                                <button onClick={handleDelete} className='button bg-red-600'>Sil</button>}
+                        </div>
+                    </Form>
+                )}
+
+            </Formik>
+
         </div>
     )
 }
