@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axiosClient from '../utils/axiosClient'
 import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
 import MyDataTable from '../components/MyDataTable';
@@ -17,16 +17,24 @@ const ApartmentDetail = () => {
     const [type, setType] = useState("")
     const [filteredInvoice, setfilteredInvoice] = useState([])
     const [showInvoiceModal, setShowInvoiceModal] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(async () => {
-        const res = await axiosClient.get(`apartments/${id}`)
-        setData(res.data);
-        setInvoices(res.data.invoices)
-        setfilteredInvoice(res.data.invoices);
+        try {
+            const res = await axiosClient.get(`apartments/${id}`)
+            if (res.data) {
+                setData(res.data);
+                setInvoices(res.data.invoices)
+                setfilteredInvoice(res.data.invoices);
+            }
+            else navigate("/apartments")
+        } catch (err) {
+            navigate("/apartments")
+        }
     }, [])
 
     useEffect(() => {
-        if (invoices.length === 0) return
+        if (invoices?.length === 0) return
         filter()
     }, [month, year, type, invoices])
 
