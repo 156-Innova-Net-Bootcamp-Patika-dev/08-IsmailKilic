@@ -4,7 +4,11 @@
 <pre>npm install</pre>
 
 <h3>API adresinin .env dosyasına girilmesi</h3>
-<pre>VITE_APP_API=</pre>
+<pre>
+VITE_APP_API=
+VITE_APP_PAYMENT_API=
+</pre>
+
 
 <h3>Uygulamanın çalıştırılması</h3>
 <pre>npm run dev</pre>
