@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axiosClient from '../utils/axiosClient'
 import CreateInvoiceModal from '../components/Modals/CreateInvoiceModal'
 import MyDataTable from '../components/MyDataTable';
+import ApartmentInfos from '../components/ApartmentInfos';
 
 export const invoiceTypes = ["Aidat", "Elektrik", "Su", "Doğalgaz"]
 export const ownerTypes = ["Ev Sahibi", "Kiracı"]
@@ -50,24 +51,15 @@ const ApartmentDetail = () => {
         { name: 'Fatura Tipi', selector: row => invoiceTypes[row.invoiceType], },
         { name: 'Dönem', selector: row => `${row.month}/${row.year}`, },
         { name: 'Fiyat', selector: row => row.price + ' TL', },
-        { name: 'Ödendi', selector: row => row.isPaid ? 'Evet' : 'Hayır' },
+        { name: 'Ödendi', selector: row => row.isPaid ? 'Evet' : 'Hayır', sortable: true },
     ];
 
     return (
         <div>
             {/* apartment infos */}
             <div className='flex w-full p-2 text-white bg-gray-600'>
-                <div className='grow'>
-                    <h2 className='mb-3 text-lg'>Daire Bilgileri</h2>
-                    <ul>
-                        <li>Blok: {data?.block}</li>
-                        <li>Kat: {data?.floor}</li>
-                        <li>Daire No: {data?.no}</li>
-                        <li>Daire Tipi: {data?.type}</li>
-                        <li>Durum: {data?.isFree ? "Boş" : "Dolu"}</li>
-                        <li>{ownerTypes[data?.ownerType]}</li>
-                    </ul>
-                </div>
+                <ApartmentInfos data={data} />
+
                 <div className='grow'>
                     <h2 className='mb-3 text-lg'>Ev Sahibi Bilgileri</h2>
                     {
