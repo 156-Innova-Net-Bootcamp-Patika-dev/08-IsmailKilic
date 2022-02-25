@@ -6,13 +6,14 @@ using Infrastructure.Attributes;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
 {
     static public class ServiceRegistration
     {
-        public static void AddApplicationServices(this IServiceCollection serviceCollection)
+        public static void AddApplicationServices(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddControllers(options =>
             {
@@ -41,6 +42,11 @@ namespace Application
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                    cfg.Host(configuration["RabbitMQ:Host"], "/", h =>
+                    {
+                        h.Username(configuration["RabbitMQ:Username"]);
+                        h.Password(configuration["RabbitMQ:Password"]);
+                    });
                     cfg.ConfigureEndpoints(context);
                 });
             });

@@ -37,6 +37,11 @@ namespace PaymentAPI
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                    cfg.Host(Configuration["RabbitMQ:Host"], "/", h =>
+                    {
+                        h.Username(Configuration["RabbitMQ:Username"]);
+                        h.Password(Configuration["RabbitMQ:Password"]);
+                    });
                     cfg.ConfigureEndpoints(context);
                 });
             });
