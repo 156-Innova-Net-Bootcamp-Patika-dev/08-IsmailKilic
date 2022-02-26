@@ -2,7 +2,7 @@
 using Application.Interfaces.Cache;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
-using Infrastructure.Persistence.Cache.Redis;
+using Infrastructure.Infrastructure.Cache.Redis;
 using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.Cache;
 using Newtonsoft.Json;
 
-namespace Infrastructure.Persistence.Cache.Redis
+namespace Infrastructure.Infrastructure.Cache.Redis
 {
     public class RedisCacheService : ICacheService
     {
