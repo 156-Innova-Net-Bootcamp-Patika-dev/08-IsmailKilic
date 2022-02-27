@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("many")]
-        public async Task<CreateManyInvoicesResponse> CreateManysInvoice(CreateManyInvoicesRequest request)
+        public async Task<CreateManyInvoicesResponse> CreateInvoices(CreateManyInvoicesRequest request)
         {
             return await mediator.Send(request);
         }

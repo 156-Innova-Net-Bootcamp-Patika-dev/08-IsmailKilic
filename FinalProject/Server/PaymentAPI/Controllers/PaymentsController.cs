@@ -25,7 +25,7 @@ namespace PaymentAPI.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Post(CreatePaymentDto dto)
+        public async Task<ActionResult> CreatePayment(CreatePaymentDto dto)
         {
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
             dto.UserId = userId;
@@ -36,7 +36,7 @@ namespace PaymentAPI.Controllers
 
         [Authorize]
         [HttpPost("many")]
-        public async Task<ActionResult> PostMany(List<CreatePaymentDto> dto)
+        public async Task<ActionResult> CreatePayments(List<CreatePaymentDto> dto)
         {
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
 

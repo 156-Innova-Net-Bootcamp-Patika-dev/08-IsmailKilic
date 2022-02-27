@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<List<GetApartmentsResponse>> GetAll([FromQuery] int byUser)
+        public async Task<List<GetApartmentsResponse>> GetAllApartments([FromQuery] int byUser)
         {
             var userId = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()?.Value;
             return await mediator.Send(new GetApartmentsQuery() { UserId = userId, ByUser = byUser == 1 ? true : false });
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
-        public async Task<GetApartmentResponse> GetById(int id)
+        public async Task<GetApartmentResponse> GetApartmentById(int id)
         {
             return await mediator.Send(new GetApartmentQuery() { Id = id });
         }
@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("assign-user")]
-        public async Task<AssignUserResponse> AssignUser(AssignUserRequest request)
+        public async Task<AssignUserResponse> AssignUserToApartment(AssignUserRequest request)
         {
             return await mediator.Send(request);
         }
@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("remove-user")]
-        public async Task<RemoveUserResponse> RemoveUser(RemoveUserRequest request)
+        public async Task<RemoveUserResponse> RemoveUserFromApartment(RemoveUserRequest request)
         {
             return await mediator.Send(request);
         }
